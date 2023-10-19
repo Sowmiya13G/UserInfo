@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Button, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ProfileScreen() {
   const URL = 'https://randomuser.me/api/';
@@ -24,26 +25,42 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>A</Text>
-        <Text>A</Text>
+        <View style={styles.headerIcon}>
+          <Icon name="tasks" size={13} color="#000" />
+        </View>
+        <View style={styles.headerIcon}>
+          <Icon name="tasks" size={13} color="#000" />
+        </View>
       </View>
       {userData && (
-        <View style={styles.details}>
+        <View style={styles.container}>
           <Image source={{uri: userData.picture.large}} style={styles.image} />
           <Text style={styles.name}>
             {userData.name.first} {userData.name.last}
           </Text>
-          <View style={styles.feilds}>
-            <Text style={styles.title}>{userData.email}</Text>
+          <View style={styles.view}>
+            <Text style={styles.mobileNumberText}>{userData.name.first}</Text>
+            <Icon name="tasks" size={15} color="#000" style={styles.icon} />
           </View>
-          <Text style={styles.title}>{userData.phone}</Text>
-          <Text style={styles.title}>
-            {' '}
-            {userData.location.city}, {userData.location.country}
-          </Text>
+          <View style={styles.view}>
+            <Text style={styles.mobileNumberText}>User Profile</Text>
+            <Icon
+              name="tencent-weibo"
+              size={15}
+              color="#000"
+              style={styles.icon}
+            />
+          </View>
+          <View style={styles.mobileNumber}>
+            <Text style={styles.mobileNumberText}>{userData.name.first}</Text>
+            <Text style={styles.mobileNumberText}>{userData.phone}</Text>
+            <Icon name="user-o" size={30} color="#000" style={styles.icon} />
+          </View>
         </View>
       )}
-      <Button title="Refresh" onPress={fetchUser} style={styles.button} />
+      <TouchableOpacity onPress={fetchUser} style={styles.button}>
+        <Text style={styles.buttonText}>Refresh</Text>
+      </TouchableOpacity>
     </View>
   );
 }
