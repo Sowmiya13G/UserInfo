@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "72124230268",
+    "project_id": "findost-8c57a",
+    "storage_bucket": "findost-8c57a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72124230268:android:5be524589ae45e7e8577f9",
+        "android_client_info": {
+          "package_name": "com.userinfo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEBaCeSYdqZbDiSXW8DV3ygpzSk-_IRkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
