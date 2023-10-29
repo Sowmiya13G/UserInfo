@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, TextInput} from 'react-native';
 import {styles} from './styles';
+import theme from '../../constants/theme';
 export const CustomInput = ({
   placeholder,
   value,
@@ -16,7 +17,7 @@ export const CustomInput = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
-        placeholderTextColor="#697D95"
+        placeholderTextColor={theme.fontColors.inkLight}
         keyboardType={keyboardType}
       />
     </View>

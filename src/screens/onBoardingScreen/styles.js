@@ -1,15 +1,21 @@
 import {StyleSheet} from 'react-native';
+import theme from '../../constants/theme';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
-    width: '100%',
+    height: theme.screenHeight,
+    width: theme.screenWidth,
     justifyContent: 'center',
     alignItems: 'center',
   },
   slide: {
-    width: '100%',
-    height: '60%',
+    width: wp('100%'),
+    height: hp('44%'),
     padding: '5%',
   },
   image: {
@@ -18,10 +24,10 @@ export const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    fontSize: 24,
+    fontSize: theme.fontSizes.bigFont,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#292929',
+    color: theme.fontColors.secondaryBlack,
   },
   data: {
     marginTop: '5%',
@@ -35,28 +41,28 @@ export const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   description: {
-    fontSize: 16,
+    fontSize: theme.fontSizes.mediumFont,
     textAlign: 'center',
-    color: '#292929',
+    color: theme.fontColors.secondaryBlack,
     paddingBottom: '10%',
   },
   pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'black',
+    color: theme.backgroundColor.black,
   },
   paginationDot: {
-    width: 10,
-    height: 10,
+    width: wp('3%'),
+    height: hp('1.3%'),
     borderRadius: 5,
-    backgroundColor: '#ccc',
+    backgroundColor: theme.backgroundColor.gray,
     marginHorizontal: 5,
     marginBottom: '10%',
   },
   paginationDotActive: {
-    backgroundColor: '#E47718',
-    width: 30,
+    backgroundColor: theme.backgroundColor.orange,
+    width: wp('8%'),
   },
   buttons: {
     flexDirection: 'row',
@@ -65,13 +71,13 @@ export const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    width: '90%',
+    width: wp('90%'),
     alignSelf: 'center',
   },
 
   buttonText: {
-    color: '#fff',
-    fontSize: 20,
+    color: theme.fontColors.white,
+    fontSize: theme.fontSizes.mediumFont,
   },
   skipView: {
     alignSelf: 'flex-end',
@@ -80,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   skipButton: {
     alignSelf: 'flex-end',
-    color: '#000',
+    color: theme.fontColors.black,
     fontWeight: 'bold',
   },
 });

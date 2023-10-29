@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-
+import {Text, View, TouchableOpacity} from 'react-native';
+import {styles} from './styles';
 const CustomButton = ({
   logInButton,
   label = '',
@@ -32,31 +32,5 @@ const CustomButton = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  logInButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    borderRadius: 20,
-    borderWidth: 2,
-    marginBottom: 20,
-    backgroundColor: '#292929',
-  },
-  optionButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    borderRadius: 20,
-    borderColor: '#292929',
-    borderWidth: 2,
-  },
-  logInButtonText: {
-    color: '#fff',
-  },
-  optionButtonText: {
-    color: '#292929',
-  },
-});
 
 export default CustomButton;

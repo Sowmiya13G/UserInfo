@@ -24,7 +24,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Background />
       <Image source={findost} />
-      <Text style={styles.text}>Welcome User</Text>
+      <Text style={styles.text}>{strings.welcome}</Text>
       {/* <Text style={styles.text}>
         {user && user.authorizedPerson
           ? `Logged in as: ${user.authorizedPerson}`

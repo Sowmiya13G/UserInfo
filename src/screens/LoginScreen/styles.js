@@ -1,9 +1,11 @@
 import {StyleSheet} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import theme from '../../constants/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
-    width: '100%',
+    height: theme.screenHeight,
+    width: theme.screenWidth,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -15,37 +17,37 @@ export const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   title: {
-    color: '#000',
-    fontSize: 25,
+    color: theme.fontColors.secondaryBlack,
+    fontSize: theme.fontSizes.bigFont,
     fontWeight: 'bold',
   },
   feilds: {
-    width: '90%',
+    width: wp('90%'),
     paddingBottom: '2%',
   },
   text: {
-    fontSize: 16,
+    fontSize: theme.fontSizes.mediumFont,
     marginBottom: '3%',
-    color: '#252A31',
+    color: theme.fontColors.inkBlack,
   },
   option: {
     alignSelf: 'flex-end',
     fontWeight: 'bold',
-    color: '#292929',
-    fontSize: 13,
+    color: theme.fontColors.secondaryBlack,
+    fontSize: theme.fontSizes.smallFont,
   },
   icon: {
     position: 'absolute',
-    right: 20,
-    top: 40,
+    right: '8%',
+    top: '40%',
   },
   register: {
-    color: '#E47718',
+    color: theme.fontColors.orange,
     fontWeight: 'bold',
   },
   authText: {
     fontWeight: 'bold',
-    color: '#292929',
-    fontSize: 13,
+    color: theme.fontColors.secondaryBlack,
+    fontSize: theme.fontSizes.normalFont,
   },
 });
