@@ -1,4 +1,5 @@
 import {valuePacker} from 'react-native-reanimated';
+// import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 
 import React from 'react';
@@ -6,10 +7,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {StatusBar, View} from 'react-native';
-import OnboardingScreen from '../screens/onBoardingScreen/onBoardingScreen';
-import LoginScreen from '../screens/LoginScreen/LoginScreen';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
+import OnboardingScreen from '../screens/onBoardingScreen/index';
+import LoginScreen from '../screens/LoginScreen/index';
+import HomeScreen from '../screens/HomeScreen/index';
+import SignUpScreen from '../screens/SignUpScreen/index';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
