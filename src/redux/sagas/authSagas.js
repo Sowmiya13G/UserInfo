@@ -1,6 +1,6 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {signupUser, loginUser} from '../../apiServices';
-import {setUserAction} from '../actions/userActions';
+import {setUserAction} from '../actions/authAction';
 
 function* signupUserSaga(action) {
   try {
@@ -8,7 +8,7 @@ function* signupUserSaga(action) {
     const user = yield call(signupUser, authorizedPerson, password);
     yield put(setUserAction(user));
   } catch (error) {
-    console.log(error);
+    console.log('ERROR SIGN UP:', error);
   }
 }
 
@@ -18,7 +18,7 @@ function* loginUserSaga(action) {
     const user = yield call(loginUser, authorizedPerson, password);
     yield put(setUserAction(user));
   } catch (error) {
-    console.log(error);
+    console.log('ERROR LOG IN:', error);
   }
 }
 

@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: '5%',
+    color: '#000',
   },
   feilds: {
     width: '90%',

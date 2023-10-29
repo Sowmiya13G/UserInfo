@@ -10,7 +10,6 @@ import strings from '../../constants/strings';
 
 import {useDispatch} from 'react-redux';
 import {signupUserAction} from '../../redux/actions/authAction';
-import authReducer from '../../redux/reducers/authReducer';
 
 const SignUpScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
@@ -35,7 +34,7 @@ const SignUpScreen = () => {
         <Text style={styles.text}>{strings.signup}</Text>
         <CustomInput
           placeholder={'Enter your AP ID'}
-          value={authReducer}
+          value={authorizedPerson}
           onChangeText={text => setAuthorizedPerson(text)}
         />
       </View>

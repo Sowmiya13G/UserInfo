@@ -20,8 +20,9 @@ export default LoginScreen = () => {
   const handlePasswordVisibility = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
-  const handleLogin = () => {
+  const handleLogin = async () => {
     dispatch(loginUserAction(authorizedPerson, password));
+    navigation.navigate('HomeScreen');
   };
   goToRegister = () => {
     navigation.navigate('SignUpScreen');
