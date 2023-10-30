@@ -1,10 +1,9 @@
-export const signupUserAction = (authorizedPerson, password) => ({
-  type: 'SIGNUP_USER',
-  payload: {authorizedPerson, password},
-});
-
 export const loginUserAction = (authorizedPerson, password) => ({
   type: 'LOGIN_USER',
+  payload: {authorizedPerson, password},
+});
+export const signupUserAction = (authorizedPerson, password) => ({
+  type: 'SIGNUP_USER',
   payload: {authorizedPerson, password},
 });
 

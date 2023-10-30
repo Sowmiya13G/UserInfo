@@ -11,41 +11,26 @@ export const loginUser = async (authorizedPerson, password) => {
         password,
       },
     );
+
     console.log('LOGIN USER:', `${AppConfig.BaseURL}${apiEndPoints.login}`);
     console.log('Response:', response.data);
+
     if (response.status !== 200) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.error('Server Error:', error.response.data);
-    } else if (error.request) {
-      console.error('No response received from the server');
-    } else {
-      console.error('Network Error:', error.message);
-    }
-    throw error;
-  }
-};
-
-export const signupUser = async (authorizedPerson, password) => {
-  try {
-    const response = await axios.post(
-      `${AppConfig.BaseURL}${apiEndPoints.signup}`,
-      {
-        authorizedPerson,
-        password,
-      },
+    const tokenResponse = await axios.get(
+      `${AppConfig.BaseURL}${apiEndPoints.token}${authorizedPerson}`,
     );
-    console.log('SIGNUP USER:', `${AppConfig.BaseURL}${apiEndPoints.signup}`);
+    console.log('Token Response:', tokenResponse);
+    if (tokenResponse.status === 200) {
+      const userData = response.data;
+      const token = tokenResponse.data.token;
 
-    if (response.status !== 200) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      return {userData, token};
+    } else {
+      throw new Error('Failed to fetch token');
     }
-
-    return response.data;
   } catch (error) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

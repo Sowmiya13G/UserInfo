@@ -1,4 +1,4 @@
 export const apiEndPoints = {
   login: '/authorizedPerson/loginbyId',
-  signup: '/authorizedPerson/signup',
+  token: '/BOUSERS/get?token=',
 };

@@ -15,10 +15,12 @@ const backgroundColor = {
   orange: '#E47718',
 };
 const fontSizes = {
-  bigFont: hp('3.5%'),
+  bigFont: hp('3%'),
   mediumFont: hp('2%'),
-  normalFont: hp('1.8%'),
   smallFont: hp('1.5%'),
+  bigFontText: hp('3.5%'),
+  mediumFontText: hp('2.5%'),
+  smallFontText: hp('1.8%'),
 };
 
 const fontFamily = {

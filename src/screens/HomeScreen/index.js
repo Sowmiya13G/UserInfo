@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {Background} from '../../components/Background/Background';
 import strings from '../../constants/strings';
-import {findost} from '../../constants/images';
+import commonImagePath from '../../constants/images';
 import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {logoutUserAction} from '../../redux/actions/authAction';
@@ -23,7 +23,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Background />
-      <Image source={findost} />
+      <Image source={commonImagePath.findost} />
       <Text style={styles.text}>{strings.welcome}</Text>
       {/* <Text style={styles.text}>
         {user && user.authorizedPerson

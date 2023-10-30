@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
 import {Background} from '../../components/Background/Background';
-import {faceID, findost} from '../../constants/images';
+import commonImagePath from '../../constants/images';
 import {CustomInput} from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import strings from '../../constants/strings';
@@ -31,7 +31,7 @@ export default LoginScreen = () => {
     <View style={styles.container}>
       <Background />
       <View style={styles.header}>
-        <Image source={findost} style={styles.logo} />
+        <Image source={commonImagePath.findost} style={styles.logo} />
         <Text style={styles.title}>{strings.loginTitle}</Text>
       </View>
       <View style={styles.feilds}>
@@ -62,7 +62,7 @@ export default LoginScreen = () => {
         </TouchableOpacity>
         <Text style={styles.option}>{strings.passwordOption}</Text>
       </View>
-      <Image source={faceID} style={styles.logo} />
+      <Image source={commonImagePath.faceID} style={styles.logo} />
       <View style={styles.feilds}>
         <CustomButton logInButton label="LOGIN" handlePress={handleLogin} />
         <CustomButton

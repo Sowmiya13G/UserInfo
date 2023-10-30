@@ -3,7 +3,7 @@ import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
 import {Background} from '../../components/Background/Background';
-import {findost} from '../../constants/images';
+import commonImagePath from '../../constants/images';
 import {CustomInput} from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import strings from '../../constants/strings';
@@ -27,7 +27,7 @@ const SignUpScreen = () => {
     <View style={styles.container}>
       <Background />
       <View style={styles.header}>
-        <Image source={findost} style={styles.logo} />
+        <Image source={commonImagePath.findost} style={styles.logo} />
         <Text style={styles.title}>{strings.signupTitle}</Text>
       </View>
       <View style={styles.feilds}>
