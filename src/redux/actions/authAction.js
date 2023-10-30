@@ -14,3 +14,16 @@ export const setUserAction = authorizedPerson => ({
 export const logoutUserAction = () => ({
   type: 'LOGOUT_USER',
 });
+//Firebase login
+export const login = user => {
+  return {
+    type: 'LOGIN',
+    payload: user,
+  };
+};
+
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
+  };
+};

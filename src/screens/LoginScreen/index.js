@@ -11,8 +11,14 @@ import strings from '../../constants/strings';
 import {useDispatch} from 'react-redux';
 import {loginUserAction} from '../../redux/actions/authAction';
 
+import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
+import {connect} from 'react-redux';
+import {login} from '../../redux/actions/authAction';
+
 export default LoginScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
+  const [email, setEmail] = useState('');
+
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
@@ -24,9 +30,38 @@ export default LoginScreen = () => {
     dispatch(loginUserAction(authorizedPerson, password));
     navigation.navigate('HomeScreen');
   };
+
+  const handleLoginWithFB = () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        const user = userCredential.user;
+        login(user);
+        navigation.navigate('HomeScreen');
+      })
+      .catch(error => {
+        console.log('Firebase Error Code:', error.code);
+        console.log('Firebase Error Message:', error.message);
+        switch (error.code) {
+          case 'auth/invalid-email':
+            Alert.alert('Login Error', 'Invalid email address.');
+            break;
+          case 'auth/user-not-found':
+            Alert.alert('Login Error', 'User not found.');
+            break;
+          case 'auth/wrong-password':
+            Alert.alert('Login Error', 'Incorrect password.');
+            break;
+          default:
+            Alert.alert('Login Error', 'An internal error has occurred.');
+        }
+        console.log('Login Error', error);
+      });
+  };
   goToRegister = () => {
     navigation.navigate('SignUpScreen');
   };
+
   return (
     <View style={styles.container}>
       <Background />
@@ -38,8 +73,10 @@ export default LoginScreen = () => {
         <Text style={styles.text}>{strings.login}</Text>
         <CustomInput
           placeholder={'Enter your AP Login ID'}
-          value={authorizedPerson}
-          onChangeText={text => setAuthorizedPerson(text)}
+          // value={authorizedPerson}
+          // onChangeText={text => setAuthorizedPerson(text)}
+          value={email}
+          onChangeText={text => setEmail(text)}
         />
         <Text style={styles.option}>{strings.loginOption}</Text>
       </View>
@@ -64,7 +101,12 @@ export default LoginScreen = () => {
       </View>
       <Image source={commonImagePath.faceID} style={styles.logo} />
       <View style={styles.feilds}>
-        <CustomButton logInButton label="LOGIN" handlePress={handleLogin} />
+        <CustomButton
+          logInButton
+          label="LOGIN"
+          // handlePress={handleLogin}
+          handlePress={handleLoginWithFB}
+        />
         <CustomButton
           optionButton
           label="LOGIN VIA OTP"
