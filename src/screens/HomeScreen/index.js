@@ -10,8 +10,8 @@ import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {logoutUserAction} from '../../redux/actions/authAction';
 import {connect} from 'react-redux';
-// const HomeScreen = () => {
-const HomeScreen = ({userEmail, dispatchLogout}) => {
+const HomeScreen = () => {
+  // const HomeScreen = ({userEmail}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
@@ -26,11 +26,7 @@ const HomeScreen = ({userEmail, dispatchLogout}) => {
       <Background />
       <Image source={commonImagePath.findost} />
       <Text style={styles.text}>{strings.welcome}</Text>
-      <Text style={styles.text}>
-        {user && user.authorizedPerson
-          ? `Logged in as: ${user.authorizedPerson}`
-          : 'Guest'}
-      </Text>
+      {/* <Text style={styles.text}>{userEmail}</Text> */}
       <View style={styles.feilds}>
         <CustomButton optionButton label="LOGOUT" handlePress={handleLogout} />
       </View>
@@ -39,8 +35,8 @@ const HomeScreen = ({userEmail, dispatchLogout}) => {
 };
 const mapStateToProps = state => {
   return {
-    // authorizedPerson: state.user.authorizedPerson,
-    userEmail: state.auth.user ? state.auth.user.email : null,
+    authorizedPerson: state.user.authorizedPerson,
+    // userEmail: state.auth.user ? state.auth.user.email : null,
   };
 };
 

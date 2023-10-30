@@ -11,9 +11,9 @@ const rootReducer = combineReducers({
 });
 const sagaMiddleware = createSagaMiddleware();
 
-// const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+// const store = createStore(rootReducer, applyMiddleware(thunk));
 
-// sagaMiddleware.run(authSagas);
+sagaMiddleware.run(authSagas);
 
 export default store;

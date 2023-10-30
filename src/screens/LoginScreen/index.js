@@ -16,6 +16,7 @@ import {connect} from 'react-redux';
 import {login} from '../../redux/actions/authAction';
 
 export default LoginScreen = () => {
+  // const LoginScreen = ({login}) => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
   const [email, setEmail] = useState('');
 
@@ -73,10 +74,10 @@ export default LoginScreen = () => {
         <Text style={styles.text}>{strings.login}</Text>
         <CustomInput
           placeholder={'Enter your AP Login ID'}
-          // value={authorizedPerson}
-          // onChangeText={text => setAuthorizedPerson(text)}
-          value={email}
-          onChangeText={text => setEmail(text)}
+          value={authorizedPerson}
+          onChangeText={text => setAuthorizedPerson(text)}
+          // value={email}
+          // onChangeText={text => setEmail(text)}
         />
         <Text style={styles.option}>{strings.loginOption}</Text>
       </View>
@@ -104,8 +105,8 @@ export default LoginScreen = () => {
         <CustomButton
           logInButton
           label="LOGIN"
-          // handlePress={handleLogin}
-          handlePress={handleLoginWithFB}
+          handlePress={handleLogin}
+          // handlePress={handleLoginWithFB}
         />
         <CustomButton
           optionButton
@@ -121,34 +122,8 @@ export default LoginScreen = () => {
   );
 };
 
-// import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
-// import {connect} from 'react-redux';
-// import {login} from '../../redux/actions/authAction';
-
-// const handleLogin = () => {
-//   const auth = getAuth();
-//   signInWithEmailAndPassword(auth, email, password)
-//     .then(userCredential => {
-//       const user = userCredential.user;
-//       login(user);
-//       navigation.navigate('HomeScreen');
-//     })
-//     .catch(error => {
-//       console.log('Firebase Error Code:', error.code);
-//       console.log('Firebase Error Message:', error.message);
-//       switch (error.code) {
-//         case 'auth/invalid-email':
-//           Alert.alert('Login Error', 'Invalid email address.');
-//           break;
-//         case 'auth/user-not-found':
-//           Alert.alert('Login Error', 'User not found.');
-//           break;
-//         case 'auth/wrong-password':
-//           Alert.alert('Login Error', 'Incorrect password.');
-//           break;
-//         default:
-//           Alert.alert('Login Error', 'An internal error has occurred.');
-//       }
-//       console.log('Login Error', error);
-//     });
+// const mapDispatchToProps = {
+//   login,
 // };
+
+// export default connect(null, mapDispatchToProps)(LoginScreen);
