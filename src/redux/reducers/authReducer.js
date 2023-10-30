@@ -1,6 +1,6 @@
 const initialState = {
   authorizedPerson: null,
-  user: null,
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -13,18 +13,17 @@ const authReducer = (state = initialState, action) => {
       return {...state, authorizedPerson: action.payload};
     case 'LOGOUT_USER':
       return {...state, authorizedPerson: null};
-    case 'LOGIN':
+    case 'LOGIN_SUCCESS':
       return {
         ...state,
-        user: {
-          ...state.user,
-          email: action.payload.email,
-        },
+        authorizedPerson: action.payload,
+        error: null,
       };
-    case 'LOGOUT':
+    case 'LOGIN_FAILURE':
       return {
         ...state,
-        user: null,
+        authorizedPerson: null,
+        error: action.payload,
       };
     default:
       return state;

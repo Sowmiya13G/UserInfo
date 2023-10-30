@@ -15,15 +15,17 @@ export const logoutUserAction = () => ({
   type: 'LOGOUT_USER',
 });
 //Firebase login
-export const login = user => {
-  return {
-    type: 'LOGIN',
-    payload: user,
-  };
-};
+export const loginRequest = (authorizedPerson, password) => ({
+  type: 'LOGIN_REQUEST',
+  payload: {authorizedPerson, password},
+});
 
-export const logout = () => {
-  return {
-    type: 'LOGOUT',
-  };
-};
+export const loginSuccess = authorizedPerson => ({
+  type: 'LOGIN_SUCCESS',
+  payload: authorizedPerson,
+});
+
+export const loginFailure = error => ({
+  type: 'LOGIN_FAILURE',
+  payload: error,
+});
