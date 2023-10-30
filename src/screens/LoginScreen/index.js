@@ -10,12 +10,11 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import strings from '../../constants/strings';
 import {useDispatch} from 'react-redux';
 import {loginUserAction} from '../../redux/actions/authAction';
-
+import {setUserAction} from '../../redux/actions/authAction';
 import {loginRequest} from '../../redux/actions/authAction';
 
 export default LoginScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
-
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
@@ -24,8 +23,9 @@ export default LoginScreen = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
   const handleLogin = async () => {
-    // loginRequest(authorizedPerson, password);
-    dispatch(loginUserAction(authorizedPerson, password));
+    loginRequest(authorizedPerson, password);
+    dispatch(setUserAction(authorizedPerson));
+    // dispatch(loginUserAction(authorizedPerson, password));
     navigation.navigate('HomeScreen');
   };
 
