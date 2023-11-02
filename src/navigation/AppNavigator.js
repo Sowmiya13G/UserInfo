@@ -7,10 +7,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {StatusBar, View} from 'react-native';
-import OnboardingScreen from '../screens/onBoardingScreen/index';
-import LoginScreen from '../screens/LoginScreen/index';
-import HomeScreen from '../screens/HomeScreen/index';
-import SignUpScreen from '../screens/SignUpScreen/index';
+import OnboardingScreen from '../screens/onBoardingScreen';
+import LoginScreen from '../screens/LoginScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SignUpScreen from '../screens/SignUpScreen';
+import CartScreen from '../screens/cartScreen';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -38,6 +39,11 @@ const AppNavigator = () => {
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
+            options={{title: '', headerShown: false}}
+          />
+          <Stack.Screen
+            name="CartScreen"
+            component={CartScreen}
             options={{title: '', headerShown: false}}
           />
         </Stack.Navigator>

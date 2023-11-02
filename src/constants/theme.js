@@ -13,6 +13,15 @@ const backgroundColor = {
   primary: '#FAFAFA',
   gray: '#CCCCCC',
   orange: '#E47718',
+  green: '#008000',
+  red: '#FF0000',
+  lightCoral: '#F08080',
+  mediumAquamarine: '#66CDAA',
+};
+
+const borderColor = {
+  white: '#FFFFFF',
+  black: '#000000',
 };
 const fontSizes = {
   bigFont: hp('3%'),
@@ -37,7 +46,9 @@ const fontColors = {
   inkDark: '#252A31',
   orange: '#E47718',
   white: '#FFFFFF',
+  green: '#008000',
   black: '#000000',
+  candyBlue: '#37ECBA',
 };
 
 export default {
@@ -47,4 +58,5 @@ export default {
   screenHeight,
   screenWidth,
   backgroundColor,
+  borderColor,
 };

@@ -13,5 +13,8 @@ const strings = {
   password: 'Password',
   authPerson: 'Already an Authorized Person (AP)?',
   loginNow: 'Login now!',
+  heyUser: 'Hey User!',
+  yourCart: 'Your Cart!',
+  totalPrice: 'Total Price:',
 };
 export default strings;

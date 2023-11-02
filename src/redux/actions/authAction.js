@@ -1,31 +1,64 @@
+import * as ActionTypes from '../actionTypes';
+
 export const loginUserAction = (authorizedPerson, password) => ({
-  type: 'LOGIN_USER',
+  type: ActionTypes.loginUser,
   payload: {authorizedPerson, password},
 });
 export const signupUserAction = (authorizedPerson, password) => ({
-  type: 'SIGNUP_USER',
+  type: ActionTypes.signupUser,
   payload: {authorizedPerson, password},
 });
 
 export const setUserAction = authorizedPerson => ({
-  type: 'SET_USER',
+  type: ActionTypes.setUSer,
   payload: authorizedPerson,
 });
 export const logoutUserAction = () => ({
-  type: 'LOGOUT_USER',
+  type: ActionTypes.logoutUser,
 });
 //Firebase login
 export const loginRequest = (authorizedPerson, password) => ({
-  type: 'LOGIN_REQUEST',
+  type: ActionTypes.loginRequest,
   payload: {authorizedPerson, password},
 });
 
 export const loginSuccess = authorizedPerson => ({
-  type: 'LOGIN_SUCCESS',
+  type: ActionTypes.loginSuccess,
   payload: authorizedPerson,
 });
 
 export const loginFailure = error => ({
-  type: 'LOGIN_FAILURE',
+  type: ActionTypes.loginFailure,
   payload: error,
+});
+// Products Action
+
+export const fetchProducts = () => ({
+  type: ActionTypes.fetchProducts,
+});
+
+export const addToCart = product => ({
+  type: ActionTypes.addToCart,
+  payload: {...product, quantity: 1},
+});
+
+export const removeFromCart = product => ({
+  type: ActionTypes.removeFromCart,
+  payload: product,
+});
+
+export const clearCart = () => ({
+  type: ActionTypes.clearCart,
+});
+
+// Product Quantity
+
+export const increaseQuantityAction = product => ({
+  type: ActionTypes.increaseQuantity,
+  payload: product,
+});
+
+export const decreaseQuantityAction = product => ({
+  type: ActionTypes.decreaseQuantity,
+  payload: product,
 });
