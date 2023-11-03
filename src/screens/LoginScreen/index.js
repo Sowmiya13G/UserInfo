@@ -12,7 +12,7 @@ import {useDispatch} from 'react-redux';
 import {loginUserAction} from '../../redux/actions/authAction';
 import {setUserAction} from '../../redux/actions/authAction';
 import {loginRequest} from '../../redux/actions/authAction';
-
+import {signInWithGoogle} from '../../database/googleServices';
 export default LoginScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +32,16 @@ export default LoginScreen = () => {
   goToRegister = () => {
     navigation.navigate('SignUpScreen');
   };
-
+  const continueWithGoogle = async () => {
+    try {
+      const user = await signInWithGoogle();
+      console.log('Google Sign-In success:', user);
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      Alert.alert('Error', error.message);
+      console.log('Error', error.message);
+    }
+  };
   return (
     <View style={styles.container}>
       <Background />
@@ -80,6 +89,9 @@ export default LoginScreen = () => {
       <Text style={styles.authText}>{strings.authPerson}</Text>
       <TouchableOpacity onPress={goToRegister}>
         <Text style={styles.register}>{strings.register}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={continueWithGoogle}>
+        <Text style={styles.google}>{strings.googleLogin}</Text>
       </TouchableOpacity>
     </View>
   );

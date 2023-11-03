@@ -16,5 +16,6 @@ const strings = {
   heyUser: 'Hey User!',
   yourCart: 'Your Cart!',
   totalPrice: 'Total Price:',
+  googleLogin: 'Continue with Google',
 };
 export default strings;

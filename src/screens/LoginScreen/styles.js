@@ -48,6 +48,11 @@ export const styles = StyleSheet.create({
   authText: {
     fontWeight: 'bold',
     color: theme.fontColors.secondaryBlack,
-    fontSize: theme.fontSizes.normalFont,
+    fontSize: theme.fontSizes.smallFontText,
+  },
+  google: {
+    color: theme.fontColors.secondaryBlack,
+    paddingTop: '3%',
+    fontSize: theme.fontSizes.mediumFont,
   },
 });

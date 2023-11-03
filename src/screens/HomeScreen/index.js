@@ -18,7 +18,7 @@ const HomeScreen = () => {
   console.log('Authorized Person:', authorizedPerson);
 
   const products = useSelector(state => state.products.products);
-  console.log(products);
+  // console.log(products);
   const cart = useSelector(state => state.cart.cart);
 
   useEffect(() => {
