@@ -2,9 +2,13 @@ import * as ActionTypes from '../actionTypes';
 
 const initialState = {
   authorizedPerson: null,
+  user: null,
   error: null,
   products: [],
   cart: [],
+  wishlist: [],
+  imageUri: null,
+  documentUri: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -17,18 +21,25 @@ const authReducer = (state = initialState, action) => {
       return {...state, authorizedPerson: action.payload};
     case ActionTypes.logoutUser:
       return {...state, authorizedPerson: null};
+    //Firebase signup
+    case ActionTypes.signupSuccess:
+      return {...state, user: action.payload, error: null};
+    case ActionTypes.signupFailure:
+      return {...state, user: null, error: action.payload};
+    //Firebase login
     case ActionTypes.loginSuccess:
       return {
         ...state,
-        authorizedPerson: action.payload,
+        user: action.payload,
         error: null,
       };
     case ActionTypes.loginFailure:
       return {
         ...state,
-        authorizedPerson: null,
+        user: null,
         error: action.payload,
       };
+
     case ActionTypes.fetchProductsSuccess:
       return {...state, products: action.payload};
     case ActionTypes.addToCart:
@@ -66,6 +77,34 @@ const authReducer = (state = initialState, action) => {
       };
     }
 
+    case ActionTypes.addToWishlist:
+      return {
+        ...state,
+        wishlist: [...state.wishlist, action.payload],
+      };
+
+    case ActionTypes.removeFromWishlist:
+      return {
+        ...state,
+        wishlist: state.wishlist.filter(id => id !== action.payload),
+      };
+
+    case ActionTypes.updateProfileImage:
+      return {
+        ...state,
+        imageUri: action.payload,
+      };
+
+    case ActionTypes.removeProfileImage:
+      return {
+        ...state,
+        imageUri: null,
+      };
+    case ActionTypes.uploadDocument:
+      return {
+        ...state,
+        documentUri: action.payload,
+      };
     default:
       return state;
   }

@@ -1,18 +1,18 @@
 import axios from 'axios';
-import {AppConfig} from '../config/AppConfig';
 import {apiEndPoints} from './apiEndPoints';
+import {MicroService} from './microService';
 
 export const loginUser = async (authorizedPerson, password) => {
   try {
     const response = await axios.post(
-      `${AppConfig.BaseURL}${apiEndPoints.login}`,
+      `${MicroService.M_USER}${apiEndPoints.login}`,
       {
         authorizedPerson,
         password,
       },
     );
 
-    console.log('LOGIN USER:', `${AppConfig.BaseURL}${apiEndPoints.login}`);
+    console.log('LOGIN USER:', `${MicroService.M_USER}${apiEndPoints.login}`);
     console.log('Response:', response.data);
 
     if (response.status !== 200) {
@@ -20,7 +20,7 @@ export const loginUser = async (authorizedPerson, password) => {
     }
 
     const tokenResponse = await axios.get(
-      `${AppConfig.BaseURL}${apiEndPoints.token}${authorizedPerson}`,
+      `${MicroService.M_USER}${apiEndPoints.token}${authorizedPerson}`,
     );
     console.log('Token Response:', tokenResponse);
     if (tokenResponse.status === 200) {

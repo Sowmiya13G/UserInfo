@@ -9,10 +9,10 @@ import {
   FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {onboardingData} from '../../constants/onBoardingData';
+import {onboardingData} from '../../../constants/onBoardingData';
 import {styles} from './styles';
-import {Background} from '../../components/Background/Background';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import {Background} from '../../../components/Background/Background';
+import CustomButton from '../../../components/CustomButton/CustomButton';
 
 export default function OnboardingScreen() {
   const [currentPage, setCurrentPage] = useState(0);

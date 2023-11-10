@@ -7,11 +7,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {StatusBar, View} from 'react-native';
-import OnboardingScreen from '../screens/onBoardingScreen';
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
-import SignUpScreen from '../screens/SignUpScreen';
-import CartScreen from '../screens/cartScreen';
+import OnboardingScreen from '../screens/onBoardingScreens/onBoardingScreen';
+import LoginScreen from '../screens/onBoardingScreens/LoginScreen';
+import FirebaseLoginScreen from '../screens/onBoardingScreens/FirebaseLoginScreen/FirebaseLoginScreen';
+import SignUpScreen from '../screens/onBoardingScreens/SignUpScreen';
+import {BottomTabNavigator} from './BottomTabNavigator';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -38,12 +38,12 @@ const AppNavigator = () => {
           />
           <Stack.Screen
             name="HomeScreen"
-            component={HomeScreen}
+            component={BottomTabNavigator}
             options={{title: '', headerShown: false}}
           />
           <Stack.Screen
-            name="CartScreen"
-            component={CartScreen}
+            name="FirebaseLoginScreen"
+            component={FirebaseLoginScreen}
             options={{title: '', headerShown: false}}
           />
         </Stack.Navigator>

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import theme from '../../constants/theme';
+import theme from '../../../constants/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -54,5 +54,6 @@ export const styles = StyleSheet.create({
     color: theme.fontColors.secondaryBlack,
     paddingTop: '3%',
     fontSize: theme.fontSizes.mediumFont,
+    paddingBottom: '3%',
   },
 });

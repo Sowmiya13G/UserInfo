@@ -8,6 +8,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   products: authReducer,
   cart: authReducer,
+  wishlist: authReducer,
+  profileImage: authReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import theme from '../../constants/theme';
+import theme from '../../../constants/theme';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,

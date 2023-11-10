@@ -16,15 +16,31 @@ export const setUserAction = authorizedPerson => ({
 export const logoutUserAction = () => ({
   type: ActionTypes.logoutUser,
 });
-//Firebase login
-export const loginRequest = (authorizedPerson, password) => ({
-  type: ActionTypes.loginRequest,
-  payload: {authorizedPerson, password},
+
+//Firebse Sign-up
+export const signupRequest = (email, password) => ({
+  type: ActionTypes.signupRequest,
+  payload: {email, password},
 });
 
-export const loginSuccess = authorizedPerson => ({
+export const signupSuccess = user => ({
+  type: ActionTypes.signupSuccess,
+  payload: user,
+});
+
+export const signupFailure = error => ({
+  type: ActionTypes.signupFailure,
+  payload: error,
+});
+//Firebase login
+export const loginRequest = (email, password) => ({
+  type: ActionTypes.loginRequest,
+  payload: {email, password},
+});
+
+export const loginSuccess = user => ({
   type: ActionTypes.loginSuccess,
-  payload: authorizedPerson,
+  payload: user,
 });
 
 export const loginFailure = error => ({
@@ -61,4 +77,26 @@ export const increaseQuantityAction = product => ({
 export const decreaseQuantityAction = product => ({
   type: ActionTypes.decreaseQuantity,
   payload: product,
+});
+
+export const updateProfileImageAction = imageUri => ({
+  type: ActionTypes.updateProfileImage,
+  payload: imageUri,
+});
+export const removeProfileImageAction = () => ({
+  type: ActionTypes.removeProfileImage,
+});
+export const selectDocumentAction = documentUri => ({
+  type: ActionTypes.uploadDocument,
+  payload: documentUri,
+});
+
+export const addToWishlist = productId => ({
+  type: ActionTypes.addToWishlist,
+  payload: productId,
+});
+
+export const removeFromWishlist = productId => ({
+  type: ActionTypes.removeFromWishlist,
+  payload: productId,
 });

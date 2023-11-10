@@ -17,5 +17,18 @@ const strings = {
   yourCart: 'Your Cart!',
   totalPrice: 'Total Price:',
   googleLogin: 'Continue with Google',
+  loginWithAPID: 'Login Using AP ID',
+  firebaseLogin: 'Firebase Login',
+  enterEmail: 'Enter Email',
+
+  //ProfileScreen
+  userDetails: 'User details',
+  email: 'Email',
+  name: 'Name',
+  downloadProf: 'Download profile picture',
+  removeProf: 'Remove Profile Picture',
+  pickDoc: 'Upload Document',
+  loading: 'Loading user details...',
+  logOut: 'Logout',
 };
 export default strings;

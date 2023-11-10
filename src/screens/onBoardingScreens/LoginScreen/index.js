@@ -3,32 +3,56 @@ import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
-import {Background} from '../../components/Background/Background';
-import commonImagePath from '../../constants/images';
-import {CustomInput} from '../../components/CustomInput/CustomInput';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import strings from '../../constants/strings';
+import {Background} from '../../../components/Background/Background';
+import commonImagePath from '../../../constants/images';
+import {CustomInput} from '../../../components/CustomInput/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import strings from '../../../constants/strings';
 import {useDispatch} from 'react-redux';
-import {loginUserAction} from '../../redux/actions/authAction';
-import {setUserAction} from '../../redux/actions/authAction';
-import {loginRequest} from '../../redux/actions/authAction';
-import {signInWithGoogle} from '../../database/googleServices';
+import {signInWithGoogle} from '../../../database/googleServices';
+import {setUserAction} from '../../../redux/actions/authAction';
+import {loginUser} from '../../../apiServices';
 export default LoginScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const handlePasswordVisibility = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
   const handleLogin = async () => {
-    loginRequest(authorizedPerson, password);
-    dispatch(setUserAction(authorizedPerson));
-    // dispatch(loginUserAction(authorizedPerson, password));
-    navigation.navigate('HomeScreen');
+    if (!authorizedPerson || !password) {
+      Alert.alert(
+        'Validation Error',
+        'Please enter both AP Login ID and password.',
+      );
+      return;
+    }
+
+    try {
+      const user = await loginUser(authorizedPerson, password);
+
+      if (user.userData) {
+        dispatch(setUserAction(user.userData));
+        navigation.navigate('HomeScreen');
+      } else {
+        Alert.alert(
+          'Login Failed',
+          'Invalid AP Login ID or password. Please try again.',
+        );
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+      Alert.alert('Error', 'An error occurred during login. Please try again.');
+    }
   };
 
+  goToAuthLogin = () => {
+    navigation.navigate('FirebaseLoginScreen');
+  };
   goToRegister = () => {
     navigation.navigate('SignUpScreen');
   };
@@ -56,6 +80,7 @@ export default LoginScreen = () => {
           value={authorizedPerson}
           onChangeText={text => setAuthorizedPerson(text)}
         />
+
         <Text style={styles.option}>{strings.loginOption}</Text>
       </View>
       <View style={styles.feilds}>
@@ -83,7 +108,7 @@ export default LoginScreen = () => {
         <CustomButton
           optionButton
           label="LOGIN VIA OTP"
-          handlePress={handlePasswordVisibility}
+          handlePress={goToAuthLogin}
         />
       </View>
       <Text style={styles.authText}>{strings.authPerson}</Text>

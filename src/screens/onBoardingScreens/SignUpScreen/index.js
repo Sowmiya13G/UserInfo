@@ -2,32 +2,48 @@ import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
-import {Background} from '../../components/Background/Background';
-import commonImagePath from '../../constants/images';
-import {CustomInput} from '../../components/CustomInput/CustomInput';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import strings from '../../constants/strings';
-
-import {useDispatch} from 'react-redux';
-import {signupUserAction} from '../../redux/actions/authAction';
+import {Background} from '../../../components/Background/Background';
+import commonImagePath from '../../../constants/images';
+import {CustomInput} from '../../../components/CustomInput/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import strings from '../../../constants/strings';
 import {
   getAuth,
   createUserWithEmailAndPassword,
 } from '@react-native-firebase/auth';
+
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
-
   const [password, setPassword] = useState('');
+
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   goToLogin = () => {
     navigation.navigate('LoginScreen');
   };
-  // const handleSignup = () => {
-  //   dispatch(signupUserAction(authorizedPerson, password));
-  // };
-  const handleSignUp = () => {
+
+  const handleSignup = () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Signup Error', 'Please enter both email and password.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Signup Error', 'Invalid email address.');
+      return;
+    }
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      Alert.alert(
+        'Signup Error',
+        'Weak password. Password should be at least 6 characters.',
+      );
+      return;
+    }
+
     const auth = getAuth();
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -66,9 +82,9 @@ const SignUpScreen = () => {
         <Text style={styles.title}>{strings.signupTitle}</Text>
       </View>
       <View style={styles.feilds}>
-        <Text style={styles.text}>{strings.signup}</Text>
+        <Text style={styles.text}>{strings.enterEmail}</Text>
         <CustomInput
-          placeholder={'Enter your AP ID'}
+          placeholder={'Enter your email'}
           value={email}
           onChangeText={text => setEmail(text)}
         />
@@ -82,7 +98,7 @@ const SignUpScreen = () => {
         />
       </View>
       <View style={styles.feilds}>
-        <CustomButton logInButton label="SIGNUP" handlePress={handleSignUp} />
+        <CustomButton logInButton label="SIGNUP" handlePress={handleSignup} />
       </View>
       <Text style={styles.authText}>{strings.authPerson}</Text>
       <TouchableOpacity onPress={goToLogin}>

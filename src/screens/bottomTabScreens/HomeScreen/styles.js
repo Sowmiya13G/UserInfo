@@ -3,7 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import theme from '../../constants/theme';
+import theme from '../../../constants/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -40,8 +40,9 @@ export const styles = StyleSheet.create({
     borderColor: theme.fontColors.white,
     backgroundColor: theme.backgroundColor.white,
     padding: '3%',
-    borderRadius: 8,
+    borderRadius: wp('8%'),
     margin: '3%',
+    elevation: 5,
   },
   productImage: {
     width: wp('30%'),
@@ -75,5 +76,9 @@ export const styles = StyleSheet.create({
     color: theme.fontColors.black,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  wishList: {
+    alignSelf: 'flex-end',
+    padding: wp('2%'),
   },
 });

@@ -3,7 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import theme from '../../constants/theme';
+import theme from '../../../constants/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -11,8 +11,13 @@ export const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    // justifyContent: 'space-around',
+    paddingBottom: '5%',
+    alignSelf: 'flex-end',
+    paddingHorizontal: 10,
+  },
+  clearCart: {
+    paddingRight: '5%',
   },
   title: {
     fontSize: theme.fontSizes.bigFont,
@@ -22,6 +27,7 @@ export const styles = StyleSheet.create({
   totalPriceContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    paddingBottom: wp('10%'),
   },
   totalPrice: {
     fontSize: theme.fontSizes.mediumFontText,
@@ -32,38 +38,30 @@ export const styles = StyleSheet.create({
   productContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 10,
+    justifyContent: 'space-evenly',
+    paddingHorizontal: wp('10%'),
     marginBottom: '3%',
-    borderWidth: 1,
     borderColor: theme.borderColor.white,
     backgroundColor: theme.backgroundColor.white,
-    padding: '5%',
-    // borderRadius: 8,
+    borderRadius: wp('30%'),
+    elevation: 5,
   },
   productImage: {
-    width: wp('30%'),
-    height: hp('15%'),
+    width: wp('15%'),
+    height: hp('8%'),
     resizeMode: 'cover',
-    borderRadius: wp('1%'),
+    borderRadius: wp('5%'),
   },
   details: {
     display: 'flex',
-    margin: 3,
-    padding: '3%',
     width: '60%',
   },
-  productTitle: {
-    fontSize: theme.fontSizes.mediumFont,
-    color: theme.fontColors.black,
-    marginBottom: '2%',
-  },
+
   productPrice: {
-    fontSize: theme.fontSizes.mediumFont,
+    fontSize: theme.fontSizes.mediumFontText,
     color: theme.fontColors.green,
     fontWeight: 'bold',
-    alignSelf: 'flex-start',
-    padding: '2%',
+    alignSelf: 'center',
   },
 
   quantityContainer: {
@@ -75,25 +73,12 @@ export const styles = StyleSheet.create({
   quantityButtonText: {
     color: theme.fontColors.candyBlue,
     fontSize: theme.fontSizes.bigFont,
-
     fontWeight: 'bold',
   },
   quantityText: {
     fontSize: theme.fontSizes.mediumFontText,
     fontWeight: 'bold',
     color: theme.fontColors.black,
-  },
-  clearCartButton: {
-    display: 'flex',
-    alignSelf: 'flex-end',
-    padding: 3,
-  },
-  clearCartButtonText: {
-    fontSize: 20,
-    color: 'red',
-    fontWeight: 'bold',
-    marginRight: 10,
-    opacity: 0.8,
   },
 
   removeButton: {
@@ -105,5 +90,10 @@ export const styles = StyleSheet.create({
   },
   removeButtonText: {
     color: theme.fontColors.white,
+  },
+  productTitle: {
+    fontSize: theme.fontSizes.mediumFont,
+    color: theme.fontColors.black,
+    marginBottom: '2%',
   },
 });
