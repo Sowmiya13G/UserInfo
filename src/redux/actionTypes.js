@@ -27,3 +27,5 @@ export const decreaseQuantity = '@auth/DECREASE_QUANTITY';
 export const updateProfileImage = '@auth/UPDATE_PROFILE_IMAGE';
 export const removeProfileImage = '@auth/REMOVE_PROFILE_IMAGE';
 export const uploadDocument = '@auth/SELECT_DOCUMENT';
+
+export const saveUserDetails = '@auth/SAVE_PROFILE_DATA';

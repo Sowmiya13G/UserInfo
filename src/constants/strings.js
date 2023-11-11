@@ -30,5 +30,6 @@ const strings = {
   pickDoc: 'Upload Document',
   loading: 'Loading user details...',
   logOut: 'Logout',
+  save: 'Save',
 };
 export default strings;

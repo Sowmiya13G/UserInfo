@@ -12,6 +12,7 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
+  console.log('Action received:', action);
   switch (action.type) {
     case ActionTypes.signupUser:
       return {...state, authorizedPerson: action.payload};
@@ -38,6 +39,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: null,
         error: action.payload,
+      };
+    case ActionTypes.saveProfileData:
+      return {
+        ...state,
+        imageUri: action.payload.imageUri,
+        documentUri: action.payload.documentUri,
       };
 
     case ActionTypes.fetchProductsSuccess:

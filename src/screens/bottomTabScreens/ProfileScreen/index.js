@@ -8,7 +8,7 @@ import strings from '../../../constants/strings';
 import {Background} from '../../../components/Background/Background';
 import {
   updateProfileImageAction,
-  removeProfileImageAction,
+  saveProfileDataAction,
 } from '../../../redux/actions/authAction';
 import {useDispatch} from 'react-redux';
 import theme from '../../../constants/theme';
@@ -76,10 +76,10 @@ export default function ProfileScreen({navigation}) {
     } else if (response.error) {
       console.log('ImagePicker Error (Library): ', response.error);
     } else {
-      const profileImage = response.uri || response.assets?.[0]?.uri;
-      console.log('Selected image URI from gallery:', profileImage);
-      setProfileImage(profileImage);
-      dispatch(updateProfileImageAction(profileImage));
+      const selectedImage = response.uri || response.assets?.[0]?.uri;
+      console.log('Selected image URI from gallery:', selectedImage);
+      setProfileImage(selectedImage);
+      console.log('Profile Image state:', selectedImage);
     }
   };
 
@@ -89,42 +89,10 @@ export default function ProfileScreen({navigation}) {
     } else if (response.error) {
       console.log('Camera Error: ', response.error);
     } else {
-      const profileImage = response.uri || response.assets?.[0]?.uri;
-      setProfileImage(profileImage);
-      dispatch(updateProfileImageAction(profileImage));
-    }
-  };
-  const handleRemoveImage = () => {
-    setProfileImage(null);
-    dispatch(removeProfileImageAction());
-  };
-
-  const handleDownloadProfileImage = () => {
-    if (profileImage) {
-      const fileExtension = profileImage.split('.').pop();
-      const fileName = `profile_image.${fileExtension}`;
-      const destinationPath = `${RNFS.ExternalStorageDirectoryPath}/${fileName}`;
-
-      RNFS.downloadFile({
-        fromUrl: profileImage,
-        toFile: destinationPath,
-      })
-        .promise.then(response => {
-          if (response.statusCode === 200) {
-            Alert.alert(
-              'Downloaded',
-              'Profile picture downloaded successfully.',
-            );
-          } else {
-            Alert.alert('Error', 'Failed to download the profile picture.');
-          }
-        })
-        .catch(error => {
-          console.error('Download error:', error);
-          Alert.alert('Error', 'Failed to download the profile picture.');
-        });
-    } else {
-      Alert.alert('Error', 'Profile image is undefined or null.');
+      const selectedImage = response.uri || response.assets?.[0]?.uri;
+      console.log('Selected image URI:', selectedImage);
+      setProfileImage(selectedImage);
+      dispatch(updateProfileImageAction(selectedImage));
     }
   };
 
@@ -189,13 +157,22 @@ export default function ProfileScreen({navigation}) {
       console.log('Error', 'Document URL is undefined or null.');
     }
   };
+  const handleSave = () => {
+    dispatch(saveProfileDataAction(profileImage, documentUrl));
+  };
   return (
     <View style={styles.container}>
       <Background />
-      <TouchableOpacity onPress={handleLogout} style={styles.logOut}>
-        <Text style={styles.text}>{strings.logOut}</Text>
-        <Icon name="sign-out" size={20} color={theme.fontColors.black} />
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={handleSave} style={styles.logOut}>
+          <Icon name="save" size={20} color={theme.fontColors.black} />
+          <Text style={styles.text}>{strings.save}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout} style={styles.logOut}>
+          <Text style={styles.text}>{strings.logOut}</Text>
+          <Icon name="sign-out" size={20} color={theme.fontColors.black} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.profile}>
         <TouchableOpacity style={styles.editIcon} onPress={handleImageUpload}>
           <Icon name="edit" size={20} color={theme.fontColors.black} />
@@ -203,22 +180,12 @@ export default function ProfileScreen({navigation}) {
         {profileImage ? (
           <Image source={{uri: profileImage}} style={styles.profileImage} />
         ) : (
-          <View style={{width: 100, height: 100, marginRight: 15}}>
+          <View style={styles.profileIcon}>
             <Icon name="user-circle-o" size={100} color="gray" />
           </View>
         )}
-        {profileImage && (
-          <TouchableOpacity onPress={handleRemoveImage}>
-            <Text style={styles.detailsText}>{strings.removeProf}</Text>
-          </TouchableOpacity>
-        )}
       </View>
-      <TouchableOpacity
-        onPress={handleDownloadProfileImage}
-        style={styles.downloadFile}>
-        <Text style={styles.text}>Download Profile Picture</Text>
-        <Icon name="download" size={17} color={theme.fontColors.black} />
-      </TouchableOpacity>
+
       {userDetails ? (
         <View>
           <View style={styles.details}>
@@ -257,118 +224,16 @@ export default function ProfileScreen({navigation}) {
   );
 }
 
-// const handleDocumentDownload = async () => {
-//   if (document) {
-//     const fileExtension = document.name.split('.').pop();
-//     const fileName = `downloaded_document.${fileExtension}`;
-//     const destinationPath = `${RNFS.ExternalStorageDirectoryPath}/${fileName}`;
-
-//     try {
-//       if (document.uri.startsWith('content://')) {
-//         await RNFS.copyAssetsFile(document.uri, destinationPath);
-//       } else {
-//         // Otherwise, use standard download
-//         await RNFS.downloadFile({
-//           fromUrl: document.uri,
-//           toFile: destinationPath,
-//         }).promise;
-//       }
-
-//       Alert.alert('Downloaded', 'Document downloaded successfully.');
-//     } catch (error) {
-//       console.error('Download error:', error);
-//       Alert.alert('Error', 'Failed to download the document.');
-//     }
-//   } else {
-//     Alert.alert('Error', 'Document is undefined or null.');
-//   }
+// const handleRemoveImage = () => {
+//   console.log('PROFILE IMAGE REMOVED');
+//   setProfileImage(null);
+//   dispatch(removeProfileImageAction());
 // };
 
-// const handleDocumentDownload = () => {
-//   if (document) {
-//     const fileExtension = document.name.split('.').pop();
-//     const fileName = `downloaded_document.${fileExtension}`;
-//     const destinationPath = `${RNFS.ExternalStorageDirectoryPath}/${fileName}`;
-
-//     RNFS.downloadFile({
-//       fromUrl: document.uri,
-//       toFile: destinationPath,
-//     })
-//       .promise.then(response => {
-//         if (response.statusCode === 200) {
-//           Alert.alert('Downloaded', 'Document downloaded successfully.');
-//         } else {
-//           Alert.alert('Error', 'Failed to download the document.');
-//         }
-//       })
-//       .catch(error => {
-//         console.error('Download error:', error);
-//         Alert.alert('Error', 'Failed to download the document.');
-//       });
-//   } else {
-//     Alert.alert('Error', 'Document is undefined or null.');
-//   }
-// };
-
-// const handleDocumentUpload = async () => {
-//   try {
-//     const result = await DocumentPicker.pick({
-//       type: [DocumentPicker.types.allFiles],
-//     });
-
-//     console.log(result);
-//     setDocument(result[0]);
-
-//     FileViewer.open(result[0].uri, {showOpenWithDialog: true})
-//       .then(() => {
-//         console.log('Document opened successfully');
-//       })
-//       .catch(error => {
-//         console.error('Error opening document:', error);
-//       });
-//   } catch (err) {
-//     if (DocumentPicker.isCancel(err)) {
-//       console.log('Document picker cancelled');
-//     } else {
-//       console.error('Error picking document:', err);
-//     }
-//   }
-// };
-
-// const handleDocumentDownload = () => {
-//   if (document) {
-//     const fileExtension = document.name.split('.').pop();
-//     const fileName = `downloaded_document.${fileExtension}`;
-//     const destinationPath = `${RNFS.ExternalStorageDirectoryPath}/${fileName}`;
-
-//     if (document.uri.startsWith('content://')) {
-//       // If the URI scheme is "content", use DocumentPicker's contentResolver
-//       RNFS.copyAssetsFile(document.uri, destinationPath, 0, 0)
-//         .then(() => {
-//           Alert.alert('Downloaded', 'Document downloaded successfully.');
-//         })
-//         .catch(error => {
-//           console.error('Download error:', error);
-//           Alert.alert('Error', 'Failed to download the document.');
-//         });
-//     } else {
-//       RNFS.downloadFile({
-//         fromUrl: document.uri,
-//         toFile: destinationPath,
-//       })
-//         .promise.then(response => {
-//           if (response.statusCode === 200) {
-//             Alert.alert('Downloaded', 'Document downloaded successfully.');
-//           } else {
-//             Alert.alert('Error', 'Failed to download the document.');
-//           }
-//         })
-//         .catch(error => {
-//           console.error('Download error:', error);
-//           Alert.alert('Error', 'Failed to download the document.');
-//         });
-//     }
-//   } else {
-//     Alert.alert('Error', 'Document is undefined or null.');
-//   }
-// };
+{
+  /* {profileImage && (
+          <TouchableOpacity onPress={handleRemoveImage}>
+            <Text style={styles.detailsText}>{strings.removeProf}</Text>
+          </TouchableOpacity>
+        )} */
+}

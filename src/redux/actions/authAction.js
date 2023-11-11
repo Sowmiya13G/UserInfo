@@ -100,3 +100,8 @@ export const removeFromWishlist = productId => ({
   type: ActionTypes.removeFromWishlist,
   payload: productId,
 });
+
+export const saveProfileDataAction = (imageUri, documentUri) => ({
+  type: ActionTypes.saveProfileData,
+  payload: {imageUri, documentUri},
+});
