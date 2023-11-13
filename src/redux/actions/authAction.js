@@ -79,18 +79,6 @@ export const decreaseQuantityAction = product => ({
   payload: product,
 });
 
-export const updateProfileImageAction = imageUri => ({
-  type: ActionTypes.updateProfileImage,
-  payload: imageUri,
-});
-export const removeProfileImageAction = () => ({
-  type: ActionTypes.removeProfileImage,
-});
-export const selectDocumentAction = documentUri => ({
-  type: ActionTypes.uploadDocument,
-  payload: documentUri,
-});
-
 export const addToWishlist = productId => ({
   type: ActionTypes.addToWishlist,
   payload: productId,
@@ -101,6 +89,27 @@ export const removeFromWishlist = productId => ({
   payload: productId,
 });
 
+//PROFILE SCREEN
+export const setProfileImage = image => ({
+  type: ActionTypes.updateProfileImage,
+  payload: image,
+});
+export const updateProfileImageAction = profileImage => ({
+  type: ActionTypes.updateProfileImage,
+  payload: profileImage,
+});
+export const removeProfileImageAction = () => ({
+  type: ActionTypes.removeProfileImage,
+});
+export const selectDocumentAction = document => ({
+  type: ActionTypes.uploadDocument,
+  payload: document,
+});
+
+export const downloadDocumentAction = documentUri => ({
+  type: ActionTypes.downloadDocument,
+  payload: documentUri,
+});
 export const saveProfileDataAction = (imageUri, documentUri) => ({
   type: ActionTypes.saveProfileData,
   payload: {imageUri, documentUri},

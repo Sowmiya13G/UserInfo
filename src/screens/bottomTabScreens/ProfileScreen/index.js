@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, Image, TouchableOpacity, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Environment,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,20 +15,25 @@ import strings from '../../../constants/strings';
 import {Background} from '../../../components/Background/Background';
 import {
   updateProfileImageAction,
-  saveProfileDataAction,
+  selectDocumentAction,
 } from '../../../redux/actions/authAction';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import theme from '../../../constants/theme';
 import DocumentPicker from 'react-native-document-picker';
 import FileViewer from 'react-native-file-viewer';
 import RNFS from 'react-native-fs';
-
+import RNFetchBlob from 'rn-fetch-blob';
+import {checkAndRequestPermissions} from '../../../utils/androidPermissions';
 export default function ProfileScreen({navigation}) {
   const dispatch = useDispatch();
+
   const [userDetails, setUserDetails] = useState(null);
-  const [profileImage, setProfileImage] = useState(null);
-  const [document, setDocument] = useState(null);
-  const [documentUrl, setDocumentUrl] = useState(null);
+  const [imageSelectionComplete, setImageSelectionComplete] = useState(false);
+  const [documentSelectionComplete, setDocumentSelectionComplete] =
+    useState(false);
+
+  const imageUri = useSelector(state => state.profileImage.profileImage);
+  const documentUri = useSelector(state => state.document.document);
 
   useEffect(() => {
     const currentUser = auth().currentUser;
@@ -73,92 +85,111 @@ export default function ProfileScreen({navigation}) {
   const handleImageLibraryCallback = response => {
     if (response.didCancel) {
       console.log('User canceled image library');
+      setImageSelectionComplete(false);
     } else if (response.error) {
       console.log('ImagePicker Error (Library): ', response.error);
+      setImageSelectionComplete(false);
     } else {
-      const selectedImage = response.uri || response.assets?.[0]?.uri;
-      console.log('Selected image URI from gallery:', selectedImage);
-      setProfileImage(selectedImage);
-      console.log('Profile Image state:', selectedImage);
+      if (!imageSelectionComplete) {
+        setImageSelectionComplete(true);
+        dispatch(
+          updateProfileImageAction(response.uri || response.assets?.[0]?.uri),
+        );
+      }
     }
   };
 
   const handleCameraCallback = response => {
     if (response.didCancel) {
       console.log('User canceled taking a photo');
+      setImageSelectionComplete(false);
     } else if (response.error) {
       console.log('Camera Error: ', response.error);
+      setImageSelectionComplete(false);
     } else {
-      const selectedImage = response.uri || response.assets?.[0]?.uri;
-      console.log('Selected image URI:', selectedImage);
-      setProfileImage(selectedImage);
-      dispatch(updateProfileImageAction(selectedImage));
+      if (!imageSelectionComplete) {
+        setImageSelectionComplete(true);
+        dispatch(
+          updateProfileImageAction(response.uri || response.assets?.[0]?.uri),
+        );
+      }
     }
   };
 
-  const openDocument = () => {
-    if (document) {
-      FileViewer.open(document.uri, {showOpenWithDialog: true})
-        .then(() => {
-          console.log('Document opened successfully');
-        })
-        .catch(error => {
-          console.error('Error opening document:', error);
-        });
-    } else {
-      Alert.alert('Error', 'Document is undefined or null.');
+  const handleSave = () => {};
+
+  const openDocument = async () => {
+    try {
+      if (documentUri) {
+        const filePath = documentUri.uri || documentUri;
+        await FileViewer.open(filePath, {showOpenWithDialog: true});
+        console.log('Document opened successfully');
+      } else {
+        Alert.alert('Error', 'Document is undefined or null.');
+      }
+    } catch (error) {
+      console.error('Error opening document:', error);
     }
   };
+
   const handleDocumentUpload = async () => {
     try {
       const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
-
-      console.log(result);
-      setDocument(result[0]);
-      setDocumentUrl(result[0]?.uri);
+      dispatch(
+        selectDocumentAction({uri: result[0]?.uri, type: result[0]?.type}),
+      );
+      setDocumentSelectionComplete(true);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
+        documentSelectionComplete(false);
         console.log('Document picker cancelled');
       } else {
         console.error('Error picking document:', err);
       }
     }
   };
+  const getFileName = uri => {
+    const uriComponents = uri.split('/');
+    return uriComponents[uriComponents.length - 1];
+  };
 
-  const handleDownloadDocument = () => {
-    if (documentUrl) {
-      console.log('Document URL:', documentUrl);
-      const fileExtension = documentUrl.split('.').pop();
-      const fileName = `downloaded_document.${fileExtension}`;
-      const destinationPath = `${RNFS.ExternalStorageDirectoryPath}/${fileName}`;
+  const handleDownloadDocument = async () => {
+    await checkAndRequestPermissions();
+    if (documentUri && documentUri.uri) {
+      const sourcePath = documentUri.uri;
+      console.log('sourcePath', sourcePath);
+      try {
+        const fileName = getFileName(sourcePath);
+        const destinationPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${fileName}`;
+        // const downloadPath = `${Environment.getExternalStoragePublicDirectory(
+        //   Environment.DIRECTORY_DOWNLOADS,
+        // )}/${fileName}`;
 
-      RNFS.downloadFile({
-        fromUrl: documentUrl,
-        toFile: destinationPath,
-      })
-        .promise.then(response => {
-          if (response.statusCode === 200) {
-            Alert.alert('Downloaded', 'Document downloaded successfully.');
-            console.log('Downloaded', 'Document downloaded successfully.');
-          } else {
-            Alert.alert('Error', 'Failed to download the document.');
-            console.log('Error', 'Failed to download the document.');
-          }
-        })
-        .catch(error => {
-          console.error('Download error:', error);
-          Alert.alert('Error', 'Failed to download the document.');
-          console.log('Error', 'Failed to download the document.');
-        });
+        await RNFS.copyFile(sourcePath, destinationPath);
+        console.log('Downloaded Path:', destinationPath);
+        Alert.alert('Downloaded', 'Document downloaded successfully.');
+        console.log('Downloaded', 'Document downloaded successfully.');
+      } catch (error) {
+        console.error('Download error:', error);
+        Alert.alert('Error', 'Failed to download the document.');
+        console.log('Error', 'Failed to download the document.');
+      }
     } else {
       Alert.alert('Error', 'Document URL is undefined or null.');
       console.log('Error', 'Document URL is undefined or null.');
     }
   };
-  const handleSave = () => {
-    dispatch(saveProfileDataAction(profileImage, documentUrl));
+
+  const renderDocumentIcon = fileType => {
+    if (fileType.startsWith('image/')) {
+      return <Icon name="file-image-o" size={24} color="blue" />;
+    } else if (fileType === 'application/pdf') {
+      return <Icon name="file-pdf-o" size={24} color="red" />;
+    } else {
+      return <Icon name="file-o" size={24} color="black" />;
+    }
   };
   return (
     <View style={styles.container}>
@@ -177,8 +208,8 @@ export default function ProfileScreen({navigation}) {
         <TouchableOpacity style={styles.editIcon} onPress={handleImageUpload}>
           <Icon name="edit" size={20} color={theme.fontColors.black} />
         </TouchableOpacity>
-        {profileImage ? (
-          <Image source={{uri: profileImage}} style={styles.profileImage} />
+        {imageUri ? (
+          <Image source={{uri: imageUri}} style={styles.profileImage} />
         ) : (
           <View style={styles.profileIcon}>
             <Icon name="user-circle-o" size={100} color="gray" />
@@ -206,11 +237,14 @@ export default function ProfileScreen({navigation}) {
         <Text style={styles.text}>Upload Document</Text>
         <Icon name="upload" size={17} color={theme.fontColors.black} />
       </TouchableOpacity>
-      {document && (
+      {documentUri && (
         <TouchableOpacity
           onPress={openDocument}
           style={styles.documentContainer}>
-          <Text style={styles.documentText}>{document.name}</Text>
+          {renderDocumentIcon(documentUri.type)}
+          <Text style={styles.documentText}>
+            {getFileName(documentUri.uri)}
+          </Text>
         </TouchableOpacity>
       )}
 
@@ -222,18 +256,4 @@ export default function ProfileScreen({navigation}) {
       </TouchableOpacity>
     </View>
   );
-}
-
-// const handleRemoveImage = () => {
-//   console.log('PROFILE IMAGE REMOVED');
-//   setProfileImage(null);
-//   dispatch(removeProfileImageAction());
-// };
-
-{
-  /* {profileImage && (
-          <TouchableOpacity onPress={handleRemoveImage}>
-            <Text style={styles.detailsText}>{strings.removeProf}</Text>
-          </TouchableOpacity>
-        )} */
 }

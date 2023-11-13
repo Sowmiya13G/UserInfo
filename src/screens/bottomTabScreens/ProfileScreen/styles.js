@@ -82,11 +82,13 @@ export const styles = StyleSheet.create({
     paddingTop: '15%',
   },
   documentContainer: {
-    marginTop: 10,
-    alignItems: 'center',
+    marginTop: '5%',
+    alignSelf: 'center',
+    flexDirection: 'row',
   },
   documentText: {
-    fontSize: 16,
+    fontSize: theme.fontSizes.mediumFontText,
     color: theme.fontColors.black,
+    paddingLeft: '3%',
   },
 });

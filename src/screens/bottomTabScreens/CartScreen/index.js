@@ -21,6 +21,7 @@ import theme from '../../../constants/theme';
 import {Background} from '../../../components/Background/Background';
 import ViewShot from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
+import {captureRef} from 'react-native-view-shot';
 
 export default function CartScreen() {
   const cartItems = useSelector(state => state.cart.cart);
@@ -56,7 +57,7 @@ export default function CartScreen() {
   const handleTakeScreenshot = async () => {
     try {
       if (viewShotRef.current) {
-        const uri = await viewShotRef.current.capture({
+        const uri = await viewShotRef.current.capture(viewShotRef, {
           format: 'jpg',
           quality: 0.9,
           result: 'data-uri',
@@ -79,9 +80,7 @@ export default function CartScreen() {
       ref={viewShotRef}
       options={{format: 'jpg', quality: 0.9}}
       style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
+        flex: 1,
         width: '100%',
         height: cartHeight,
       }}>
@@ -129,9 +128,9 @@ export default function CartScreen() {
               return null;
             }
           }}
-          // onContentSizeChange={(contentWidth, contentHeight) => {
-          //   setCartHeight(contentHeight);
-          // }}
+          onContentSizeChange={(contentWidth, contentHeight) => {
+            setCartHeight(contentHeight);
+          }}
           showsVerticalScrollIndicator={false}
         />
         <View style={styles.totalPriceContainer}>

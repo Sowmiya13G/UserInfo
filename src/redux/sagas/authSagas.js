@@ -4,10 +4,8 @@ import {
   setUserAction,
   loginFailure,
   loginSuccess,
-  updateProfileImageAction,
-  removeProfileImageAction,
-  selectDocumentAction,
   signupFailure,
+  signupSuccess,
 } from '../actions/authAction';
 import * as ActionTypes from '../actionTypes';
 import axios from 'axios';
@@ -86,29 +84,6 @@ function* removeFromWishlistSaga(action) {
   }
 }
 
-function* updateProfileImageSaga(action) {
-  try {
-    yield put(updateProfileImageAction(action.payload));
-    console.log('success');
-  } catch (error) {
-    console.error('Error updating profile image:', error);
-  }
-}
-
-function* removeProfileImageSaga() {
-  try {
-    yield put(removeProfileImageAction());
-  } catch (error) {
-    console.error('Error removing profile image:', error);
-  }
-}
-function* selectDocumentSaga(action) {
-  try {
-    yield put(selectDocumentAction(action.payload));
-  } catch (error) {
-    console.log('Error picking document', error);
-  }
-}
 function* authSagas() {
   yield takeLatest(ActionTypes.loginUser, loginUserAPISaga);
   yield takeLatest(ActionTypes.signupRequest, signupUserSaga);
@@ -118,9 +93,6 @@ function* authSagas() {
   yield takeLatest(ActionTypes.decreaseQuantity, decreaseQuantitySaga);
   yield takeLatest(ActionTypes.addToWishlist, addToWishlistSaga);
   yield takeLatest(ActionTypes.removeFromWishlist, removeFromWishlistSaga);
-  yield takeLatest(ActionTypes.updateProfileImage, updateProfileImageSaga);
-  yield takeLatest(ActionTypes.removeProfileImage, removeProfileImageSaga);
-  yield takeLatest(ActionTypes.uploadDocument, selectDocumentSaga);
 }
 
 export default authSagas;

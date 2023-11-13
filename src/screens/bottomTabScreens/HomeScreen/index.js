@@ -52,55 +52,53 @@ const HomeScreen = () => {
   const isProductInWishlist = productId => wishlist.includes(productId);
 
   return (
-    <SafeAreaProvider>
+    <View style={styles.container}>
       <Background />
-      <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{strings.heyUser}</Text>
         <View style={styles.header}>
-          <Text style={styles.title}>{strings.heyUser}</Text>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={goToCart} style={styles.cartToggle}>
-              <Icon
-                name="shopping-cart"
-                size={30}
-                color={theme.fontColors.black}
-              />
-              {cart.length > 0 && (
-                <Text style={styles.cartCount}>{cart.length}</Text>
-              )}
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={goToCart} style={styles.cartToggle}>
+            <Icon
+              name="shopping-cart"
+              size={30}
+              color={theme.fontColors.black}
+            />
+            {cart.length > 0 && (
+              <Text style={styles.cartCount}>{cart.length}</Text>
+            )}
+          </TouchableOpacity>
         </View>
-
-        <FlatList
-          data={products}
-          numColumns={2}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => (
-            <View style={styles.productContainer}>
-              <TouchableOpacity
-                onPress={() => handleToggleWishlist(item)}
-                style={styles.wishList}>
-                <Icon
-                  name={isProductInWishlist(item.id) ? 'heart' : 'heart-o'}
-                  size={20}
-                  color={isProductInWishlist(item.id) ? 'red' : 'black'}
-                />
-              </TouchableOpacity>
-              <Image source={{uri: item.image}} style={styles.productImage} />
-              <View style={styles.details}>
-                <Text style={styles.productPrice}>${item.price}</Text>
-                <TouchableOpacity
-                  style={styles.addToCartButton}
-                  onPress={() => handleAddToCart(item)}>
-                  <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-        />
       </View>
-    </SafeAreaProvider>
+
+      <FlatList
+        data={products}
+        numColumns={2}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => (
+          <View style={styles.productContainer}>
+            <TouchableOpacity
+              onPress={() => handleToggleWishlist(item)}
+              style={styles.wishList}>
+              <Icon
+                name={isProductInWishlist(item.id) ? 'heart' : 'heart-o'}
+                size={20}
+                color={isProductInWishlist(item.id) ? 'red' : 'black'}
+              />
+            </TouchableOpacity>
+            <Image source={{uri: item.image}} style={styles.productImage} />
+            <View style={styles.details}>
+              <Text style={styles.productPrice}>${item.price}</Text>
+              <TouchableOpacity
+                style={styles.addToCartButton}
+                onPress={() => handleAddToCart(item)}>
+                <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 };
 export default HomeScreen;
