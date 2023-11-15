@@ -5,7 +5,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import auth from '@react-native-firebase/auth';
 import {StatusBar, View} from 'react-native';
 import OnboardingScreen from '../screens/onBoardingScreens/onBoardingScreen';
 import LoginScreen from '../screens/onBoardingScreens/LoginScreen';
@@ -15,12 +15,16 @@ import {BottomTabNavigator} from './BottomTabNavigator';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+  const user = auth().currentUser;
+  console.log('user', user);
+
+  const initialScreen = user ? 'HomeScreen' : 'OnboardingScreen';
   return (
     <View style={{flex: 1}}>
       <StatusBar backgroundColor="#FFD7B4" barStyle="dark-content" />
 
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="OnboardingScreen">
+        <Stack.Navigator initialRouteName={initialScreen}>
           <Stack.Screen
             name="OnboardingScreen"
             component={OnboardingScreen}

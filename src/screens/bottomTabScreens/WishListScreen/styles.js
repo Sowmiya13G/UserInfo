@@ -9,26 +9,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: '5%',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingBottom: '5%',
-  },
   title: {
     fontSize: theme.fontSizes.bigFont,
     color: theme.fontColors.inkBlack,
     fontWeight: 'bold',
-  },
-  totalPriceContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  totalPrice: {
-    fontSize: theme.fontSizes.mediumFontText,
-    color: theme.fontColors.inkLight,
-    fontWeight: 'bold',
-    // marginRight: 10,
+    marginBottom: '5%',
   },
   productContainer: {
     flexDirection: 'row',
@@ -40,6 +25,7 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.backgroundColor.white,
     borderRadius: wp('30%'),
     elevation: 5,
+    height: hp('10%'),
   },
   productImage: {
     width: wp('15%'),
@@ -50,78 +36,17 @@ export const styles = StyleSheet.create({
   details: {
     display: 'flex',
     width: '60%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
-
+  wishListIcon: {
+    marginRight: '3%',
+  },
   productPrice: {
     fontSize: theme.fontSizes.mediumFontText,
     color: theme.fontColors.green,
     fontWeight: 'bold',
     alignSelf: 'center',
-  },
-
-  quantityContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '2%',
-  },
-
-  quantityButtonText: {
-    color: theme.fontColors.candyBlue,
-    fontSize: theme.fontSizes.bigFont,
-    fontWeight: 'bold',
-  },
-  quantityText: {
-    fontSize: theme.fontSizes.mediumFontText,
-    fontWeight: 'bold',
-    color: theme.fontColors.black,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingBottom: wp('10%'),
-  },
-  clearCartButton: {
-    alignSelf: 'flex-end',
-    padding: wp('3%'),
-    marginTop: hp('2%'),
-    backgroundColor: 'red',
-    borderRadius: wp('2%'),
-  },
-  clearCartButtonText: {
-    fontSize: theme.fontSizes.mediumFont,
-    color: theme.fontColors.white,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    opacity: 0.8,
-  },
-
-  takeScreenshotButton: {
-    alignSelf: 'center',
-    padding: wp('3%'),
-    marginTop: hp('2%'),
-    backgroundColor: 'green',
-    borderRadius: wp('2%'),
-  },
-  takeScreenshotButtonText: {
-    fontSize: theme.fontSizes.mediumFont,
-    color: theme.fontColors.white,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-
-  removeButton: {
-    backgroundColor: theme.backgroundColor.red,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
-    alignSelf: 'flex-start',
-  },
-  removeButtonText: {
-    color: theme.fontColors.white,
-  },
-  productTitle: {
-    fontSize: theme.fontSizes.mediumFont,
-    color: theme.fontColors.black,
-    marginBottom: '2%',
   },
 });
