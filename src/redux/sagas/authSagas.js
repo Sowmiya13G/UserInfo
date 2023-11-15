@@ -6,6 +6,12 @@ import {
   loginSuccess,
   signupFailure,
   signupSuccess,
+  increaseQuantityAction,
+  decreaseQuantityAction,
+  addToCartAction,
+  removeFromCartAction,
+  addToWishlistAction,
+  removeFromWishlistAction,
 } from '../actions/authAction';
 import * as ActionTypes from '../actionTypes';
 import axios from 'axios';
@@ -52,47 +58,11 @@ function* fetchProducts() {
   }
 }
 
-function* increaseQuantitySaga(action) {
-  try {
-    yield put(ActionTypes.increaseQuantity(action.payload));
-  } catch (error) {
-    console.log('ERROR:', error);
-  }
-}
-
-function* decreaseQuantitySaga(action) {
-  try {
-    yield put(ActionTypes.decreaseQuantity(action.payload));
-  } catch (error) {
-    console.log('ERROR:', error);
-  }
-}
-
-function* addToWishlistSaga(action) {
-  try {
-    yield put({type: ActionTypes.addToWishlist, payload: action.payload});
-  } catch (error) {
-    console.log('ERROR:', error);
-  }
-}
-
-function* removeFromWishlistSaga(action) {
-  try {
-    yield put({type: ActionTypes.removeFromWishlist, payload: action.payload});
-  } catch (error) {
-    console.log('ERROR:', error);
-  }
-}
-
 function* authSagas() {
   yield takeLatest(ActionTypes.loginUser, loginUserAPISaga);
   yield takeLatest(ActionTypes.signupRequest, signupUserSaga);
   yield takeLatest(ActionTypes.loginRequest, loginUserSaga);
   yield takeLatest(ActionTypes.fetchProducts, fetchProducts);
-  yield takeLatest(ActionTypes.increaseQuantity, increaseQuantitySaga);
-  yield takeLatest(ActionTypes.decreaseQuantity, decreaseQuantitySaga);
-  yield takeLatest(ActionTypes.addToWishlist, addToWishlistSaga);
-  yield takeLatest(ActionTypes.removeFromWishlist, removeFromWishlistSaga);
 }
 
 export default authSagas;

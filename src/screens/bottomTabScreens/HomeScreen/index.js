@@ -8,12 +8,12 @@ import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchProducts,
-  addToCart,
-  addToWishlist,
+  addToCartAction,
+  addToWishlistAction,
   increaseQuantityAction,
+  removeFromWishlistAction,
 } from '../../../redux/actions/authAction';
 
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../constants/theme';
 const HomeScreen = () => {
@@ -24,7 +24,9 @@ const HomeScreen = () => {
 
   const products = useSelector(state => state.products.products);
   const cart = useSelector(state => state.cart.cart);
-  const wishlist = useSelector(state => state.wishlist.wishlist);
+  console.log(cart);
+  const wishlist = useSelector(state => state.auth.wishlist);
+  console.log('wishlist', wishlist);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -35,7 +37,8 @@ const HomeScreen = () => {
     if (existingProduct) {
       dispatch(increaseQuantityAction({id: product.id}));
     } else {
-      dispatch(addToCart(product));
+      dispatch(addToCartAction(product));
+      console.log('product', product);
     }
   };
 
@@ -44,12 +47,17 @@ const HomeScreen = () => {
   };
 
   const handleToggleWishlist = product => {
-    if (wishlist.includes(product.id)) {
-      dispatch(addToWishlist(product.id));
+    const isInWishlist = isProductInWishlist(product.id);
+    if (isInWishlist) {
+      dispatch(removeFromWishlistAction(product.id));
+    } else {
+      dispatch(addToWishlistAction(product));
     }
   };
 
-  const isProductInWishlist = productId => wishlist.includes(productId);
+  const isProductInWishlist = productId => {
+    return wishlist ? wishlist.some(item => item.id === productId) : false;
+  };
 
   return (
     <View style={styles.container}>

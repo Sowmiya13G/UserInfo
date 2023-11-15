@@ -10,7 +10,7 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import strings from '../../../constants/strings';
 import {useDispatch} from 'react-redux';
 import {loginRequest} from '../../../redux/actions/authAction';
-
+import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
 export default FirebaseLoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,8 +34,19 @@ export default FirebaseLoginScreen = () => {
       return;
     }
 
-    dispatch(loginRequest(email, password));
-    navigation.navigate('HomeScreen');
+    try {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, email, password);
+      dispatch(loginRequest(email, password));
+
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      console.log('Firebase Error:', error);
+      Alert.alert(
+        'Login Error',
+        'Invalid email or password. Please try again.',
+      );
+    }
   };
 
   goToAPLogin = () => {

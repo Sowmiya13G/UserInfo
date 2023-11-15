@@ -11,7 +11,7 @@ import {styles} from './styles';
 import strings from '../../../constants/strings';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  removeFromCart,
+  removeFromCartAction,
   clearCart,
   increaseQuantityAction,
   decreaseQuantityAction,
@@ -22,9 +22,10 @@ import {Background} from '../../../components/Background/Background';
 import ViewShot from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
 import {captureRef} from 'react-native-view-shot';
-
+import CartItem from '../../../components/CartItem/CartItem';
 export default function CartScreen() {
   const cartItems = useSelector(state => state.cart.cart);
+  console.log('cart list', cartItems);
   const dispatch = useDispatch();
   const viewShotRef = useRef();
   const [cartHeight, setCartHeight] = useState(0);
@@ -38,7 +39,7 @@ export default function CartScreen() {
   };
 
   const handleRemoveItem = itemId => {
-    dispatch(removeFromCart({id: itemId}));
+    dispatch(removeFromCartAction({id: itemId}));
   };
 
   const handleIncreaseQuantity = itemId => {
@@ -74,7 +75,6 @@ export default function CartScreen() {
       console.error('Error capturing or saving screenshot:', error);
     }
   };
-
   return (
     <ViewShot
       ref={viewShotRef}
@@ -86,47 +86,33 @@ export default function CartScreen() {
       }}>
       <View style={styles.container}>
         <Background />
-
         <View style={styles.header}>
           <TouchableOpacity onPress={handleClearCart} style={styles.clearCart}>
             <Icon name="trash" size={20} color={theme.fontColors.black} />
           </TouchableOpacity>
-
           <TouchableOpacity onPress={handleTakeScreenshot}>
             <Icon name="camera" size={20} color={theme.fontColors.black} />
           </TouchableOpacity>
         </View>
+
         <FlatList
           data={cartItems}
+          numColumns={2}
           keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => {
-            if (item.quantity > 0) {
-              return (
-                <View style={styles.productContainer}>
-                  <Image
-                    source={{uri: item.image}}
-                    style={styles.productImage}
-                  />
-                  <View style={styles.details}>
-                    <Text style={styles.productPrice}>${item.price}</Text>
-                  </View>
-                  <View style={styles.quantityContainer}>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={() => handleDecreaseQuantity(item.id)}>
-                      <Text style={styles.quantityButtonText}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.quantityText}>{item.quantity}</Text>
-                    <TouchableOpacity
-                      onPress={() => handleIncreaseQuantity(item.id)}>
-                      <Text style={styles.quantityButtonText}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              );
-            } else {
-              return null;
-            }
+          renderItem={({item, index}) => {
+            const containerHeight =
+              index % 4 === 0 || index % 4 === 3 ? 150 : 200;
+
+            return (
+              <CartItem
+                item={item}
+                index={index}
+                increaseQuantity={handleIncreaseQuantity}
+                decreaseQuantity={handleDecreaseQuantity}
+                containerHeight={containerHeight}
+                removeItem={handleRemoveItem}
+              />
+            );
           }}
           onContentSizeChange={(contentWidth, contentHeight) => {
             setCartHeight(contentHeight);

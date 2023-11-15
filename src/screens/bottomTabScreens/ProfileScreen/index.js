@@ -16,6 +16,7 @@ import {Background} from '../../../components/Background/Background';
 import {
   updateProfileImageAction,
   selectDocumentAction,
+  clearUserDataAction,
 } from '../../../redux/actions/authAction';
 import {useDispatch, useSelector} from 'react-redux';
 import theme from '../../../constants/theme';
@@ -43,6 +44,7 @@ export default function ProfileScreen({navigation}) {
   const handleLogout = async () => {
     try {
       await auth().signOut();
+      dispatch(clearUserDataAction());
       navigation.navigate('LoginScreen');
     } catch (error) {
       console.error('Error during logout:', error);

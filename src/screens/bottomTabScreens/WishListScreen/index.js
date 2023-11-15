@@ -1,18 +1,20 @@
-// WishlistScreen.js
 import React from 'react';
 import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {removeFromWishlistAction} from '../../../redux/actions/authAction';
+import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {styles} from './styles'; // Import your styles
 import {Background} from '../../../components/Background/Background';
 
 const WishlistScreen = () => {
+  const dispatch = useDispatch();
   const wishlist = useSelector(state => state.wishlist.wishlist);
-  const products = useSelector(state => state.products.products);
 
-  const getWishlistProducts = () => {
-    return products.filter(product => wishlist.includes(product.id));
+  const handleRemoveFromWishlist = productId => {
+    dispatch(removeFromWishlistAction(productId));
   };
+  const isProductInWishlist = productId =>
+    wishlist.some(item => item.id === productId);
 
   return (
     <View style={styles.container}>
@@ -22,19 +24,29 @@ const WishlistScreen = () => {
         <Text>Your wishlist is empty</Text>
       ) : (
         <FlatList
-          data={getWishlistProducts()}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => (
-            <View style={styles.productContainer}>
-              <Image source={{uri: item.image}} style={styles.productImage} />
-              <View style={styles.details}>
-                <Text style={styles.productPrice}>${item.price}</Text>
-                <TouchableOpacity style={styles.addToCartButton}>
-                  <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-                </TouchableOpacity>
+          data={wishlist}
+          keyExtractor={(item, index) =>
+            item && item.id ? item.id.toString() : `no-id-${index}`
+          }
+          renderItem={({item}) =>
+            item ? (
+              <View style={styles.productContainer}>
+                <Image source={{uri: item.image}} style={styles.productImage} />
+                <View style={styles.details}>
+                  <Text style={styles.productPrice}>${item.price}</Text>
+                  <TouchableOpacity
+                    style={styles.wishListIcon}
+                    onPress={() => handleRemoveFromWishlist(item.id)}>
+                    <Icon
+                      name={isProductInWishlist(item.id) ? 'heart' : 'heart-o'}
+                      size={20}
+                      color={isProductInWishlist(item.id) ? 'red' : 'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          )}
+            ) : null
+          }
           showsVerticalScrollIndicator={false}
         />
       )}

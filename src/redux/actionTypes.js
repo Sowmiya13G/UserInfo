@@ -20,6 +20,9 @@ export const removeFromCart = 'REMOVE_FROM_CART';
 export const addToWishlist = 'ADD_TO_WISHLIST';
 export const removeFromWishlist = 'REMOVE_FROM_WISHLIST';
 
+export const addToWishlistRequest = 'ADD_TO_WISHLIST_REQUEST';
+export const removeFromWishlistRequest = 'REMOVE_FROM_WISHLIST_REQUEST';
+
 export const fetchProductsSuccess = 'FETCH_PRODUCTS_SUCCESS';
 export const fetchProductsFailure = 'FETCH_PRODUCTS_FAILURE';
 
@@ -30,5 +33,5 @@ export const removeProfileImage = 'REMOVE_PROFILE_IMAGE';
 export const uploadDocument = 'SELECT_DOCUMENT';
 export const downloadDocument = 'DOWNLOAD_DOCUMENT';
 
-export const saveUserDetails = 'SAVE_PROFILE_DATA';
+export const clearUserData = 'CLEAR_USER_DATA';
 export const setProfileImage = 'SET_PROFILE_IMAGE';

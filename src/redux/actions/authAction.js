@@ -53,14 +53,14 @@ export const fetchProducts = () => ({
   type: ActionTypes.fetchProducts,
 });
 
-export const addToCart = product => ({
+export const addToCartAction = product => ({
   type: ActionTypes.addToCart,
   payload: {...product, quantity: 1},
 });
 
-export const removeFromCart = product => ({
+export const removeFromCartAction = productId => ({
   type: ActionTypes.removeFromCart,
-  payload: product,
+  payload: productId,
 });
 
 export const clearCart = () => ({
@@ -79,16 +79,24 @@ export const decreaseQuantityAction = product => ({
   payload: product,
 });
 
-export const addToWishlist = productId => ({
+export const addToWishlistAction = product => ({
   type: ActionTypes.addToWishlist,
-  payload: productId,
+  payload: product,
 });
 
-export const removeFromWishlist = productId => ({
+export const removeFromWishlistAction = productId => ({
   type: ActionTypes.removeFromWishlist,
   payload: productId,
 });
+export const addToWishlistRequestAction = product => ({
+  type: ActionTypes.addToWishlistRequest,
+  payload: product,
+});
 
+export const removeFromWishlistRequestAction = productId => ({
+  type: ActionTypes.removeFromWishlist,
+  payload: productId,
+});
 //PROFILE SCREEN
 export const setProfileImage = image => ({
   type: ActionTypes.updateProfileImage,
@@ -113,4 +121,7 @@ export const downloadDocumentAction = documentUri => ({
 export const saveProfileDataAction = (imageUri, documentUri) => ({
   type: ActionTypes.saveProfileData,
   payload: {imageUri, documentUri},
+});
+export const clearUserDataAction = () => ({
+  type: ActionTypes.clearUserData,
 });

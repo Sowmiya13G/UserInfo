@@ -13,6 +13,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    //AP login
     case ActionTypes.signupUser:
       return {...state, authorizedPerson: action.payload};
     case ActionTypes.loginUser:
@@ -39,6 +40,7 @@ const authReducer = (state = initialState, action) => {
         user: null,
         error: action.payload,
       };
+    //profileScreen
     case ActionTypes.saveProfileData:
       return {
         ...state,
@@ -47,14 +49,7 @@ const authReducer = (state = initialState, action) => {
       };
     case ActionTypes.clearUserData:
       return {
-        ...state,
-        authorizedPerson: null,
-        profileImage: null,
-        document: null,
-        cart: [],
-        wishlist: [],
-        user: null,
-        error: null,
+        ...initialState,
       };
 
     case ActionTypes.updateProfileImage:
@@ -73,10 +68,28 @@ const authReducer = (state = initialState, action) => {
         ...state,
         document: action.payload,
       };
+    //Products
     case ActionTypes.fetchProductsSuccess:
       return {...state, products: action.payload};
+    //Cart
     case ActionTypes.addToCart:
-      return {...state, cart: [...state.cart, action.payload]};
+      const existingProductIndex = state.cart.findIndex(
+        item => item.id === action.payload.id,
+      );
+      if (existingProductIndex !== -1) {
+        const updatedCart = [...state.cart];
+        updatedCart[existingProductIndex] = {
+          ...updatedCart[existingProductIndex],
+          quantity: updatedCart[existingProductIndex].quantity + 1,
+        };
+        return {...state, cart: updatedCart};
+      } else {
+        return {...state, cart: [action.payload, ...state.cart]};
+      }
+
+    // case ActionTypes.addToCart:
+    //   console.log(action.payload);
+    //   return {...state, cart: [action.payload, ...state.cart]};
     case ActionTypes.removeFromCart:
       return {
         ...state,
@@ -109,7 +122,7 @@ const authReducer = (state = initialState, action) => {
         ),
       };
     }
-
+    //Wishlist
     case ActionTypes.addToWishlist:
       return {
         ...state,
@@ -117,10 +130,13 @@ const authReducer = (state = initialState, action) => {
       };
 
     case ActionTypes.removeFromWishlist:
+      console.log('action.payload', action.payload);
+      console.log('Current State:', state);
       return {
         ...state,
-        wishlist: state.wishlist.filter(id => id !== action.payload),
+        wishlist: state.wishlist.filter(item => item.id !== action.payload),
       };
+
     default:
       return state;
   }
