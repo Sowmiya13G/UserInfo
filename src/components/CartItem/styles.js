@@ -17,44 +17,31 @@ export const styles = StyleSheet.create({
     margin: '3%',
     elevation: 5,
   },
-  productImage: {
-    width: wp('15%'),
-    height: hp('8%'),
-    resizeMode: 'cover',
-  },
-  details: {
-    display: 'flex',
-    width: '60%',
-  },
-  extraHeight: {
-    height: 150,
-  },
   productPrice: {
     fontSize: theme.fontSizes.mediumFontText,
     color: theme.fontColors.green,
     fontWeight: 'bold',
     alignSelf: 'center',
+    marginTop: '5%',
   },
-
+  options: {
+    marginTop: '5%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: wp('28%'),
+  },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: '3%',
-    alignSelf: 'flex-end',
-  },
-
-  quantityButtonText: {
-    color: theme.fontColors.candyBlue,
-    fontSize: theme.fontSizes.bigFontText,
-    fontWeight: 'bold',
-    padding: '2%',
+    justifyContent: 'space-between',
+    width: wp('15%'),
   },
   quantityText: {
     fontSize: theme.fontSizes.bigFont,
     fontWeight: 'bold',
     color: theme.fontColors.black,
   },
-
   productTitle: {
     fontSize: theme.fontSizes.mediumFont,
     color: theme.fontColors.black,

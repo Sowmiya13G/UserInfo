@@ -2,7 +2,8 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/bottomTabScreens/HomeScreen';
-import CartScreen from '../screens/bottomTabScreens/CartScreen';
+import CartScreen from '../screens/OtherScreens/CartScreen';
+import TabViewScreen from '../screens/bottomTabScreens/TabViewScreen';
 import WishListScreen from '../screens/bottomTabScreens/WishListScreen';
 import ProfileScreen from '../screens/bottomTabScreens/ProfileScreen';
 import theme from '../constants/theme';
@@ -13,8 +14,12 @@ export const BottomTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: theme.backgroundColor.orange,
+        tabBarInactiveTintColor: theme.backgroundColor.white,
+
         tabBarStyle: {
-          backgroundColor: theme.backgroundColor.white,
+          backgroundColor: theme.backgroundColor.secondaryBlack,
+          borderTopRightRadius: 25,
+          borderTopLeftRadius: 25,
           position: 'absolute',
         },
       }}>
@@ -30,10 +35,10 @@ export const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="CartTab"
-        component={CartScreen}
+        name="ViewTab"
+        component={TabViewScreen}
         options={{
-          tabBarLabel: 'Price',
+          tabBarLabel: 'Tabs',
           title: '',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
@@ -44,7 +49,7 @@ export const BottomTabNavigator = () => {
         name="WishListTab"
         component={WishListScreen}
         options={{
-          tabBarLabel: 'Price',
+          tabBarLabel: 'WishList',
           title: '',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
@@ -55,7 +60,7 @@ export const BottomTabNavigator = () => {
         name="ProfileTab"
         component={ProfileScreen}
         options={{
-          tabBarLabel: 'Price',
+          tabBarLabel: 'Profile',
           title: '',
           headerShown: false,
           tabBarIcon: ({color, size}) => (

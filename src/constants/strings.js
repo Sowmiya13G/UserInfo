@@ -31,5 +31,7 @@ const strings = {
   loading: 'Loading user details...',
   logOut: 'Logout',
   save: 'Save',
+
+  clientDetails: 'Client Details',
 };
 export default strings;

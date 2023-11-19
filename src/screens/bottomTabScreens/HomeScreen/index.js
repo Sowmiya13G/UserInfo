@@ -43,7 +43,7 @@ const HomeScreen = () => {
   };
 
   const goToCart = () => {
-    navigation.navigate('CartTab');
+    navigation.navigate('CartScreen');
   };
 
   const handleToggleWishlist = product => {

@@ -1,4 +1,4 @@
-import {initializeApp} from '@react-native-firebase/app';
+import {initializeApp, getApps} from '@react-native-firebase/app';
 import {getAuth} from '@react-native-firebase/auth';
 const firebaseConfig = {
   apiKey: 'AIzaSyDEBaCeSYdqZbDiSXW8DV3ygpzSk-_IRkQ',
@@ -7,8 +7,10 @@ const firebaseConfig = {
   appId: '1:72124230268:android:5be524589ae45e7e8577f9',
 };
 
-const app = initializeApp(firebaseConfig);
+if (!getApps().length) {
+  initializeApp(firebaseConfig);
+}
+export const authFirebase = getAuth();
 
-const auth = getAuth();
-
-export {auth, app};
+// const app = initializeApp(firebaseConfig);
+// export {authFirebase, app};

@@ -17,6 +17,12 @@ const backgroundColor = {
   red: '#FF0000',
   lightCoral: '#F08080',
   mediumAquamarine: '#66CDAA',
+  grayShade: '#F2F2F2',
+  blue: '#56BCC5',
+  lightGray: '#F4F4F4',
+  ghostWhite: '#F8F9FD',
+  lightCyne: '#DDF7FF',
+  lightGreen: '#E3FFEF',
 };
 
 const borderColor = {
@@ -49,6 +55,10 @@ const fontColors = {
   green: '#008000',
   black: '#000000',
   candyBlue: '#37ECBA',
+  gray: '#CCC',
+  blue: '#56BCC5',
+  systemBlue: '#2F80ED',
+  systemGreen: '#27AE60',
 };
 
 export default {

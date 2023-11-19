@@ -42,10 +42,7 @@ export default FirebaseLoginScreen = () => {
       navigation.navigate('HomeScreen');
     } catch (error) {
       console.log('Firebase Error:', error);
-      Alert.alert(
-        'Login Error',
-        'Invalid email or password. Please try again.',
-      );
+      Alert.alert('Login Error', `Firebase Error: ${error.message || error}`);
     }
   };
 

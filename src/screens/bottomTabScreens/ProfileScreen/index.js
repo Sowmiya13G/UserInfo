@@ -37,8 +37,14 @@ export default function ProfileScreen({navigation}) {
   const documentUri = useSelector(state => state.document.document);
 
   useEffect(() => {
-    const currentUser = auth().currentUser;
-    setUserDetails(currentUser);
+    const unsubscribeAuthStateChange = auth().onAuthStateChanged(user => {
+      if (user) {
+        setUserDetails(user);
+      } else {
+        setUserDetails(null);
+      }
+    });
+    return () => unsubscribeAuthStateChange();
   }, []);
 
   const handleLogout = async () => {
