@@ -26,14 +26,15 @@ export const BottomTabNavigator = () => {
       <Tab.Screen
         name="HomeTab"
         component={HomeScreen}
-        options={{
+        options={({route}) => ({
           tabBarLabel: 'Home',
           title: '',
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <Icon name="home" size={size} color={color} />
           ),
-        }}></Tab.Screen>
+          tabBarVisible: route.state ? route.state.index === 0 : true,
+        })}></Tab.Screen>
       <Tab.Screen
         name="ViewTab"
         component={TabViewScreen}

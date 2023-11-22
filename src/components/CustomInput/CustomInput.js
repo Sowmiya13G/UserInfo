@@ -14,11 +14,12 @@ export const CustomInput = ({
       <TextInput
         style={styles.input}
         placeholder={placeholder}
-        value={value}
+        // value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         placeholderTextColor={theme.fontColors.inkLight}
         keyboardType={keyboardType}
+        value={Array.isArray(value) ? value.join(', ') : value}
       />
     </View>
   );

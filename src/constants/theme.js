@@ -59,6 +59,7 @@ const fontColors = {
   blue: '#56BCC5',
   systemBlue: '#2F80ED',
   systemGreen: '#27AE60',
+  red: '#FF0000',
 };
 
 export default {

@@ -3,7 +3,10 @@ import {useWindowDimensions, ScrollView, Text, View, Image} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import theme from '../../../constants/theme';
 import UserCard from '../../../components/UserCard/UserCard';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import {
+  PanGestureHandler,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -16,7 +19,7 @@ import {styles} from './styles';
 import commonImagePath from '../../../constants/images';
 import strings from '../../../constants/strings';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import {useNavigation} from '@react-navigation/native';
 const FirstRoute = () => (
   <ScrollView style={styles.tabContent}>
     <UserCard />
@@ -43,6 +46,8 @@ const renderScene = SceneMap({
 });
 
 export default function TabViewScreen() {
+  const navigation = useNavigation();
+
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -112,6 +117,10 @@ export default function TabViewScreen() {
     </PanGestureHandler>
   );
 
+  const openNotifications = () => {
+    navigation.navigate('NotificationScreen');
+  };
+
   return (
     <View style={styles.container}>
       <Background />
@@ -121,7 +130,9 @@ export default function TabViewScreen() {
           <Image source={commonImagePath.logo} style={styles.logo} />
         </View>
         <Text style={styles.title}> {strings.clientDetails}</Text>
-        <Icon name="bell-o" size={15} color={theme.fontColors.black} />
+        <TouchableOpacity onPress={openNotifications}>
+          <Icon name="bell-o" size={15} color={theme.fontColors.black} />
+        </TouchableOpacity>
       </View>
 
       <TabView

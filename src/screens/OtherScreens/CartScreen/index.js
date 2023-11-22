@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
@@ -16,13 +16,21 @@ import RNFS from 'react-native-fs';
 import CartItem from '../../../components/CartItem/CartItem';
 import {styles} from './styles';
 import strings from '../../../constants/strings';
-
+import {useNavigation} from '@react-navigation/native';
 const CartScreen = () => {
   const cartItems = useSelector(state => state.cart.cart);
   const dispatch = useDispatch();
   const viewShotRef = useRef();
+  const navigation = useNavigation();
   const [cartHeight, setCartHeight] = useState(0);
 
+  useEffect(() => {
+    return () => {
+      navigation.setOptions({
+        tabBarVisible: true,
+      });
+    };
+  }, []);
   const calculateTotalPrice = cartItems => {
     let totalPrice = 0;
     cartItems.forEach(item => {

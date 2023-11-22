@@ -15,6 +15,7 @@ import {BottomTabNavigator} from './BottomTabNavigator';
 import {DrawerNavigator} from './DrawerNav/DrawerNavigator';
 import {authFirebase} from '../database/firebaseConfig';
 import CartScreen from '../screens/OtherScreens/CartScreen';
+import NotificationScreen from '../screens/OtherScreens/NotificationScreen';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -59,6 +60,11 @@ const AppNavigator = () => {
             name="CartScreen"
             component={CartScreen}
             options={{title: '', headerShown: false}}
+          />
+          <Stack.Screen
+            name="NotificationScreen"
+            component={NotificationScreen}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -44,6 +44,9 @@ const HomeScreen = () => {
 
   const goToCart = () => {
     navigation.navigate('CartScreen');
+    navigation.setOptions({
+      tabBarVisible: true,
+    });
   };
 
   const handleToggleWishlist = product => {

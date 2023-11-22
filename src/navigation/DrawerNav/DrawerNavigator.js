@@ -3,15 +3,16 @@ import Icons from 'react-native-vector-icons/MaterialIcons';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
 import AboutUsScreen from '../../screens/drawerNavScreens/AboutUsScreen/AboutUsScreen';
-import FAQScreen from '../../screens/drawerNavScreens/FAQAScreen/FAQScreen';
+import FAQScreen from '../../screens/drawerNavScreens/FAQAScreen';
 import SettingsScreen from '../../screens/drawerNavScreens/SettingsScreen/SettingsScreen';
 import SupportScreen from '../../screens/drawerNavScreens/SupportScreen/SupportScreen';
 import LoginScreen from '../../screens/onBoardingScreens/LoginScreen';
 import {BottomTabNavigator} from '../BottomTabNavigator';
-import theme from '../../constants/theme';
-const Drawer = createDrawerNavigator();
 
-export const DrawerNavigator = () => {
+import theme from '../../constants/theme';
+
+const Drawer = createDrawerNavigator();
+export const DrawerNavigator = navigation => {
   return (
     <Drawer.Navigator
       initialRouteName="BottomTabBar"
@@ -35,9 +36,10 @@ export const DrawerNavigator = () => {
             iconName = 'phone';
           } else if (route.name === 'Settings') {
             iconName = 'settings';
-          } else if (route.name === 'LogIn') {
-            iconName = 'logout';
           }
+          // else if (route.name === 'LogIn') {
+          //   iconName = 'logout';
+          // }
           return <Icons name={iconName} size={size} color={color} />;
         },
       })}>
@@ -76,14 +78,17 @@ export const DrawerNavigator = () => {
           drawerLabel: 'Settings',
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="LogIn"
         component={LoginScreen}
         options={{
           title: 'LogIn',
           drawerLabel: 'Log-Out',
         }}
-      />
+        onPress={() => {
+          handleLogout(navigation);
+        }}
+      /> */}
     </Drawer.Navigator>
   );
 };
