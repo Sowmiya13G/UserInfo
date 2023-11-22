@@ -2,16 +2,16 @@ import React from 'react';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
-import AboutUsScreen from '../../screens/drawerNavScreens/AboutUsScreen/AboutUsScreen';
-import FAQScreen from '../../screens/drawerNavScreens/FAQAScreen';
-import SettingsScreen from '../../screens/drawerNavScreens/SettingsScreen/SettingsScreen';
-import SupportScreen from '../../screens/drawerNavScreens/SupportScreen/SupportScreen';
+import AboutUsScreen from '../../screens/drawerNavScreens/AboutUsScreen';
+import FAQScreen from '../../screens/drawerNavScreens/FAQScreen';
+import SettingsScreen from '../../screens/drawerNavScreens/SettingsScreen';
+import SupportScreen from '../../screens/drawerNavScreens/SupportScreen';
 import LoginScreen from '../../screens/onBoardingScreens/LoginScreen';
 import {BottomTabNavigator} from '../BottomTabNavigator';
-
 import theme from '../../constants/theme';
 
 const Drawer = createDrawerNavigator();
+
 export const DrawerNavigator = navigation => {
   return (
     <Drawer.Navigator

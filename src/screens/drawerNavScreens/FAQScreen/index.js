@@ -80,8 +80,9 @@ const FAQScreen = () => {
     ) {
       setErrors({
         ...errors,
-        perceivedRisk: 'Please enter values for all Perceived Risk fields',
+        perceivedRisk: 'Please enter values for Perceived Risk fields',
       });
+      alert('Please enter values for all Perceived Risk fields');
       return;
     }
 
@@ -108,6 +109,7 @@ const FAQScreen = () => {
           ...errors.riskMitigantMeasure.slice(index + 1),
         ],
       });
+      alert('Please enter values of Risk Mitigant fields');
       return;
     }
 
@@ -180,7 +182,7 @@ const FAQScreen = () => {
               }}
               style={styles.view}
             />
-            <Text style={styles.error}>{errors.perceivedRisk}</Text>
+            {/* <Text style={styles.error}>{errors.perceivedRisk}</Text> */}
 
             <TouchableOpacity
               onPress={() => addNewRiskMitigant(index)}
