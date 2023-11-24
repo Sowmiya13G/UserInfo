@@ -63,18 +63,25 @@ const SupportScreen = () => {
     setData(newData);
   };
 
-  //Rearrange Keys
-  const rearrangeKeys = array => {
-    try {
-      const rearrangedData = array.map(item => ({
-        age: item.name,
-        name: item.age,
-      }));
-      console.log('Rearranged Data:', rearrangedData);
-      return rearrangedData;
-    } catch (error) {
-      console.error('Error in rearrangeKeys:', error);
-      return array;
+  //Rearrange Items
+  const rearrangeItems = () => {
+    if (data.length > 0) {
+      const newData = [...data];
+
+      const isAscending = newData[0].age < newData[1].age;
+
+      newData.sort((a, b) => {
+        if (isAscending) {
+          return a.age - b.age;
+        } else {
+          return b.age - a.age;
+        }
+      });
+
+      console.log(newData);
+      setData(newData);
+    } else {
+      alert('No data available for rearrangement.');
     }
   };
 
@@ -111,9 +118,7 @@ const SupportScreen = () => {
           <TouchableOpacity onPress={shiftItems} style={styles.button}>
             <Text style={styles.buttonText}>Unshift Items</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setData(rearrangeKeys([...data]))}
-            style={styles.button}>
+          <TouchableOpacity onPress={rearrangeItems} style={styles.button}>
             <Text style={styles.buttonText}>Rearrange Items</Text>
           </TouchableOpacity>
         </View>

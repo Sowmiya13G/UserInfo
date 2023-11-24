@@ -11,6 +11,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
 } from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
@@ -53,6 +54,7 @@ const SignUpScreen = () => {
       .catch(error => {
         console.log('Firebase Error Code:', error.code);
         console.log('Firebase Error Message:', error.message);
+        crashlytics.logException(error.message || 'Unknown error');
 
         switch (error.code) {
           case 'auth/email-already-in-use':

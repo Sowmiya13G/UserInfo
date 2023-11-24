@@ -11,42 +11,39 @@ export const styles = StyleSheet.create({
     padding: '5%',
     paddingTop: Platform.OS === 'android' ? 0 : 0,
   },
-  foreignMatter: {
-    flex: 1,
-    marginTop: '3%',
-  },
-  addButton: {
-    alignSelf: 'flex-end',
+  feilds: {
+    marginTop: '10%',
   },
   text: {
-    fontSize: theme.fontSizes.mediumFont,
+    fontSize: theme.fontSizes.mediumFontText,
     color: theme.fontColors.inkBlack,
+    fontWeight: 'bold',
     marginBottom: '3%',
   },
   error: {
     fontSize: theme.fontSizes.smallFont,
     color: theme.fontColors.red,
   },
-  buttonView: {
-    paddingTop: '5%',
+
+  chart: {
+    margin: '3%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  //Modal
-  modalContainer: {},
-  modalView: {
-    width: 300,
-    height: 300,
+  button: {
+    backgroundColor: theme.backgroundColor.grayShade,
+    height: hp('5%'),
+    width: wp('90%'),
     alignSelf: 'center',
     justifyContent: 'center',
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: theme.backgroundColor.grayShade,
+    borderRadius: 20,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: theme.backgroundColor.gray,
+    marginBottom: '5%',
   },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
+  buttonText: {
+    fontSize: theme.fontSizes.smallFontText,
+    color: theme.fontColors.black,
+    alignSelf: 'center',
   },
-  view: {borderWidth: 1, padding: 8},
 });

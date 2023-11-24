@@ -5,21 +5,33 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Reducers
 import authReducer from './reducers/authReducer';
 import authSagas from './sagas/authSagas';
-
+import medReducer from './reducers/medReducer';
 const rootReducer = combineReducers({
-  user: authReducer,
+  // user: authReducer,
   auth: authReducer,
   products: authReducer,
   cart: authReducer,
   wishlist: authReducer,
   profileImage: authReducer,
   document: authReducer,
+  user: medReducer,
+  smokeOrTobacco: medReducer,
+  selectType: medReducer,
+  frequency: medReducer,
+  healthCondition: medReducer,
+  sinceHowLong: medReducer,
+  medicationStatus: medReducer,
+  medicationDetails: medReducer,
+  bloodSugarControl: medReducer,
+  selectedUnit: medReducer,
+  multiChoiceOptions: medReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: [
+    'user',
     'auth',
     'data',
     'products',
@@ -27,6 +39,8 @@ const persistConfig = {
     'profileImage',
     'document',
     'cart',
+    'selectedUnit',
+    'multiChoiceOptions',
   ],
 };
 

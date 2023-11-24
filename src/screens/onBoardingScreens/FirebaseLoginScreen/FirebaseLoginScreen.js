@@ -11,6 +11,8 @@ import strings from '../../../constants/strings';
 import {useDispatch} from 'react-redux';
 import {loginRequest} from '../../../redux/actions/authAction';
 import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 export default FirebaseLoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,6 +45,7 @@ export default FirebaseLoginScreen = () => {
     } catch (error) {
       console.log('Firebase Error:', error);
       Alert.alert('Login Error', `Firebase Error: ${error.message || error}`);
+      crashlytics.logException(error.message || 'Unknown error');
     }
   };
 

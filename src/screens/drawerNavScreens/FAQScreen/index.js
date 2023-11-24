@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Background} from '../../../components/Background/Background';
 import {CustomInput} from '../../../components/CustomInput/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
 import {styles} from './styles';
 
 const FAQScreen = () => {
@@ -128,7 +129,10 @@ const FAQScreen = () => {
       ],
     });
   };
-
+  const handleLog = () => {
+    console.log(JSON.stringify(formData));
+  };
+  const handleSubmit = () => {};
   return (
     <View style={styles.container}>
       <Background />
@@ -182,7 +186,6 @@ const FAQScreen = () => {
               }}
               style={styles.view}
             />
-            {/* <Text style={styles.error}>{errors.perceivedRisk}</Text> */}
 
             <TouchableOpacity
               onPress={() => addNewRiskMitigant(index)}
@@ -216,9 +219,6 @@ const FAQScreen = () => {
                   }}
                   style={styles.view}
                 />
-                {/* <Text style={styles.error}>
-                  {errors.riskMitigantMeasure[index]}
-                </Text> */}
               </View>
             ))}
           </View>
@@ -227,6 +227,12 @@ const FAQScreen = () => {
         <TouchableOpacity onPress={addNewPerceivedRisk}>
           <Text style={styles.text}>+Add perceivedRisk</Text>
         </TouchableOpacity>
+
+        <View style={styles.buttonView}>
+          <CustomButton optionButton label="LOG" handlePress={handleLog} />
+
+          <CustomButton logInButton label="SUBMIT" handlePress={handleSubmit} />
+        </View>
       </ScrollView>
 
       {isModalVisible && (

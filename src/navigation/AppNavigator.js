@@ -12,24 +12,64 @@ import LoginScreen from '../screens/onBoardingScreens/LoginScreen';
 import FirebaseLoginScreen from '../screens/onBoardingScreens/FirebaseLoginScreen/FirebaseLoginScreen';
 import SignUpScreen from '../screens/onBoardingScreens/SignUpScreen';
 import {BottomTabNavigator} from './BottomTabNavigator';
-import {DrawerNavigator} from './DrawerNav/DrawerNavigator';
+import DrawerNavigator from './DrawerNav/DrawerNavigator';
 import {authFirebase} from '../database/firebaseConfig';
 import CartScreen from '../screens/OtherScreens/CartScreen';
 import NotificationScreen from '../screens/OtherScreens/NotificationScreen';
+import analytics from '@react-native-firebase/analytics';
+import {
+  getFCMToken,
+  requestUserPermission,
+  setupFCMListener,
+} from '../utils/fcmService';
+import messaging from '@react-native-firebase/messaging';
+
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+  const routeNameRef = React.useRef();
+  const navigationRef = React.useRef();
+
   const user = auth().currentUser;
   console.log('user', user);
-  useEffect(() => {
-    authFirebase;
+
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
   });
+
+  useEffect(() => {
+    const initializeFirebaseMessaging = async () => {
+      authFirebase;
+      await messaging().registerDeviceForRemoteMessages();
+      await getFCMToken();
+      await requestUserPermission();
+      await setupFCMListener();
+    };
+
+    initializeFirebaseMessaging();
+  }, []);
   const initialScreen = user ? 'HomeScreen' : 'OnboardingScreen';
   return (
     <View style={{flex: 1}}>
       <StatusBar backgroundColor="#FFD7B4" barStyle="dark-content" />
 
-      <NavigationContainer>
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={() => {
+          routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+        }}
+        onStateChange={async () => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
+          if (previousRouteName !== currentRouteName) {
+            await analytics().logScreenView({
+              screen_name: currentRouteName,
+              screen_class: currentRouteName,
+            });
+          }
+          routeNameRef.current = currentRouteName;
+        }}>
         <Stack.Navigator initialRouteName={initialScreen}>
           <Stack.Screen
             name="OnboardingScreen"

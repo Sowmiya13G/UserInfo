@@ -1,0 +1,122 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "type": "select",
+      "question": "What is your height?",
+      "options": ["cm", "inch"]
+    },
+    {
+      "id": 2,
+      "type": "multiselect",
+      "question": "Are you exposed to any of the following as a part of your work?",
+      "options": [
+        "Dust",
+        "Coal",
+        "Asbestos",
+        "Fibres",
+        "Smoke",
+        "Others",
+        "None of the above"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "boolean",
+      "question": "Do you smoke or consume tobacco?"
+    },
+    {
+      "id": 4,
+      "type": "select",
+      "question": "Select type:",
+      "options": ["Cigarette", "Beedi", "Tobacco", "Gutka"],
+      "dependency": {
+        "questionId": 7,
+        "answer": "yes"
+      }
+    },
+    {
+      "id": 5,
+      "type": "number",
+      "question": "Enter the frequency of",
+      "dependency": {
+        "questionId": 7,
+        "answer": "yes"
+      }
+    },
+    {
+      "id": 6,
+      "type": "select",
+      "question": "Select the frequency period:",
+      "options": ["Per day", "Per week", "Per month"],
+      "dependency": {
+        "questionId": 7,
+        "answer": "yes"
+      }
+    },
+    {
+      "id": 7,
+      "type": "multiselect",
+      "question": "Do you suffer from any of the following common ailments?",
+      "options": [
+        "Diabetes",
+        "Hypertension",
+        "Heart disease",
+        "COPD Asthma",
+        "Tuberculosis",
+        "None of the above"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "number",
+      "question": "Since how long?",
+      "dependency": {
+        "questionId": 11,
+        "answer": [
+          "Diabetes",
+          "Hypertension",
+          "Heart disease",
+          "COPD Asthma",
+          "Tuberculosis",
+          "None of the above"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": "boolean",
+      "question": "Are you on any medication?",
+      "dependency": {
+        "questionId": 11,
+        "answer": [
+          "Diabetes",
+          "Hypertension",
+          "Heart disease",
+          "COPD Asthma",
+          "Tuberculosis",
+          "None of the above"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": "text",
+      "question": "Please enter the name and dosage of the medication",
+      "dependency": {
+        "questionId": 13,
+        "answer": "yes"
+      }
+    },
+    {
+      "id": 11,
+      "type": "select",
+      "question": "How would you describe your blood sugar control?",
+      "options": ["Good", "Average", "Poor"],
+      "dependency": {
+        "questionId": 11,
+        "answer": "Diabetes"
+      }
+    }
+  ]
+}

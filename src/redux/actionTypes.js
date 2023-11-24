@@ -35,3 +35,18 @@ export const downloadDocument = 'DOWNLOAD_DOCUMENT';
 
 export const clearUserData = 'CLEAR_USER_DATA';
 export const setProfileImage = 'SET_PROFILE_IMAGE';
+
+// MEDACTIONS
+
+export const setSelectedUnit = 'SET_SELECTED_UNIT';
+export const setMultiChoiceOptions = 'SET_MULTI_CHOICE_OPTIONS';
+
+export const setSmokeOrTobacco = 'SET_SMOKE_OR_TOBACCO';
+
+export const setSelectType = 'SET_SELECT_TYPE';
+export const setFrequency = 'SET_FREQUENCY';
+export const setHealthCondition = 'SET_HEALTH_CONDITION';
+export const setSinceHowLong = 'SET_SINCE_HOW_LONG';
+export const setMedicationStatus = 'SET_MEDICATION_STATUS';
+export const setMedicationDetails = 'SET_MEDICATION_DETAILS';
+export const setBloodSugarControl = 'SET_BLOOD_SUGAR_CONTROL';

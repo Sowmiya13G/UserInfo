@@ -1,18 +1,20 @@
 import React from 'react';
 import Icons from 'react-native-vector-icons/MaterialIcons';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
 import AboutUsScreen from '../../screens/drawerNavScreens/AboutUsScreen';
 import FAQScreen from '../../screens/drawerNavScreens/FAQScreen';
 import SettingsScreen from '../../screens/drawerNavScreens/SettingsScreen';
 import SupportScreen from '../../screens/drawerNavScreens/SupportScreen';
 import LoginScreen from '../../screens/onBoardingScreens/LoginScreen';
+import DetailsScreen from '../../screens/drawerNavScreens/DetailsScreen';
+import SurveyScreen from '../../screens/drawerNavScreens/SurveyScreen';
 import {BottomTabNavigator} from '../BottomTabNavigator';
 import theme from '../../constants/theme';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const Drawer = createDrawerNavigator();
 
-export const DrawerNavigator = navigation => {
+const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       initialRouteName="BottomTabBar"
@@ -28,7 +30,7 @@ export const DrawerNavigator = navigation => {
         drawerStyle: {width: theme.screenWidth},
         drawerIcon: ({focused, color, size}) => {
           let iconName;
-          if (route.name === 'About Us') {
+          if (route.name === 'About') {
             iconName = 'info';
           } else if (route.name === 'FAQ') {
             iconName = 'question-answer';
@@ -36,10 +38,11 @@ export const DrawerNavigator = navigation => {
             iconName = 'phone';
           } else if (route.name === 'Settings') {
             iconName = 'settings';
+          } else if (route.name === 'Details') {
+            iconName = 'token';
+          } else if (route.name === 'Survey') {
+            iconName = 'note';
           }
-          // else if (route.name === 'LogIn') {
-          //   iconName = 'logout';
-          // }
           return <Icons name={iconName} size={size} color={color} />;
         },
       })}>
@@ -51,7 +54,7 @@ export const DrawerNavigator = navigation => {
         }}
       />
       <Drawer.Screen
-        name="About Us"
+        name="About"
         component={AboutUsScreen}
         options={{
           drawerLabel: 'About Us',
@@ -78,17 +81,22 @@ export const DrawerNavigator = navigation => {
           drawerLabel: 'Settings',
         }}
       />
-      {/* <Drawer.Screen
-        name="LogIn"
-        component={LoginScreen}
+      <Drawer.Screen
+        name="Details"
+        component={DetailsScreen}
         options={{
-          title: 'LogIn',
-          drawerLabel: 'Log-Out',
+          drawerLabel: 'Details',
         }}
-        onPress={() => {
-          handleLogout(navigation);
+      />
+      <Drawer.Screen
+        name="Survey"
+        component={SurveyScreen}
+        options={{
+          drawerLabel: 'Survey',
         }}
-      /> */}
+      />
     </Drawer.Navigator>
   );
 };
+
+export default DrawerNavigator;

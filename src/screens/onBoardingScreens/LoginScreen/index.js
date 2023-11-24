@@ -12,6 +12,8 @@ import {useDispatch} from 'react-redux';
 import {signInWithGoogle} from '../../../database/googleServices';
 import {setUserAction} from '../../../redux/actions/authAction';
 import {loginUser} from '../../../apiServices';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 export default LoginScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
   const [password, setPassword] = useState('');
@@ -46,6 +48,7 @@ export default LoginScreen = () => {
       }
     } catch (error) {
       console.error('Login Error:', error);
+      crashlytics.logException(error.message || 'Unknown error');
       Alert.alert('Error', 'An error occurred during login. Please try again.');
     }
   };
@@ -64,6 +67,7 @@ export default LoginScreen = () => {
     } catch (error) {
       Alert.alert('Error', error.message);
       console.log('Error', error.message);
+      crashlytics.logException(error.message || 'Unknown error');
     }
   };
   return (

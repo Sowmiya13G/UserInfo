@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: theme.backgroundColor.secondaryBlack,
     borderWidth: 2,
+    marginBottom: '5%',
   },
   logInButtonText: {
     color: theme.fontColors.white,

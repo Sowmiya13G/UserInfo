@@ -1,4 +1,5 @@
-import {initializeApp, getApps} from '@react-native-firebase/app';
+import {initializeApp, getApps, firebase} from '@react-native-firebase/app';
+
 import {getAuth} from '@react-native-firebase/auth';
 const firebaseConfig = {
   apiKey: 'AIzaSyDEBaCeSYdqZbDiSXW8DV3ygpzSk-_IRkQ',
@@ -14,3 +15,5 @@ export const authFirebase = getAuth();
 
 // const app = initializeApp(firebaseConfig);
 // export {authFirebase, app};
+firebase.analytics();
+firebase.crashlytics();
