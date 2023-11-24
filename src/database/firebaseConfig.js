@@ -1,4 +1,5 @@
 import {initializeApp, getApps, firebase} from '@react-native-firebase/app';
+import {getAnalytics} from '@react-native-firebase/analytics';
 
 import {getAuth} from '@react-native-firebase/auth';
 const firebaseConfig = {
@@ -12,8 +13,7 @@ if (!getApps().length) {
   initializeApp(firebaseConfig);
 }
 export const authFirebase = getAuth();
-
+export const analytics = getAnalytics();
 // const app = initializeApp(firebaseConfig);
 // export {authFirebase, app};
-firebase.analytics();
 firebase.crashlytics();

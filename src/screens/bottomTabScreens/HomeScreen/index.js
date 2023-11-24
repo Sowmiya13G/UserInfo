@@ -13,7 +13,7 @@ import {
   increaseQuantityAction,
   removeFromWishlistAction,
 } from '../../../redux/actions/authAction';
-
+import {analytics} from '../../../database/firebaseConfig';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../constants/theme';
 const HomeScreen = () => {
@@ -38,6 +38,12 @@ const HomeScreen = () => {
       dispatch(increaseQuantityAction({id: product.id}));
     } else {
       dispatch(addToCartAction(product));
+      const event = analytics.logEvent('add_to_cart', {
+        productId: product.id,
+        productName: product.name,
+        price: product.price,
+      });
+      console.log('event', event);
       console.log('product', product);
     }
   };
