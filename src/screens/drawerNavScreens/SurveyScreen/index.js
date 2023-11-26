@@ -22,13 +22,15 @@ const SurveyScreen = () => {
   const bloodSugarControl = useSelector(state => state.bloodSugarControl);
 
   const dispatch = useDispatch();
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(['']);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     setQuestions(dataJSON.questions);
   }, []);
-  const options = dataJSON.questions[4].options;
+  const options = dataJSON.questions[6].options;
+  console.log(options);
+
   const handleOptionPress = option => {
     let updatedOptions;
 
@@ -164,8 +166,12 @@ const SurveyScreen = () => {
     <View style={styles.container}>
       <Background />
 
-      <Text style={styles.text}> {dataJSON.questions[4].question}</Text>
-      <MultiChoiceField options={options} onOptionPress={handleOptionPress} />
+      <Text style={styles.text}> {dataJSON.questions[6].question}</Text>
+      <MultiChoiceField
+        options={options}
+        onOptionPress={handleOptionPress}
+        selectedOptions={selectedOptions}
+      />
 
       {renderAdditionalQuestions()}
     </View>

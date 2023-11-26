@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TextInput} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import dataJSON from '../../../../data.json';
 import {styles} from './styles';
 import {Background} from '../../../components/Background/Background';
 import BooleanPicker from '../../../components/BooleanPicker';
 import MultiChoiceField from '../../../components/MultiChoice';
+import DropdownPicker from '../../../components/DropDownPicker';
 import {
   setSmokeOrTobaccoAction,
   setSelectTypeAction,
@@ -16,9 +17,16 @@ const DetailsScreen = () => {
   const dispatch = useDispatch();
   const smokeOrTobacco = useSelector(state => state.user.smokeOrTobacco);
   console.log('smokeOrTobacco', smokeOrTobacco);
+
+  const selectedTypes = useSelector(state => state.user.selectType);
+  console.log('selectedTypes', selectedTypes);
+
   const options = dataJSON.questions[3].options;
   console.log('options', options);
 
+  const dropDown = dataJSON.questions[5].options;
+  console.log('dropDown', dropDown);
+  const [frequency, setFrequency] = useState('');
   const handleOptionPress = option => {
     const value = dispatch(setSmokeOrTobaccoAction(option));
     console.log('value', value);
@@ -33,6 +41,18 @@ const DetailsScreen = () => {
       }
     }
   };
+
+  const handleMultiChoicePress = selectedOptions => {
+    dispatch(setSelectTypeAction(selectedOptions));
+    setFrequency('');
+    dispatch(setFrequencyAction(null));
+  };
+
+  const handleFrequencyChange = value => {
+    setFrequency(value);
+    dispatch(setFrequencyAction(value));
+  };
+
   useEffect(() => {
     console.log('Initial smokeOrTobacco:', smokeOrTobacco);
   }, [smokeOrTobacco]);
@@ -51,6 +71,24 @@ const DetailsScreen = () => {
               dispatch(setSelectTypeAction(selectedOptions))
             }
           />
+          {selectedTypes && selectedTypes.length > 0 ? (
+            <View>
+              <Text style={styles.text}>
+                Enter the frequency of the selected choice
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={frequency}
+                onChangeText={handleFrequencyChange}
+                placeholder="Frequency"
+                keyboardType="numeric"
+              />
+              <DropdownPicker
+                options={dropDown}
+                onOptionPress={handleMultiChoicePress}
+              />
+            </View>
+          ) : null}
         </View>
       ) : null}
     </View>

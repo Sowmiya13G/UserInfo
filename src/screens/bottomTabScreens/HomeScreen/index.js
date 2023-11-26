@@ -49,7 +49,7 @@ const HomeScreen = () => {
   };
 
   const goToCart = () => {
-    navigation.navigate('CartScreen');
+    navigation.navigate('Cart');
     navigation.setOptions({
       tabBarVisible: true,
     });

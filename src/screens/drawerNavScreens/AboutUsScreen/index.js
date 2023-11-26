@@ -26,22 +26,31 @@ const AboutUsScreen = () => {
   const options = dataJSON.questions[1].options;
 
   const handleSelectedUnitChange = unit => {
-    const unitResult = dispatch(setSelectedUnitAction(unit));
-    console.log('unit', unitResult);
+    if (unit) {
+      const unitResult = dispatch(setSelectedUnitAction(unit));
+      console.log('unit', unitResult);
+    }
   };
 
   const handleMultiChoiceChange = options => {
-    const choiceResult = dispatch(setMultiChoiceOptionsAction(options));
-    console.log('choiceResult', choiceResult);
+    if (options.includes('None of the Above')) {
+      const updatedOptions = ['None of the Above'];
+      dispatch(setMultiChoiceOptionsAction(updatedOptions));
+    } else {
+      const filteredOptions = options.filter(
+        option => option !== 'None of the Above',
+      );
+      console.log('filteredOptions', filteredOptions);
+      const choiceResult = dispatch(setMultiChoiceOptionsAction(options));
+      console.log('choiceResult', choiceResult);
+    }
   };
 
   return (
     <View style={styles.container}>
       <Background />
       <Text style={styles.text}>
-        {dataJSON.questions[0].question}(in
-        {selectedUnit ? selectedUnit.value : ''}
-        {selectedUnit.value})
+        {dataJSON.questions[0].question} (in {selectedUnit})
       </Text>
       <View style={styles.view}>
         <View style={styles.dropdownWrapper}>
@@ -62,7 +71,6 @@ const AboutUsScreen = () => {
           ]}
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
-          value={selectedUnit ? selectedUnit.value : ''}
           keyboardType="numeric"
         />
       </View>

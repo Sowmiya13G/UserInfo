@@ -1,5 +1,20 @@
 import * as ActionTypes from '../actionTypes';
 
+export const setSelectedUnitAction = unit => {
+  console.log('Dispatching action with unit:', unit);
+  return {
+    type: ActionTypes.setSelectedUnit,
+    payload: unit,
+  };
+};
+export const setMultiChoiceOptionsAction = options => {
+  console.log('Dispatching setMultiChoiceOptionsAction with options:', options);
+  return {
+    type: ActionTypes.setMultiChoiceOptions,
+    payload: options,
+  };
+};
+
 export const setSmokeOrTobaccoAction = value => ({
   type: ActionTypes.setSmokeOrTobacco,
   payload: value,
@@ -44,14 +59,3 @@ export const setBloodSugarControlAction = control => ({
 //   type: ActionTypes.setSelectedUnit,
 //   payload: unit,
 // });
-export const setSelectedUnitAction = unit => {
-  console.log('Dispatching action with unit:', unit);
-  return {
-    type: ActionTypes.setSelectedUnit,
-    payload: unit,
-  };
-};
-export const setMultiChoiceOptionsAction = options => ({
-  type: ActionTypes.setMultiChoiceOptions,
-  payload: options,
-});

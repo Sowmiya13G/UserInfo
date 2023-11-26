@@ -1,5 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/bottomTabScreens/HomeScreen';
 import CartScreen from '../screens/OtherScreens/CartScreen';
@@ -7,67 +9,105 @@ import TabViewScreen from '../screens/bottomTabScreens/TabViewScreen';
 import WishListScreen from '../screens/bottomTabScreens/WishListScreen';
 import ProfileScreen from '../screens/bottomTabScreens/ProfileScreen';
 import theme from '../constants/theme';
+import NotificationScreen from '../screens/OtherScreens/NotificationScreen';
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({route}) => ({
+        tabBarVisible: route.params?.tabBarVisible ?? true,
         tabBarActiveTintColor: theme.backgroundColor.orange,
         tabBarInactiveTintColor: theme.backgroundColor.white,
-
+        default: true,
         tabBarStyle: {
           backgroundColor: theme.backgroundColor.secondaryBlack,
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
           position: 'absolute',
+          height: '8.5%',
+          alignItems: 'center',
+          justifyContent: 'center',
         },
-      }}>
+      })}>
       <Tab.Screen
         name="HomeTab"
-        component={HomeScreen}
+        component={HomeStack}
         options={({route}) => ({
-          tabBarLabel: 'Home',
           title: '',
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="home" size={size} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <Icon name="home" size={focused ? 35 : 25} color={color} />
           ),
           tabBarVisible: route.state ? route.state.index === 0 : true,
-        })}></Tab.Screen>
+        })}
+      />
       <Tab.Screen
         name="ViewTab"
-        component={TabViewScreen}
+        component={TabViewStack}
         options={{
-          tabBarLabel: 'Tabs',
           title: '',
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="tags" size={size} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <Icon name="tags" size={focused ? 35 : 25} color={color} />
           ),
-        }}></Tab.Screen>
+        }}
+      />
       <Tab.Screen
         name="WishListTab"
         component={WishListScreen}
         options={{
-          tabBarLabel: 'WishList',
           title: '',
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="heart" size={size} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <Icon name="heart" size={focused ? 35 : 25} color={color} />
           ),
-        }}></Tab.Screen>
+        }}
+      />
       <Tab.Screen
         name="ProfileTab"
         component={ProfileScreen}
         options={{
-          tabBarLabel: 'Profile',
           title: '',
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="user-circle-o" size={size} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <Icon name="user-circle-o" size={focused ? 35 : 25} color={color} />
           ),
-        }}></Tab.Screen>
+        }}
+      />
     </Tab.Navigator>
   );
 };
+export function HomeStack() {
+  return (
+    <Stack.Navigator initialRouteName={HomeScreen}>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{title: '', headerShown: false}}
+      />
+      <Stack.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{title: '', headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
+export function TabViewStack() {
+  return (
+    <Stack.Navigator initialRouteName={TabViewScreen}>
+      <Stack.Screen
+        name="Home"
+        component={TabViewScreen}
+        options={{title: '', headerShown: false}}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{title: '', headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}

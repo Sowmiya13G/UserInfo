@@ -55,7 +55,7 @@ const SignUpScreen = () => {
         console.log('Firebase Error Code:', error.code);
         console.log('Firebase Error Message:', error.message);
         crashlytics.logException(error.message || 'Unknown error');
-
+        crashlytics().recordError(error);
         switch (error.code) {
           case 'auth/email-already-in-use':
             Alert.alert('Signup Error', 'Email already in use.');

@@ -14,7 +14,9 @@ import {styles} from './styles';
 
 const FAQScreen = () => {
   const [formData, setFormData] = useState({
-    foreignMatter: '',
+    qualityParameter: {
+      foreignMatter: '',
+    },
     riskMitigation: [
       {
         perceivedRisk: '',
@@ -31,8 +33,33 @@ const FAQScreen = () => {
     perceivedRisk: '',
     riskMitigantMeasure: [''],
   });
+
+  const validateForm = () => {
+    const newErrors = {...errors};
+
+    if (!formData.qualityParameter.foreignMatter.trim()) {
+      newErrors.foreignMatter = 'Please enter a value for the initial field';
+    }
+
+    formData.riskMitigation.forEach((item, index) => {
+      if (!item.perceivedRisk.trim()) {
+        newErrors.perceivedRisk =
+          'Please enter values for Perceived Risk fields';
+      }
+
+      item.riskMitigantMeasure.forEach((measure, measureIndex) => {
+        if (!measure.trim()) {
+          newErrors.riskMitigantMeasure[index] =
+            'Please enter values for all Risk Mitigant fields';
+        }
+      });
+    });
+
+    setErrors(newErrors);
+    return Object.values(newErrors).every(error => error === '');
+  };
   const handleAddField = () => {
-    if (!formData.foreignMatter) {
+    if (!formData.qualityParameter.foreignMatter) {
       setErrors({
         ...errors,
         foreignMatter: 'Please enter a value for the initial field',
@@ -44,7 +71,7 @@ const FAQScreen = () => {
   };
 
   const handleModalConfirm = () => {
-    if (!formData.foreignMatter) {
+    if (!formData.qualityParameter.foreignMatter) {
       setErrors({
         ...errors,
         foreignMatter: 'Please enter a value for the initial field',
@@ -54,7 +81,10 @@ const FAQScreen = () => {
     if (newLabel && newValue) {
       setFormData({
         ...formData,
-        [newLabel]: newValue,
+        qualityParameter: {
+          ...formData.qualityParameter,
+          [newLabel]: newValue,
+        },
       });
 
       setModalVisible(false);
@@ -129,10 +159,17 @@ const FAQScreen = () => {
       ],
     });
   };
+
   const handleLog = () => {
     console.log(JSON.stringify(formData));
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    if (validateForm()) {
+      console.log('Form is valid. Submitting...');
+    } else {
+      console.log('Form is not valid. Please fill in all required fields.');
+    }
+  };
   return (
     <View style={styles.container}>
       <Background />
@@ -143,9 +180,15 @@ const FAQScreen = () => {
           </TouchableOpacity>
           <Text style={styles.text}>foreignMatter</Text>
           <CustomInput
-            value={formData.foreignMatter}
+            value={formData.qualityParameter.foreignMatter}
             onChangeText={text => {
-              setFormData({...formData, foreignMatter: text});
+              setFormData({
+                ...formData,
+                qualityParameter: {
+                  ...formData.qualityParameter,
+                  foreignMatter: text,
+                },
+              });
               setErrors({...errors, foreignMatter: ''});
             }}
             placeholder="Foreign Matter"
@@ -154,7 +197,7 @@ const FAQScreen = () => {
           <Text style={styles.error}>{errors.foreignMatter}</Text>
         </View>
         <View>
-          {Object.entries(formData)
+          {Object.entries(formData.qualityParameter)
             .slice(1)
             .filter(([label, value]) => label !== 'riskMitigation')
             .map(([label, value]) => (
@@ -163,6 +206,15 @@ const FAQScreen = () => {
                 <CustomInput
                   label="Value"
                   value={value}
+                  onChangeText={text => {
+                    setFormData(prevFormData => ({
+                      ...prevFormData,
+                      qualityParameter: {
+                        ...prevFormData.qualityParameter,
+                        [label]: text,
+                      },
+                    }));
+                  }}
                   style={{borderWidth: 1}}
                 />
               </View>
@@ -231,7 +283,11 @@ const FAQScreen = () => {
         <View style={styles.buttonView}>
           <CustomButton optionButton label="LOG" handlePress={handleLog} />
 
-          <CustomButton logInButton label="SUBMIT" handlePress={handleSubmit} />
+          <CustomButton
+            logInButton
+            label="SUBMIT"
+            handlePress={() => handleSubmit()}
+          />
         </View>
       </ScrollView>
 

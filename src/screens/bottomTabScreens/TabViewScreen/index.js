@@ -118,7 +118,7 @@ export default function TabViewScreen() {
   );
 
   const openNotifications = () => {
-    navigation.navigate('NotificationScreen');
+    navigation.navigate('Notification');
   };
 
   return (

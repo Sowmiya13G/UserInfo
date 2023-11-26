@@ -49,6 +49,7 @@ export default LoginScreen = () => {
     } catch (error) {
       console.error('Login Error:', error);
       crashlytics.logException(error.message || 'Unknown error');
+      crashlytics().recordError(error);
       Alert.alert('Error', 'An error occurred during login. Please try again.');
     }
   };

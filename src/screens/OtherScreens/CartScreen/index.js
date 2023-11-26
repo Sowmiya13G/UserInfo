@@ -15,22 +15,24 @@ import ViewShot from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
 import CartItem from '../../../components/CartItem/CartItem';
 import {styles} from './styles';
-import strings from '../../../constants/strings';
-import {useNavigation} from '@react-navigation/native';
+
+import {analytics} from '../../../database/firebaseConfig';
+
 const CartScreen = () => {
   const cartItems = useSelector(state => state.cart.cart);
   const dispatch = useDispatch();
   const viewShotRef = useRef();
-  const navigation = useNavigation();
   const [cartHeight, setCartHeight] = useState(0);
 
-  useEffect(() => {
-    return () => {
-      navigation.setOptions({
-        tabBarVisible: true,
-      });
-    };
-  }, []);
+  const logEvent = async (eventName, eventParams) => {
+    try {
+      await analytics.logEvent(eventName, eventParams);
+      console.log('Event logged successfully:', eventName, eventParams);
+    } catch (error) {
+      console.error('Error logging event:', error);
+    }
+  };
+
   const calculateTotalPrice = cartItems => {
     let totalPrice = 0;
     cartItems.forEach(item => {
@@ -40,15 +42,18 @@ const CartScreen = () => {
   };
 
   const handleRemoveItem = itemId => {
+    logEvent('remove_item', {itemId});
     dispatch(removeFromCartAction({id: itemId}));
   };
 
   const handleIncreaseQuantity = itemId => {
     dispatch(increaseQuantityAction({id: itemId}));
+    logEvent('increase_quantity', {itemId});
   };
 
   const handleDecreaseQuantity = itemId => {
     dispatch(decreaseQuantityAction({id: itemId}));
+    logEvent('decrease_quantity', {itemId});
   };
 
   const totalCartPrice = calculateTotalPrice(cartItems);

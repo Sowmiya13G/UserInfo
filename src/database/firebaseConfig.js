@@ -1,5 +1,6 @@
 import {initializeApp, getApps, firebase} from '@react-native-firebase/app';
 import {getAnalytics} from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 import {getAuth} from '@react-native-firebase/auth';
 const firebaseConfig = {
@@ -16,4 +17,10 @@ export const authFirebase = getAuth();
 export const analytics = getAnalytics();
 // const app = initializeApp(firebaseConfig);
 // export {authFirebase, app};
-firebase.crashlytics();
+// firebase.crashlytics();
+const crashlyticsInstance = crashlytics();
+export {crashlyticsInstance as crashlytics};
+
+if (__DEV__) {
+  analytics.setAnalyticsCollectionEnabled(true);
+}

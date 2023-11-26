@@ -1,16 +1,16 @@
 import * as ActionTypes from '../actionTypes';
 
 const initialState = {
+  selectedUnit: 'cm',
+  multiChoiceOptions: [],
   smokeOrTobacco: false,
   selectType: null,
   frequency: null,
-  healthCondition: null,
+  healthCondition: [],
   sinceHowLong: null,
   medicationStatus: null,
   medicationDetails: null,
   bloodSugarControl: null,
-  selectedUnit: 'cm',
-  multiChoiceOptions: [],
 };
 
 const medReducer = (state = initialState, action) => {

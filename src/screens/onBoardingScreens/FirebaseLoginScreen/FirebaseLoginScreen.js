@@ -46,6 +46,7 @@ export default FirebaseLoginScreen = () => {
       console.log('Firebase Error:', error);
       Alert.alert('Login Error', `Firebase Error: ${error.message || error}`);
       crashlytics.logException(error.message || 'Unknown error');
+      crashlytics().recordError(error);
     }
   };
 

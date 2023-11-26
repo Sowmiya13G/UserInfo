@@ -17,12 +17,12 @@ const BooleanPicker = ({onOptionPress}) => {
           style={{
             backgroundColor:
               selectedOption === true
-                ? theme.backgroundColor.lightBlue
+                ? theme.backgroundColor.orangeCoral
                 : theme.backgroundColor.white,
             borderWidth: 2,
             borderColor:
               selectedOption === true
-                ? theme.backgroundColor.blueShade
+                ? theme.backgroundColor.orange
                 : theme.backgroundColor.borderGray,
             borderRadius: 5,
             padding: 10,
@@ -34,7 +34,7 @@ const BooleanPicker = ({onOptionPress}) => {
             style={{
               color:
                 selectedOption === true
-                  ? theme.backgroundColor.blueShade
+                  ? theme.backgroundColor.white
                   : theme.fontColors.gray,
               fontWeight: 'bold',
             }}>
@@ -47,12 +47,12 @@ const BooleanPicker = ({onOptionPress}) => {
           style={{
             backgroundColor:
               selectedOption === false
-                ? theme.backgroundColor.lightBlue
+                ? theme.backgroundColor.orangeCoral
                 : theme.backgroundColor.white,
             borderWidth: 2,
             borderColor:
               selectedOption === false
-                ? theme.backgroundColor.blueShade
+                ? theme.backgroundColor.orange
                 : theme.backgroundColor.borderGray,
             borderRadius: 5,
             padding: 10,
@@ -64,7 +64,7 @@ const BooleanPicker = ({onOptionPress}) => {
             style={{
               color:
                 selectedOption === false
-                  ? theme.backgroundColor.blueShade
+                  ? theme.backgroundColor.white
                   : theme.fontColors.gray,
               fontWeight: 'bold',
             }}>
