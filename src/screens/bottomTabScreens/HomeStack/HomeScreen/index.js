@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import {Background} from '../../../components/Background/Background';
-import strings from '../../../constants/strings';
+import {Background} from '../../../../components/Background/Background';
+import strings from '../../../../constants/strings';
 import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -12,10 +12,10 @@ import {
   addToWishlistAction,
   increaseQuantityAction,
   removeFromWishlistAction,
-} from '../../../redux/actions/authAction';
-import {analytics} from '../../../database/firebaseConfig';
+} from '../../../../redux/actions/authAction';
+import {analytics} from '../../../../database/firebaseConfig';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from '../../../constants/theme';
+import theme from '../../../../constants/theme';
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();

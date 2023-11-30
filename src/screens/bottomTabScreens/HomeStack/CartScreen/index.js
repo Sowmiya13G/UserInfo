@@ -8,15 +8,15 @@ import {
   clearCart,
   increaseQuantityAction,
   decreaseQuantityAction,
-} from '../../../redux/actions/authAction';
-import theme from '../../../constants/theme';
-import {Background} from '../../../components/Background/Background';
+} from '../../../../redux/actions/authAction';
+import theme from '../../../../constants/theme';
+import {Background} from '../../../../components/Background/Background';
 import ViewShot from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
-import CartItem from '../../../components/CartItem/CartItem';
+import CartItem from '../../../../components/CartItem/CartItem';
 import {styles} from './styles';
 
-import {analytics} from '../../../database/firebaseConfig';
+import {analytics} from '../../../../database/firebaseConfig';
 
 const CartScreen = () => {
   const cartItems = useSelector(state => state.cart.cart);

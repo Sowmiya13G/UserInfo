@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useWindowDimensions, ScrollView, Text, View, Image} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import theme from '../../../constants/theme';
-import UserCard from '../../../components/UserCard/UserCard';
+import theme from '../../../../constants/theme';
+import UserCard from '../../../../components/UserCard/UserCard';
 import {
   PanGestureHandler,
   TouchableOpacity,
@@ -14,10 +14,10 @@ import {
   useAnimatedGestureHandler,
 } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
-import {Background} from '../../../components/Background/Background';
+import {Background} from '../../../../components/Background/Background';
 import {styles} from './styles';
-import commonImagePath from '../../../constants/images';
-import strings from '../../../constants/strings';
+import commonImagePath from '../../../../constants/images';
+import strings from '../../../../constants/strings';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 const FirstRoute = () => (

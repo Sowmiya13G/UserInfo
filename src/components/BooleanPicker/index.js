@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import theme from '../../constants/theme';
 
-const BooleanPicker = ({onOptionPress}) => {
+const BooleanPicker = ({onOptionPress, selectedType}) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionPressInternal = option => {
@@ -16,12 +16,12 @@ const BooleanPicker = ({onOptionPress}) => {
         <View
           style={{
             backgroundColor:
-              selectedOption === true
+              selectedOption === true || selectedType
                 ? theme.backgroundColor.orangeCoral
                 : theme.backgroundColor.white,
             borderWidth: 2,
             borderColor:
-              selectedOption === true
+              selectedOption === true || selectedType
                 ? theme.backgroundColor.orange
                 : theme.backgroundColor.borderGray,
             borderRadius: 5,
@@ -33,7 +33,7 @@ const BooleanPicker = ({onOptionPress}) => {
           <Text
             style={{
               color:
-                selectedOption === true
+                selectedOption === true || selectedType
                   ? theme.backgroundColor.white
                   : theme.fontColors.gray,
               fontWeight: 'bold',

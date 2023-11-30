@@ -33,5 +33,8 @@ const strings = {
   save: 'Save',
 
   clientDetails: 'Client Details',
+
+  //survey stack
+  medicalHistory: 'Medical History',
 };
 export default strings;

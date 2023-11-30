@@ -6,7 +6,7 @@ export async function getFCMToken() {
     const token = await messaging().getToken();
     console.log('FCM TOKEN:', token);
   } catch (error) {
-    console.log(error);
+    console.log('Error getting FCM token:', error);
   }
 }
 

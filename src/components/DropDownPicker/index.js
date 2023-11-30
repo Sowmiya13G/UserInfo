@@ -2,25 +2,16 @@ import React, {useState} from 'react';
 import {View, Platform} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import dataJSON from '../../../data.json';
-import {useDispatch} from 'react-redux';
-import {setSelectedUnitAction} from '../../redux/actions/medAction';
 
-const DropdownPicker = ({selectedUnit, setSelectedUnit}) => {
-  const dispatch = useDispatch();
+const DropdownPicker = ({options, selectedUnit, setSelectedUnit}) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('cm');
-
-  const options = dataJSON.questions[0].options.map(option => ({
-    label: option,
-    value: option,
-  }));
+  const [value, setValue] = useState('');
 
   const handleValueChange = item => {
-    console.log('Selected Item:', item);
-    setValue(item.value);
-    const data = dispatch(setSelectedUnitAction(item.value));
-    console.log('data', data);
+    if (item && item.value) {
+      setValue(item.value);
+      setSelectedUnit(item.value);
+    }
   };
 
   return (

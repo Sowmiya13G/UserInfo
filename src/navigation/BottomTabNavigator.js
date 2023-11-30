@@ -3,13 +3,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from '../screens/bottomTabScreens/HomeScreen';
-import CartScreen from '../screens/OtherScreens/CartScreen';
-import TabViewScreen from '../screens/bottomTabScreens/TabViewScreen';
+import HomeScreen from '../screens/bottomTabScreens/HomeStack/HomeScreen';
+import CartScreen from '../screens/bottomTabScreens/HomeStack/CartScreen';
+import TabViewScreen from '../screens/bottomTabScreens/TabScreenStack/TabViewScreen';
 import WishListScreen from '../screens/bottomTabScreens/WishListScreen';
 import ProfileScreen from '../screens/bottomTabScreens/ProfileScreen';
 import theme from '../constants/theme';
-import NotificationScreen from '../screens/OtherScreens/NotificationScreen';
+import NotificationScreen from '../screens/bottomTabScreens/TabScreenStack/NotificationScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 

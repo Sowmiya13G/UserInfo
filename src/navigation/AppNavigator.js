@@ -6,16 +6,15 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
-import {StatusBar, View} from 'react-native';
+import {StatusBar, View, Linking} from 'react-native';
 import OnboardingScreen from '../screens/onBoardingScreens/onBoardingScreen';
 import LoginScreen from '../screens/onBoardingScreens/LoginScreen';
 import FirebaseLoginScreen from '../screens/onBoardingScreens/FirebaseLoginScreen/FirebaseLoginScreen';
 import SignUpScreen from '../screens/onBoardingScreens/SignUpScreen';
-import {BottomTabNavigator} from './BottomTabNavigator';
 import DrawerNavigator from './DrawerNav/DrawerNavigator';
 import {authFirebase} from '../database/firebaseConfig';
-import CartScreen from '../screens/OtherScreens/CartScreen';
-import NotificationScreen from '../screens/OtherScreens/NotificationScreen';
+import CartScreen from '../screens/bottomTabScreens/HomeStack/CartScreen';
+import NotificationScreen from '../screens/bottomTabScreens/TabScreenStack/NotificationScreen';
 import analytics from '@react-native-firebase/analytics';
 import {
   getFCMToken,
@@ -23,7 +22,8 @@ import {
   setupFCMListener,
 } from '../utils/fcmService';
 import messaging from '@react-native-firebase/messaging';
-
+import {handleDynamicLink} from '../utils/dynamicLinking';
+import {deepLink} from '../utils/dynamicLinking';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -38,22 +38,24 @@ const AppNavigator = () => {
   });
 
   useEffect(() => {
-    const initializeFirebaseMessaging = async () => {
-      authFirebase;
-      await messaging().registerDeviceForRemoteMessages();
-      await getFCMToken();
-      await requestUserPermission();
-      await setupFCMListener();
-    };
-
     initializeFirebaseMessaging();
+    deepLink();
+    handleDynamicLink();
   }, []);
+  const initializeFirebaseMessaging = async () => {
+    authFirebase;
+    await messaging().registerDeviceForRemoteMessages();
+    await getFCMToken();
+    await requestUserPermission();
+    await setupFCMListener();
+  };
   const initialScreen = user ? 'HomeScreen' : 'OnboardingScreen';
   return (
     <View style={{flex: 1}}>
       <StatusBar backgroundColor="#FFD7B4" barStyle="dark-content" />
 
       <NavigationContainer
+        linking={Linking}
         ref={navigationRef}
         onReady={() => {
           routeNameRef.current = navigationRef.current.getCurrentRoute().name;

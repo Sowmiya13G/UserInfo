@@ -1,13 +1,14 @@
 import React from 'react';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import CustomDrawer from './CustomDrawer';
-import AboutUsScreen from '../../screens/drawerNavScreens/AboutUsScreen';
+import AboutUsScreen from '../../screens/drawerNavScreens/SurveyStack/AboutUsScreen';
 import FAQScreen from '../../screens/drawerNavScreens/FAQScreen';
 import SettingsScreen from '../../screens/drawerNavScreens/SettingsScreen';
 import SupportScreen from '../../screens/drawerNavScreens/SupportScreen';
 import LoginScreen from '../../screens/onBoardingScreens/LoginScreen';
-import DetailsScreen from '../../screens/drawerNavScreens/DetailsScreen';
-import SurveyScreen from '../../screens/drawerNavScreens/SurveyScreen';
+import DetailsScreen from '../../screens/drawerNavScreens/SurveyStack/DetailsScreen';
+import SurveyScreen from '../../screens/drawerNavScreens/SurveyStack/SurveyScreen';
+import {SurveyStack} from './DrawerStacks';
 import {BottomTabNavigator} from '../BottomTabNavigator';
 import theme from '../../constants/theme';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -30,17 +31,19 @@ const DrawerNavigator = () => {
         drawerStyle: {width: theme.screenWidth},
         drawerIcon: ({focused, color, size}) => {
           let iconName;
-          if (route.name === 'About') {
-            iconName = 'info';
-          } else if (route.name === 'FAQ') {
+          // if (route.name === 'About') {
+          //   iconName = 'info';
+          // } else
+          if (route.name === 'FAQ') {
             iconName = 'question-answer';
           } else if (route.name === 'Support') {
             iconName = 'phone';
           } else if (route.name === 'Settings') {
             iconName = 'settings';
-          } else if (route.name === 'Details') {
-            iconName = 'token';
-          } else if (route.name === 'Survey') {
+          }
+          // else if (route.name === 'Details') {
+          //   iconName = 'token';
+          else if (route.name === 'Survey') {
             iconName = 'note';
           }
           return <Icons name={iconName} size={size} color={color} />;
@@ -53,13 +56,13 @@ const DrawerNavigator = () => {
           title: '',
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="About"
         component={AboutUsScreen}
         options={{
           drawerLabel: 'About Us',
         }}
-      />
+      /> */}
       <Drawer.Screen
         name="FAQ"
         component={FAQScreen}
@@ -81,16 +84,16 @@ const DrawerNavigator = () => {
           drawerLabel: 'Settings',
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Details"
         component={DetailsScreen}
         options={{
           drawerLabel: 'Details',
         }}
-      />
+      /> */}
       <Drawer.Screen
         name="Survey"
-        component={SurveyScreen}
+        component={SurveyStack}
         options={{
           drawerLabel: 'Survey',
         }}

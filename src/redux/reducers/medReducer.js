@@ -1,11 +1,11 @@
 import * as ActionTypes from '../actionTypes';
 
 const initialState = {
-  selectedUnit: 'cm',
+  selectedUnit: '',
   multiChoiceOptions: [],
   smokeOrTobacco: false,
-  selectType: null,
-  frequency: null,
+  selectType: [],
+  frequency: '',
   healthCondition: [],
   sinceHowLong: null,
   medicationStatus: null,
@@ -14,9 +14,9 @@ const initialState = {
 };
 
 const medReducer = (state = initialState, action) => {
-  console.log(action.type);
-  console.log('Action:', action);
-  console.log('Current State:', state);
+  // console.log(action.type);
+  // console.log('Action:', action);
+  // console.log('Current State:', state);
   switch (action.type) {
     case ActionTypes.setSelectedUnit:
       console.log('Setting selected unit:', action.payload);

@@ -1,36 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import theme from '../../constants/theme';
-import {useSelector} from 'react-redux';
 
-const MultiChoiceField = ({options, onOptionPress, selectedOptions}) => {
-  const [internalSelectedOptions, setInternalSelectedOptions] = useState([]);
-
-  const reduxSelectedOptions = useSelector(
-    state => state.user.multiChoiceOptions,
-  );
-
-  useEffect(() => {
-    setInternalSelectedOptions(selectedOptions || reduxSelectedOptions || []);
-  }, [selectedOptions, reduxSelectedOptions]);
+const MultiChoicePicker = ({options, onOptionPress, selectedChoice = []}) => {
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionPressInternal = option => {
-    let updatedOptions;
-    console.log('Selected Option:', option);
-    if (option === 'None of the Above') {
-      updatedOptions = ['None of the Above'];
+    let updatedSelectedOptions;
+
+    if (selectedOptions.includes(option)) {
+      updatedSelectedOptions = selectedOptions.filter(
+        selected => selected !== option,
+      );
     } else {
-      updatedOptions = internalSelectedOptions.includes(option)
-        ? internalSelectedOptions.filter(
-            selectedOption => selectedOption !== option,
-          )
-        : [...(internalSelectedOptions || []), option];
+      updatedSelectedOptions = [...selectedOptions, option];
     }
 
-    setInternalSelectedOptions(updatedOptions);
-    onOptionPress(updatedOptions);
+    setSelectedOptions(updatedSelectedOptions);
+    onOptionPress(updatedSelectedOptions);
   };
+  console.log('selectedChoice', selectedChoice);
 
+  useEffect(() => {
+    // setSelectedOptions(selectedChoice);
+    if (Array.isArray(selectedChoice)) {
+      setSelectedOptions(selectedChoice);
+    }
+  }, [selectedChoice]);
   return (
     <View
       style={{
@@ -39,61 +35,45 @@ const MultiChoiceField = ({options, onOptionPress, selectedOptions}) => {
         alignItems: 'center',
         flexDirection: 'row',
       }}>
-      {options && options.length > 0 ? (
-        options.map(option => (
-          <TouchableOpacity
-            key={option}
-            onPress={() => handleOptionPressInternal(option)}
-            disabled={
-              internalSelectedOptions &&
-              internalSelectedOptions.includes('None of the Above') &&
-              option !== 'None of the Above'
-            }>
-            <View
+      {options.map((option, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => handleOptionPressInternal(option)}>
+          <View
+            style={{
+              backgroundColor:
+                selectedOptions.includes(option) ||
+                selectedChoice.includes(option)
+                  ? theme.backgroundColor.orangeCoral
+                  : theme.backgroundColor.white,
+              borderWidth: 2,
+              borderColor:
+                selectedOptions.includes(option) ||
+                selectedChoice.includes(option)
+                  ? theme.backgroundColor.orange
+                  : theme.backgroundColor.borderGray,
+              borderRadius: 5,
+              padding: 10,
+              margin: 10,
+              alignItems: 'center',
+              width: 90,
+            }}>
+            <Text
               style={{
-                backgroundColor:
-                  internalSelectedOptions &&
-                  internalSelectedOptions.includes(option)
-                    ? theme.backgroundColor.orangeCoral
-                    : theme.backgroundColor.white,
-                borderWidth: 2,
-                borderColor:
-                  internalSelectedOptions &&
-                  internalSelectedOptions.includes(option)
-                    ? theme.backgroundColor.orange
-                    : theme.backgroundColor.borderGray,
-                borderRadius: 5,
-                padding: 10,
-                margin: 10,
-                alignItems: 'center',
-                width: 60,
-                opacity:
-                  internalSelectedOptions &&
-                  internalSelectedOptions.includes('None of the Above')
-                    ? option === 'None of the Above'
-                      ? 1
-                      : 0.5
-                    : 1,
+                color:
+                  selectedOptions.includes(option) ||
+                  selectedChoice.includes(option)
+                    ? theme.backgroundColor.white
+                    : theme.fontColors.gray,
+                fontWeight: 'bold',
               }}>
-              <Text
-                style={{
-                  color:
-                    internalSelectedOptions &&
-                    internalSelectedOptions.includes(option)
-                      ? theme.backgroundColor.white
-                      : theme.fontColors.gray,
-                  fontWeight: 'bold',
-                }}>
-                {option}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <Text>No options available</Text>
-      )}
+              {option}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
 
-export default MultiChoiceField;
+export default MultiChoicePicker;
