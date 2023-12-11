@@ -50,3 +50,7 @@ export const setSinceHowLong = 'SET_SINCE_HOW_LONG';
 export const setMedicationStatus = 'SET_MEDICATION_STATUS';
 export const setMedicationDetails = 'SET_MEDICATION_DETAILS';
 export const setBloodSugarControl = 'SET_BLOOD_SUGAR_CONTROL';
+
+export const clearMed = 'CLEAR_MED';
+export const setTextInputValue = 'SET_TEXT_INPUT_VALUE';
+export const setTextInputFrequency = 'SET_TEXT_INPUT_FREQUENCY';

@@ -3,29 +3,24 @@ import {View, Platform} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
-const DropdownPicker = ({options, selectedUnit, setSelectedUnit}) => {
+const DropdownPicker = ({
+  options,
+  selectedUnit,
+  setSelectedUnit = () => {},
+}) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
-
-  const handleValueChange = item => {
-    if (item && item.value) {
-      setValue(item.value);
-      setSelectedUnit(item.value);
-    }
-  };
 
   return (
     <View>
       <DropDownPicker
         open={open}
-        value={value}
+        value={selectedUnit}
         items={options}
         setOpen={setOpen}
-        setValue={setValue}
         style={{
           backgroundColor: 'white',
           borderColor: 'white',
-          width: widthPercentageToDP('22%'),
+          width: widthPercentageToDP('25%'),
           height: 53,
           ...Platform.select({
             ios: {
@@ -43,9 +38,9 @@ const DropdownPicker = ({options, selectedUnit, setSelectedUnit}) => {
         dropDownContainerStyle={{
           backgroundColor: '#fff',
           borderWidth: 0,
-          width: widthPercentageToDP('22%'),
+          width: widthPercentageToDP('25%'),
         }}
-        onChangeItem={handleValueChange}
+        onSelectItem={item => setSelectedUnit(item.value)}
       />
     </View>
   );

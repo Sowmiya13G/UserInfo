@@ -29,18 +29,18 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import strings from '../../../../constants/strings';
 
 const SurveyScreen = ({navigation: {goBack}}) => {
-  const healthCondition = useSelector(state => state.user.healthCondition);
+  const healthCondition = useSelector(state => state.med.healthCondition);
   console.log('healthCondition', healthCondition);
-  const sinceHowLong = useSelector(state => state.user.sinceHowLong);
+  const sinceHowLong = useSelector(state => state.med.sinceHowLong);
   console.log('sinceHowLong', sinceHowLong);
 
-  const medicationStatus = useSelector(state => state.user.medicationStatus);
+  const medicationStatus = useSelector(state => state.med.medicationStatus);
   console.log('medicationStatus', medicationStatus);
 
-  const medicationDetails = useSelector(state => state.user.medicationDetails);
+  const medicationDetails = useSelector(state => state.med.medicationDetails);
   console.log('medicationDetails', medicationDetails);
 
-  const bloodSugarControl = useSelector(state => state.user.bloodSugarControl);
+  const bloodSugarControl = useSelector(state => state.med.bloodSugarControl);
   console.log('bloodSugarControl', bloodSugarControl);
 
   const options = dataJSON.questions[6].options;
@@ -48,14 +48,20 @@ const SurveyScreen = ({navigation: {goBack}}) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionPress = updatedOptions => {
-    setSelectedOptions(updatedOptions);
+    const isNoneSelected = updatedOptions.includes('None of the above');
 
-    dispatch(setHealthConditionAction(updatedOptions));
+    const updatedSelectedOptions = isNoneSelected ? [] : updatedOptions;
+
+    setSelectedOptions(updatedSelectedOptions);
+
+    dispatch(setHealthConditionAction(updatedSelectedOptions));
     dispatch(setSinceHowLongAction(''));
-    dispatch(setMedicationStatusAction(updatedOptions.includes('yes')));
+    dispatch(setMedicationStatusAction(updatedSelectedOptions.includes('yes')));
     dispatch(setBloodSugarControlAction(null));
   };
+
   const isHealthConditionSelected = selectedOptions.length > 0;
+  console.log('isHealthConditionSelected', isHealthConditionSelected);
   const showMedicationDetails = medicationStatus === true;
   const handleSave = () => {};
 
@@ -70,7 +76,8 @@ const SurveyScreen = ({navigation: {goBack}}) => {
             selectedChoice={healthCondition || []}
           />
         </View>
-        {isHealthConditionSelected ? (
+        {isHealthConditionSelected &&
+        !selectedOptions.includes('None of the above') ? (
           <View style={styles.subContainer}>
             {selectedOptions.map((selectedType, index) => (
               <View key={index}>
@@ -163,3 +170,35 @@ const SurveyScreen = ({navigation: {goBack}}) => {
 };
 
 export default SurveyScreen;
+
+// const handleOptionPress = updatedOptions => {
+//   setSelectedOptions(updatedOptions);
+
+//   dispatch(setHealthConditionAction(updatedOptions));
+//   dispatch(setSinceHowLongAction(''));
+//   dispatch(setMedicationStatusAction(updatedOptions.includes('yes')));
+//   dispatch(setBloodSugarControlAction(null));
+// };
+
+//good
+// const handleOptionPress = updatedOptions => {
+//   const isNoneSelected = updatedOptions.includes('None of the above');
+
+//   const finalOptions = isNoneSelected
+//     ? ['None of the above']
+//     : updatedOptions;
+
+//   setSelectedOptions(finalOptions);
+
+//   dispatch(setHealthConditionAction(finalOptions));
+
+//   if (isNoneSelected) {
+//     // dispatch(setSinceHowLongAction(''));
+//     // dispatch(setMedicationStatusAction(false));
+//     // dispatch(setBloodSugarControlAction(null));
+//   } else {
+//     dispatch(setSinceHowLongAction(''));
+//     dispatch(setMedicationStatusAction(finalOptions.includes('yes')));
+//     dispatch(setBloodSugarControlAction(null));
+//   }
+// };

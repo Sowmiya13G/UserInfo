@@ -7,7 +7,7 @@ import theme from '../../constants/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: '5%',
+    // padding: '5%',
     flexDirection: 'row',
   },
   text: {

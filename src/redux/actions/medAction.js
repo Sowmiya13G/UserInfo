@@ -55,7 +55,14 @@ export const setBloodSugarControlAction = control => ({
   payload: control,
 });
 
-// export const setSelectedUnitAction = unit => ({
-//   type: ActionTypes.setSelectedUnit,
-//   payload: unit,
-// });
+export const clearMedStateAction = () => ({
+  type: ActionTypes.clearMed,
+});
+export const setTextInputValueAction = value => ({
+  type: ActionTypes.setTextInputValue,
+  payload: value,
+});
+export const setTextInputFrequencyAction = value => ({
+  type: ActionTypes.setTextInputFrequency,
+  payload: value,
+});

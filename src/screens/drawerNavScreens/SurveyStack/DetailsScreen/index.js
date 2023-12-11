@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,42 +6,62 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import dataJSON from '../../../../../data.json';
-import {styles} from './styles';
-import {Background} from '../../../../components/Background/Background';
-import BooleanPicker from '../../../../components/BooleanPicker';
-import MultiChoiceField from '../../../../components/MultiChoice';
-import DropdownPicker from '../../../../components/DropDownPicker';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+//redux-Actions
 import {
+  setTextInputFrequencyAction,
   setSmokeOrTobaccoAction,
   setSelectTypeAction,
   setFrequencyAction,
 } from '../../../../redux/actions/medAction';
-import CustomButton from '../../../../components/CustomButton/CustomButton';
-import theme from '../../../../constants/theme';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {useSelector, useDispatch} from 'react-redux';
+
+//styles
+import {styles} from './styles';
+
+//constants
 import strings from '../../../../constants/strings';
+import theme from '../../../../constants/theme';
+
+//components
+import CustomButton from '../../../../components/CustomButton/CustomButton';
+import {Background} from '../../../../components/Background/Background';
+import BooleanPicker from '../../../../components/BooleanPicker';
+import MultiChoiceField from '../../../../components/MultiChoice';
+import DropdownPicker from '../../../../components/DropDownPicker';
+//dataJson
+import dataJSON from '../../../../../data.json';
+
 const DetailsScreen = ({navigation: {goBack}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const dropDown = [...new Set(dataJSON.questions[5].options)];
+  console.log('dropDown', dropDown);
   const [frequency, setFrequency] = useState('');
-  const smokeOrTobacco = useSelector(state => state.user.smokeOrTobacco);
+  const [frequencies, setFrequencies] = useState(
+    Array(dropDown.length).fill(''),
+  );
+
+  const [textInputValues, setTextInputValues] = useState(
+    Array(dropDown.length).fill(''),
+  );
+
+  const smokeOrTobacco = useSelector(state => state.med.smokeOrTobacco);
   console.log('smokeOrTobacco', smokeOrTobacco);
 
-  const selectedTypes = useSelector(state => state.user.selectType);
+  const selectedTypes = useSelector(state => state.med.selectType);
   console.log('selectedTypes', selectedTypes);
 
-  const selectedFrequency = useSelector(state => state.user.frequency);
+  const selectedFrequency = useSelector(state => state.med.frequency);
   console.log('selectedFrequency', selectedFrequency);
 
   const options = dataJSON.questions[3].options;
   console.log('options', options);
-
-  const dropDown = [...new Set(dataJSON.questions[5].options)];
-  console.log('dropDown', dropDown);
 
   const handleOptionPress = option => {
     const value = dispatch(setSmokeOrTobaccoAction(option));
@@ -58,7 +78,12 @@ const DetailsScreen = ({navigation: {goBack}}) => {
       }
     }
   };
-
+  const handleTextInputChange = (value, index) => {
+    const updatedTextInputValues = [...textInputValues];
+    updatedTextInputValues[index] = value;
+    setTextInputValues(updatedTextInputValues);
+    dispatch(setTextInputFrequencyAction(updatedTextInputValues));
+  };
   const handleMultiChoicePress = selectedOptions => {
     dispatch(setSelectTypeAction(selectedOptions));
     dispatch(setFrequencyAction(null));
@@ -66,17 +91,26 @@ const DetailsScreen = ({navigation: {goBack}}) => {
   };
 
   const handleFrequencyChange = (value, index) => {
-    const updatedFrequencies = [...frequency];
+    const updatedFrequencies = [...frequencies];
     updatedFrequencies[index] = value;
-    setFrequency(updatedFrequencies);
+    setFrequencies(updatedFrequencies);
     dispatch(setFrequencyAction(updatedFrequencies.filter(Boolean)));
   };
+
   const handleContinue = () => {
     navigation.navigate('SurveyScreen');
   };
+  // useEffect(() => {
+  //   // Load values from Redux state when the component mounts
+  //   setTextInputValues(textInputValues =>
+  //     textInputValues.map((value, index) =>
+  //       selectedTypes[index] ? state.med.frequency[index] || '' : '',
+  //     ),
+  //   );
+  // }, [selectedTypes]);
   const renderBody = () => {
     return (
-      <View style={styles.scroll}>
+      <ScrollView style={styles.scroll}>
         <Text style={styles.text}>{dataJSON.questions[2].question}</Text>
         <BooleanPicker
           onOptionPress={handleOptionPress}
@@ -97,26 +131,30 @@ const DetailsScreen = ({navigation: {goBack}}) => {
                     <Text style={styles.text}>
                       Enter the frequency of {selectedType}
                     </Text>
-                    <TextInput
-                      style={styles.input}
-                      value={frequency[index] || ''}
-                      placeholder={`Frequency of ${selectedType}`}
-                      keyboardType="numeric"
-                      onChangeText={text => handleFrequencyChange(text, index)}
-                      placeholderTextColor={theme.fontColors.borderGray}
-                    />
-
-                    <View style={styles.dropdownWrapper}>
-                      <DropdownPicker
-                        options={dropDown.map((option, index) => ({
-                          label: option,
-                          value: index.toString(),
-                        }))}
-                        selectedUnit={selectedFrequency}
-                        setSelectedUnit={value =>
-                          dispatch(setFrequencyAction(value))
+                    <View style={styles.inputContainer}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder={`Frequency of ${selectedType}`}
+                        keyboardType="numeric"
+                        value={frequencies[selectedType] || ''}
+                        onChangeText={value =>
+                          handleTextInputChange(value, index)
                         }
+                        placeholderTextColor={theme.fontColors.borderGray}
                       />
+
+                      <View style={styles.dropdownWrapper}>
+                        <DropdownPicker
+                          options={dropDown.map((option, dropIndex) => ({
+                            label: option,
+                            value: dropIndex.toString(),
+                          }))}
+                          selectedUnit={frequencies[index]}
+                          setSelectedUnit={value =>
+                            handleFrequencyChange(value, index)
+                          }
+                        />
+                      </View>
                     </View>
                   </View>
                 ))}
@@ -124,9 +162,10 @@ const DetailsScreen = ({navigation: {goBack}}) => {
             ) : null}
           </View>
         ) : null}
-      </View>
+      </ScrollView>
     );
   };
+
   renderHeader = () => {
     return (
       <View style={styles.header}>
@@ -137,6 +176,7 @@ const DetailsScreen = ({navigation: {goBack}}) => {
       </View>
     );
   };
+
   const renderFooter = () => {
     return (
       <View style={styles.button}>
@@ -144,6 +184,7 @@ const DetailsScreen = ({navigation: {goBack}}) => {
       </View>
     );
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <Background />

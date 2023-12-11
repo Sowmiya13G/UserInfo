@@ -8,7 +8,7 @@ import {Background} from '../../../components/Background/Background';
 
 const WishlistScreen = () => {
   const dispatch = useDispatch();
-  const wishlist = useSelector(state => state.wishlist.wishlist);
+  const wishlist = useSelector(state => state.auth.wishlist);
 
   const handleRemoveFromWishlist = productId => {
     dispatch(removeFromWishlistAction(productId));

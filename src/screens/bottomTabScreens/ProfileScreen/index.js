@@ -33,8 +33,8 @@ export default function ProfileScreen({navigation}) {
   const [documentSelectionComplete, setDocumentSelectionComplete] =
     useState(false);
 
-  const imageUri = useSelector(state => state.profileImage.profileImage);
-  const documentUri = useSelector(state => state.document.document);
+  const imageUri = useSelector(state => state.user.profileImage);
+  const documentUri = useSelector(state => state.user.document);
 
   useEffect(() => {
     const unsubscribeAuthStateChange = auth().onAuthStateChanged(user => {

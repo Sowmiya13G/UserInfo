@@ -22,11 +22,14 @@ const HomeScreen = () => {
   const authorizedPerson = useSelector(state => state.auth.authorizedPerson);
   console.log('Authorized Person:', authorizedPerson);
 
-  const products = useSelector(state => state.products.products);
+  const products = useSelector(state => state.auth.products);
   const cart = useSelector(state => state.cart.cart);
-  console.log(cart);
+  console.log('cart', cart);
   const wishlist = useSelector(state => state.auth.wishlist);
   console.log('wishlist', wishlist);
+  const isProductInWishlist = productId => {
+    return wishlist ? wishlist.some(item => item.id === productId) : false;
+  };
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -62,10 +65,6 @@ const HomeScreen = () => {
     } else {
       dispatch(addToWishlistAction(product));
     }
-  };
-
-  const isProductInWishlist = productId => {
-    return wishlist ? wishlist.some(item => item.id === productId) : false;
   };
 
   return (

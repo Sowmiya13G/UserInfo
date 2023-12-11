@@ -16,25 +16,17 @@ export const styles = StyleSheet.create({
     margin: '2%',
   },
   view: {
-    position: 'absolute',
-    top: '20%',
-    margin: '5%',
+    // margin: '5%',
+    // height: hp('40%'),
   },
-  // text: {
-  //   fontSize: theme.fontSizes.mediumFont,
-  //   color: theme.fontColors.secondaryBlack,
-  //   paddingRight: '2%',
-  //   paddingLeft: '2%',
-  // },
+
   text: {
     fontSize: theme.fontSizes.mediumFontText,
     color: theme.fontColors.inkBlack,
     fontWeight: 'bold',
     marginBottom: '3%',
   },
-  view: {
-    height: hp('35%'),
-  },
+
   title: {
     color: theme.fontColors.secondaryBlack,
     fontSize: theme.fontSizes.bigFont,
@@ -49,13 +41,32 @@ export const styles = StyleSheet.create({
     borderWidth: wp('0.5%'),
     borderRadius: 5,
     width: wp('90%'),
-    marginBottom: '5%',
+    marginBottom: '10%',
+    color: theme.fontColors.black,
   },
   dropdownWrapper: {
     position: 'absolute',
     zIndex: 1,
+    right: '2.5%',
   },
   viewOptions: {
     marginTop: '25%',
+  },
+
+  header: {
+    padding: '5%',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    alignSelf: 'flex-start',
+  },
+  button: {
+    padding: '5%',
+  },
+  inputContainer: {
+    marginTop: '5%',
+    flexDirection: 'row',
+    marginBottom: '10%',
   },
 });

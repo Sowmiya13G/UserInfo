@@ -6,12 +6,6 @@ import {
   loginSuccess,
   signupFailure,
   signupSuccess,
-  increaseQuantityAction,
-  decreaseQuantityAction,
-  addToCartAction,
-  removeFromCartAction,
-  addToWishlistAction,
-  removeFromWishlistAction,
 } from '../actions/authAction';
 import * as ActionTypes from '../actionTypes';
 import axios from 'axios';

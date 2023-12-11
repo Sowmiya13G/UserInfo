@@ -7,24 +7,11 @@ import authReducer from './reducers/authReducer';
 import authSagas from './sagas/authSagas';
 import medReducer from './reducers/medReducer';
 const rootReducer = combineReducers({
-  // user: authReducer,
+  user: authReducer,
   auth: authReducer,
+  med: medReducer,
   products: authReducer,
   cart: authReducer,
-  wishlist: authReducer,
-  profileImage: authReducer,
-  document: authReducer,
-  user: medReducer,
-  smokeOrTobacco: medReducer,
-  selectType: medReducer,
-  frequency: medReducer,
-  healthCondition: medReducer,
-  sinceHowLong: medReducer,
-  medicationStatus: medReducer,
-  medicationDetails: medReducer,
-  bloodSugarControl: medReducer,
-  selectedUnit: medReducer,
-  multiChoiceOptions: medReducer,
 });
 
 const persistConfig = {
@@ -33,14 +20,25 @@ const persistConfig = {
   whitelist: [
     'user',
     'auth',
+    'textInputValue',
     'data',
     'products',
+    'cart',
     'wishlist',
     'profileImage',
     'document',
-    'cart',
     'selectedUnit',
     'multiChoiceOptions',
+    'med',
+    'bloodSugarControl',
+    'medicationDetails',
+    'medicationStatus',
+    'sinceHowLong',
+    'healthCondition',
+    'frequency',
+    'selectType',
+    'smokeOrTobacco',
+    'textInputFrequency',
   ],
 };
 
@@ -54,3 +52,17 @@ const persistor = persistStore(store);
 sagaMiddleware.run(authSagas);
 
 export {store, persistor};
+
+// wishlist: authReducer,
+// profileImage: authReducer,
+// document: authReducer,
+// smokeOrTobacco: medReducer,
+// selectType: medReducer,
+// frequency: medReducer,
+// healthCondition: medReducer,
+// sinceHowLong: medReducer,
+// medicationStatus: medReducer,
+// medicationDetails: medReducer,
+// bloodSugarControl: medReducer,
+// selectedUnit: medReducer,
+// multiChoiceOptions: medReducer,

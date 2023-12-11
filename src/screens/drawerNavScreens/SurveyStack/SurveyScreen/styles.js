@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   view: {
-    height: hp('30%'),
+    // height: hp('30%'),
   },
   title: {
     color: theme.fontColors.secondaryBlack,
@@ -43,6 +43,15 @@ export const styles = StyleSheet.create({
     color: theme.fontColors.secondaryBlack,
     paddingLeft: '5%',
   },
+  // input: {
+  //   borderWidth: wp('0.5%'),
+  //   borderRadius: 5,
+  //   width: wp('90%'),
+  //   marginBottom: '5%',
+  //   paddingLeft: wp('24%'),
+  //   fontSize: theme.fontSizes.mediumFont,
+  // },
+
   header: {
     padding: '5%',
     flexDirection: 'row',

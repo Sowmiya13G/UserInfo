@@ -22,11 +22,11 @@ const MultiChoicePicker = ({options, onOptionPress, selectedChoice = []}) => {
   console.log('selectedChoice', selectedChoice);
 
   useEffect(() => {
-    // setSelectedOptions(selectedChoice);
     if (Array.isArray(selectedChoice)) {
       setSelectedOptions(selectedChoice);
     }
   }, [selectedChoice]);
+
   return (
     <View
       style={{
@@ -53,9 +53,10 @@ const MultiChoicePicker = ({options, onOptionPress, selectedChoice = []}) => {
                   ? theme.backgroundColor.orange
                   : theme.backgroundColor.borderGray,
               borderRadius: 5,
-              padding: 10,
+              padding: option === 'Diabetes' ? '4.7%' : 10,
               margin: 10,
               alignItems: 'center',
+              justifyContent: 'center',
               width: 90,
             }}>
             <Text
