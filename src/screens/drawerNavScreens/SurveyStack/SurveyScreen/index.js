@@ -6,15 +6,13 @@ import {
   ScrollView,
   SafeAreaView,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import {Background} from '../../../../components/Background/Background';
-import MultiChoiceField from '../../../../components/MultiChoice';
-import BooleanPicker from '../../../../components/BooleanPicker';
-import RatingPicker from '../../../../components/RatingPicker/RatingPicker';
-import dataJSON from '../../../../../data.json';
-import {styles} from './styles';
+import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+//redux-Actions
+import {useSelector, useDispatch} from 'react-redux';
 import {
   setHealthConditionAction,
   setSinceHowLongAction,
@@ -22,35 +20,63 @@ import {
   setMedicationStatusAction,
   setBloodSugarControlAction,
 } from '../../../../redux/actions/medAction';
+
+//styles
+import {styles} from './styles';
+
+//constants
 import theme from '../../../../constants/theme';
-import CustomButton from '../../../../components/CustomButton/CustomButton';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import strings from '../../../../constants/strings';
+//components
+import {Background} from '../../../../components/Background/Background';
+import MultiChoiceField from '../../../../components/MultiChoice';
+import BooleanPicker from '../../../../components/BooleanPicker';
+import RatingPicker from '../../../../components/RatingPicker/RatingPicker';
+import CustomButton from '../../../../components/CustomButton/CustomButton';
+//dataJson
+import dataJSON from '../../../../../data.json';
 
 const SurveyScreen = ({navigation: {goBack}}) => {
-  const healthCondition = useSelector(state => state.med.healthCondition);
-  console.log('healthCondition', healthCondition);
-  const sinceHowLong = useSelector(state => state.med.sinceHowLong);
-  console.log('sinceHowLong', sinceHowLong);
-
-  const medicationStatus = useSelector(state => state.med.medicationStatus);
-  console.log('medicationStatus', medicationStatus);
-
-  const medicationDetails = useSelector(state => state.med.medicationDetails);
-  console.log('medicationDetails', medicationDetails);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const bloodSugarControl = useSelector(state => state.med.bloodSugarControl);
-  console.log('bloodSugarControl', bloodSugarControl);
+  const healthCondition = useSelector(state => state.med.healthCondition);
+  const sinceHowLong = useSelector(state => state.med.sinceHowLong);
+  const medicationDetails = useSelector(state => state.med.medicationDetails);
+  console.log('medicationDetails', medicationDetails);
+  const medicationStatus = useSelector(state => state.med.medicationStatus);
+
+  const [sinceHowLongValues, setSinceHowLongValues] = useState(
+    Array(healthCondition.length).fill(''),
+  );
+  const [medicationDetailsValue, setmedicationDetailsValue] =
+    useState(medicationDetails);
+  console.log(medicationDetailsValue);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [detailsState, setDetailsState] = useState([]);
 
   const options = dataJSON.questions[6].options;
-  const dispatch = useDispatch();
-  const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const handleOptionPress = updatedOptions => {
-    const isNoneSelected = updatedOptions.includes('None of the above');
+  const handleOptionPress = selectedOptions => {
+    const noneOfTheAbove = ['None of the above'];
+    const isNoneSelected = selectedOptions.includes('None of the above');
+    const updatedOptions = selectedOptions.filter(
+      option => option !== 'None of the above',
+    );
+    const firstOption = selectedOptions[0];
+    const lastOption = selectedOptions.length - 1;
+    const operation =
+      lastOption == 'None of the above' || firstOption == 'None of the above';
 
-    const updatedSelectedOptions = isNoneSelected ? [] : updatedOptions;
+    console.log(isNoneSelected, selectedOptions);
+    const updatedSelectedOptions = isNoneSelected
+      ? selectedOptions.length == 1
+        ? noneOfTheAbove
+        : operation
+        ? updatedOptions
+        : noneOfTheAbove
+      : selectedOptions;
 
     setSelectedOptions(updatedSelectedOptions);
 
@@ -60,11 +86,29 @@ const SurveyScreen = ({navigation: {goBack}}) => {
     dispatch(setBloodSugarControlAction(null));
   };
 
-  const isHealthConditionSelected = selectedOptions.length > 0;
-  console.log('isHealthConditionSelected', isHealthConditionSelected);
-  const showMedicationDetails = medicationStatus === true;
-  const handleSave = () => {};
+  const isHealthConditionSelected = healthCondition.length > 0;
 
+  const showMedicationDetails = medicationStatus === true;
+  const handleSave = () => {
+    navigation.navigate('PreviewScreen');
+  };
+  const handleSinceHowLongChange = (text, index) => {
+    const updatedSinceHowLongValues = [...sinceHowLongValues];
+    updatedSinceHowLongValues[index] = text;
+    setSinceHowLongValues(updatedSinceHowLongValues);
+  };
+
+  const handleDetails = (text, index) => {
+    setDetailsState(prev => {
+      const updatedDetails = [...prev];
+      updatedDetails[index] = text;
+      return updatedDetails;
+    });
+  };
+  console.log('detailsState', detailsState);
+  useEffect(() => {
+    dispatch(setMedicationDetailsAction(detailsState));
+  }, [detailsState]);
   const renderBody = () => {
     return (
       <ScrollView style={styles.scroll}>
@@ -77,9 +121,9 @@ const SurveyScreen = ({navigation: {goBack}}) => {
           />
         </View>
         {isHealthConditionSelected &&
-        !selectedOptions.includes('None of the above') ? (
+        !healthCondition.includes('None of the above') ? (
           <View style={styles.subContainer}>
-            {selectedOptions.map((selectedType, index) => (
+            {healthCondition.map((selectedType, index) => (
               <View key={index}>
                 <Text style={styles.text}>{selectedType}</Text>
 
@@ -87,8 +131,9 @@ const SurveyScreen = ({navigation: {goBack}}) => {
                   {dataJSON.questions[7].question}
                 </Text>
                 <TextInput
-                  value={sinceHowLong}
-                  onChangeText={text => dispatch(setSinceHowLongAction(text))}
+                  value={sinceHowLongValues[index]}
+                  // onChangeText={text => dispatch(setSinceHowLongAction(text))}
+                  onChangeText={text => handleSinceHowLongChange(text, index)}
                   style={styles.input}
                   placeholder="Enter the duration in year/months"
                   placeholderTextColor={theme.fontColors.gray}
@@ -111,10 +156,9 @@ const SurveyScreen = ({navigation: {goBack}}) => {
                       {dataJSON.questions[9].question}
                     </Text>
                     <TextInput
-                      value={medicationDetails}
-                      onChangeText={text =>
-                        dispatch(setMedicationDetailsAction(text))
-                      }
+                      // value={medicationValue}
+                      value={medicationDetails[index]}
+                      onChangeText={text => handleDetails(text, index)}
                       style={styles.input}
                       placeholder="Enter here"
                       placeholderTextColor={theme.fontColors.gray}
@@ -150,7 +194,11 @@ const SurveyScreen = ({navigation: {goBack}}) => {
   const renderFooter = () => {
     return (
       <View style={styles.button}>
-        <CustomButton logInButton label="Submit" handlePress={handleSave} />
+        <CustomButton
+          logInButton
+          label={strings.continue}
+          handlePress={handleSave}
+        />
       </View>
     );
   };
@@ -170,6 +218,20 @@ const SurveyScreen = ({navigation: {goBack}}) => {
 };
 
 export default SurveyScreen;
+
+// const [userData, setUserData] = useState({
+//   details: {
+//     healthCondition: [
+//       {
+//         sinceHowLong: '',
+//         medicationStatus: {
+//           medicationDetails: '',
+//         },
+//         bloodSugarControl: '',
+//       },
+//     ],
+//   },
+// });
 
 // const handleOptionPress = updatedOptions => {
 //   setSelectedOptions(updatedOptions);

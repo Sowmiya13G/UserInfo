@@ -36,5 +36,12 @@ const strings = {
 
   //survey stack
   medicalHistory: 'Medical History',
+  medicalHistoryPreview: 'Medical History Preview',
+
+  //Buttons
+  continue: 'Continue',
+  submit: 'Submit',
+  goBack: 'Go Back',
+  preview: 'Preview',
 };
 export default strings;

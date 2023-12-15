@@ -54,3 +54,4 @@ export const setBloodSugarControl = 'SET_BLOOD_SUGAR_CONTROL';
 export const clearMed = 'CLEAR_MED';
 export const setTextInputValue = 'SET_TEXT_INPUT_VALUE';
 export const setTextInputFrequency = 'SET_TEXT_INPUT_FREQUENCY';
+export const setUserData = 'SET_USER_DATA';

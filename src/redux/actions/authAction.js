@@ -55,7 +55,7 @@ export const fetchProducts = () => ({
 
 export const addToCartAction = product => ({
   type: ActionTypes.addToCart,
-  payload: {...product, quantity: 1},
+  payload: product,
 });
 
 export const removeFromCartAction = productId => ({

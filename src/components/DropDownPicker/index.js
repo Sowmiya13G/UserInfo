@@ -4,18 +4,19 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
 const DropdownPicker = ({
-  options,
+  options = [],
   selectedUnit,
   setSelectedUnit = () => {},
 }) => {
   const [open, setOpen] = useState(false);
-
+  console.log('DropdownPicker options:', options);
+  console.log('selectedUnit//////', selectedUnit);
   return (
     <View>
       <DropDownPicker
         open={open}
         value={selectedUnit}
-        items={options}
+        items={options || []}
         setOpen={setOpen}
         style={{
           backgroundColor: 'white',

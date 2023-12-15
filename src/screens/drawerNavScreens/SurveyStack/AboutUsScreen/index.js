@@ -41,69 +41,66 @@ const AboutUsScreen = () => {
 
   //useState
   const [inputFocused, setInputFocused] = useState(false);
-  const [textInputValue, setTextInputValue] = useState('');
+  const [userData, setUserData] = useState({
+    details: {
+      selectedUnit: '',
+      textInputValue: '',
+      multiChoiceOptions: [],
+    },
+  });
+
   //Selectors
   const selectedUnit = useSelector(state => state.med.selectedUnit);
-  console.log('selectedUnit....', selectedUnit);
+  console.log('selectedUnit', selectedUnit);
   const multiChoiceOptions = useSelector(state => state.med.multiChoiceOptions);
-  console.log('multiChoiceOptions', multiChoiceOptions);
+  const heightValue = useSelector(state => state.med.textInputValue);
 
   const options = dataJSON.questions[1].options;
-  console.log('options', options);
   const dropDown = dataJSON.questions[0].options;
-  console.log('dropDown', dropDown);
+  console.log('dropDown:', dropDown);
+  const [unit, setUnit] = useState(Array(dropDown.length).fill(''));
 
   // handle Fucntions:
   const handleTextInputChange = value => {
-    setTextInputValue(value);
+    setUserData(prevData => ({...prevData, textInputValue: value}));
     dispatch(setTextInputValueAction(value));
   };
-  const handleSelectedUnitChange = unit => {
-    if (unit) {
-      dispatch(setSelectedUnitAction(unit));
-    }
-    console.log('After dispatch - selectedUnit:', selectedUnit);
+
+  const handleSelectedUnitChange = value => {
+    console.log('value', value);
+    // const updatedUnit = [...value];
+    setUnit(value);
+    dispatch(setSelectedUnitAction(value));
   };
+  // setUserData(prevData => ({...prevData, selectedUnit: unit}));
+  // console.log('After dispatch - selectedUnit:', unit);
+  // dispatch(setSelectedUnitAction(unit));
 
   const handleMultiChoiceChange = selectedOptions => {
+    const noneOfTheAbove = ['None of the above'];
     const isNoneSelected = selectedOptions.includes('None of the above');
-    console.log('inNoSelected:', isNoneSelected);
-    console.log('selectedOptions', selectedOptions);
+    const updatedOptions = selectedOptions.filter(
+      option => option !== 'None of the above',
+    );
+    const firstOption = selectedOptions[0];
+    const lastOption = selectedOptions.length - 1;
+    const operation =
+      lastOption == 'None of the above' || firstOption == 'None of the above';
 
+    console.log(isNoneSelected, selectedOptions);
     const updatedSelectedOptions = isNoneSelected
-      ? ['None of the above']
+      ? selectedOptions.length == 1
+        ? noneOfTheAbove
+        : operation
+        ? updatedOptions
+        : noneOfTheAbove
       : selectedOptions;
-
+    setUserData(prevData => ({
+      ...prevData,
+      multiChoiceOptions: updatedSelectedOptions,
+    }));
     dispatch(setMultiChoiceOptionsAction(updatedSelectedOptions));
   };
-
-  // const handleMultiChoiceChange = selectedOptions => {
-  //   const isNoneSelected = selectedOptions.includes('None of the above');
-  //   const selected = selectedOptions.includes(
-  //     'Dust',
-  //     'Coal',
-  //     'Asbestos',
-  //     'Fibres',
-  //     'Smoke',
-  //     'Others',
-  //   );
-  //   console.log('selected', selected);
-  //   let updatedSelectedOptions;
-  //   if (selected) {
-  //     updatedSelectedOptions = selectedOptions.filter(
-  //       option => option !== 'None of the above',
-  //     );
-  //   } else if (isNoneSelected) {
-  //     updatedSelectedOptions = ['None of the above'];
-  //   } else {
-  //     updatedSelectedOptions = selectedOptions.filter(
-  //       option => option !== 'None of the above',
-  //     );
-  //   }
-
-  //   dispatch(setMultiChoiceOptionsAction(updatedSelectedOptions));
-  // };
-
   const handleContinue = () => {
     navigation.navigate('DetailsScreen');
   };
@@ -128,8 +125,10 @@ const AboutUsScreen = () => {
                 label: option,
                 value: index.toString(),
               }))}
+              // options={dropDown.map(a => String(a))}
+
               selectedUnit={selectedUnit}
-              setSelectedUnit={unit => handleSelectedUnitChange(unit)}
+              setSelectedUnit={value => handleSelectedUnitChange(value)}
             />
           </View>
           <TextInput
@@ -145,7 +144,7 @@ const AboutUsScreen = () => {
             onFocus={() => setInputFocused(true)}
             onBlur={() => setInputFocused(false)}
             keyboardType="numeric"
-            value={textInputValue}
+            value={userData.details.textInputValue}
             onChangeText={handleTextInputChange}
           />
         </View>
@@ -179,7 +178,11 @@ const AboutUsScreen = () => {
   const renderFooter = () => {
     return (
       <View style={styles.button}>
-        <CustomButton logInButton label="Submit" handlePress={handleContinue} />
+        <CustomButton
+          logInButton
+          label={strings.continue}
+          handlePress={handleContinue}
+        />
       </View>
     );
   };
@@ -199,3 +202,74 @@ const AboutUsScreen = () => {
 };
 
 export default AboutUsScreen;
+
+// console.log('selectedUnit....', selectedUnit);
+// console.log('multiChoiceOptions', multiChoiceOptions);
+// console.log('heightValue', heightValue);
+// console.log('options', options);
+// console.log('dropDown', dropDown);
+// console.log('inNoSelected:', isNoneSelected);
+// console.log('selectedOptions', selectedOptions);
+
+// const handleMultiChoiceChange = selectedOptions => {
+//   const isNoneSelected = selectedOptions.includes('None of the above');
+//   const selected = selectedOptions.includes(
+//     'Dust',
+//     'Coal',
+//     'Asbestos',
+//     'Fibres',
+//     'Smoke',
+//     'Others',
+//   );
+//   console.log('selected', selected);
+//   let updatedSelectedOptions;
+//   if (selected) {
+//     updatedSelectedOptions = selectedOptions.filter(
+//       option => option !== 'None of the above',
+//     );
+//   } else if (isNoneSelected) {
+//     updatedSelectedOptions = ['None of the above'];
+//   } else {
+// updatedSelectedOptions = selectedOptions.filter(
+//   option => option !== 'None of the above',
+// );
+//   }
+
+//   dispatch(setMultiChoiceOptionsAction(updatedSelectedOptions));
+// };
+
+// const handleMultiChoiceChange = selectedOptions => {
+//   const isNoneSelected = selectedOptions.includes('None of the above');
+//   const updatedOptions = selectedOptions.filter(
+//     option => option !== 'None of the above',
+//   );
+//   const updatedSelectedOptions = isNoneSelected
+//     ? ['None of the above']
+//     : selectedOptions;
+
+//   dispatch(setMultiChoiceOptionsAction(updatedSelectedOptions));
+// };
+
+// const handleMultiChoiceChange = selectedOptions => {
+//   const isNoneSelected = selectedOptions.includes('None of the above');
+//   const updatedOptions = selectedOptions.filter(
+//     option => option !== 'None of the above',
+//   );
+//   const updatedSelectedOptions = isNoneSelected
+//     ? ['None of the above']
+//     : selectedOptions;
+
+//   dispatch(setMultiChoiceOptionsAction(updatedSelectedOptions));
+// };
+
+///...........
+// const handleTextInputChange = value => {
+//   setTextInputValue(value);
+//   dispatch(setTextInputValueAction(value));
+// };
+// const handleSelectedUnitChange = unit => {
+//   if (unit) {
+//     dispatch(setSelectedUnitAction(unit));
+//   }
+//   console.log('After dispatch - selectedUnit:', selectedUnit);
+// };

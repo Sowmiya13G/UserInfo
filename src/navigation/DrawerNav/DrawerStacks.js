@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AboutUsScreen from '../../screens/drawerNavScreens/SurveyStack/AboutUsScreen';
 import DetailsScreen from '../../screens/drawerNavScreens/SurveyStack/DetailsScreen';
 import SurveyScreen from '../../screens/drawerNavScreens/SurveyStack/SurveyScreen';
+import PreviewScreen from '../../screens/drawerNavScreens/SurveyStack/PreviewScreen';
 const Stack = createStackNavigator();
 
 export function SurveyStack() {
@@ -23,6 +24,11 @@ export function SurveyStack() {
       <Stack.Screen
         name="SurveyScreen"
         component={SurveyScreen}
+        options={{title: '', headerShown: false}}
+      />
+      <Stack.Screen
+        name="PreviewScreen"
+        component={PreviewScreen}
         options={{title: '', headerShown: false}}
       />
     </Stack.Navigator>

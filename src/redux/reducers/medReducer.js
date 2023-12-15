@@ -1,24 +1,25 @@
 import * as ActionTypes from '../actionTypes';
 
 const initialState = {
-  selectedUnit: [],
+  userData: {},
+  selectedUnit: ['cm'],
   textInputValue: '',
   multiChoiceOptions: [],
   smokeOrTobacco: false,
   selectType: [],
-  frequency: '',
+  frequency: ['Per day'],
   textInputFrequency: '',
   healthCondition: [],
-  sinceHowLong: null,
+  sinceHowLong: '',
   medicationStatus: null,
-  medicationDetails: null,
+  medicationDetails: [],
   bloodSugarControl: null,
 };
 
 const medReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.setSelectedUnit:
-      console.log('Setting selected unit:', action.payload);
+      console.log(action.payload);
       return {...state, selectedUnit: action.payload};
     case ActionTypes.setTextInputValue:
       return {...state, textInputValue: action.payload};
@@ -39,11 +40,16 @@ const medReducer = (state = initialState, action) => {
     case ActionTypes.setMedicationStatus:
       return {...state, medicationStatus: action.payload};
     case ActionTypes.setMedicationDetails:
-      return {...state, medicationDetails: action.payload};
+      return {
+        ...state,
+        medicationDetails: action.payload,
+      };
     case ActionTypes.setBloodSugarControl:
       return {...state, bloodSugarControl: action.payload};
     case ActionTypes.clearMed:
       return initialState;
+    case ActionTypes.setUserData:
+      return {...state, userData: action.payload};
     default:
       return state;
   }

@@ -52,17 +52,3 @@ const persistor = persistStore(store);
 sagaMiddleware.run(authSagas);
 
 export {store, persistor};
-
-// wishlist: authReducer,
-// profileImage: authReducer,
-// document: authReducer,
-// smokeOrTobacco: medReducer,
-// selectType: medReducer,
-// frequency: medReducer,
-// healthCondition: medReducer,
-// sinceHowLong: medReducer,
-// medicationStatus: medReducer,
-// medicationDetails: medReducer,
-// bloodSugarControl: medReducer,
-// selectedUnit: medReducer,
-// multiChoiceOptions: medReducer,

@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {Background} from '../../../../components/Background/Background';
@@ -23,10 +30,11 @@ const HomeScreen = () => {
   console.log('Authorized Person:', authorizedPerson);
 
   const products = useSelector(state => state.auth.products);
+  // console.log('PRODUCTS??????', products);
   const cart = useSelector(state => state.cart.cart);
-  console.log('cart', cart);
+  // console.log('cart', cart);
   const wishlist = useSelector(state => state.auth.wishlist);
-  console.log('wishlist', wishlist);
+  // console.log('wishlist', wishlist);
   const isProductInWishlist = productId => {
     return wishlist ? wishlist.some(item => item.id === productId) : false;
   };
@@ -36,7 +44,8 @@ const HomeScreen = () => {
   }, []);
 
   const handleAddToCart = product => {
-    const existingProduct = cart.find(item => item.id === product.id);
+    const existingProduct =
+      cart.length && cart.find(item => item.id === product.id);
     if (existingProduct) {
       dispatch(increaseQuantityAction({id: product.id}));
     } else {
@@ -118,3 +127,33 @@ const HomeScreen = () => {
   );
 };
 export default HomeScreen;
+
+// const handleAddToCart = product => {
+//   console.log('PRODUCT>..........', product);
+//   try {
+//     if (!cart) {
+//       console.error('Cart is undefined or null:', cart);
+//       return;
+//     }
+
+//     const existingProduct =
+//       cart.length && cart.find(item => item.id === product.id);
+
+//     if (existingProduct) {
+//       dispatch(increaseQuantityAction({id: product.id}));
+//     } else {
+//       dispatch(addToCartAction(product));
+//       // const productID = product.id;
+//       // ToastAndroid.show(`${productID}`, ToastAndroid.SHORT);
+//       // const event = analytics.logEvent('add_to_cart', {
+//       //   productId: product.id,
+//       //   productName: product.name,
+//       //   price: product.price,
+//       // });
+//       // console.log('event', event);
+//       console.log('product', product);
+//     }
+//   } catch (error) {
+//     console.error('Error in handleAddToCart:', error);
+//   }
+// };

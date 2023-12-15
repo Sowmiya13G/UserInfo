@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
@@ -114,7 +114,6 @@ const CartScreen = () => {
       <View style={styles.container}>
         <Background />
         <View style={styles.header}>
-          {/* <Text style={styles.totalPrice}>{strings.totalPrice}</Text> */}
           <Text style={styles.totalPrice}>${totalCartPrice}</Text>
           <View style={styles.icons}>
             <TouchableOpacity onPress={handleClearCart}>
@@ -135,7 +134,6 @@ const CartScreen = () => {
               keyExtractor={item => item.id.toString()}
               renderItem={({item, index}) => {
                 const containerHeight = index % 2 === 0 ? 250 : 150;
-
                 return (
                   <CartItem
                     item={item}
@@ -161,7 +159,6 @@ const CartScreen = () => {
               keyExtractor={item => item.id.toString()}
               renderItem={({item, index}) => {
                 const containerHeight = index % 2 === 0 ? 150 : 250;
-
                 return (
                   <CartItem
                     item={item}

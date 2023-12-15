@@ -1,5 +1,4 @@
 import * as ActionTypes from '../actionTypes';
-
 const initialState = {
   authorizedPerson: null,
   user: null,
@@ -87,9 +86,6 @@ const authReducer = (state = initialState, action) => {
         return {...state, cart: [action.payload, ...state.cart]};
       }
 
-    // case ActionTypes.addToCart:
-    //   console.log(action.payload);
-    //   return {...state, cart: [action.payload, ...state.cart]};
     case ActionTypes.removeFromCart:
       return {
         ...state,
@@ -130,8 +126,6 @@ const authReducer = (state = initialState, action) => {
       };
 
     case ActionTypes.removeFromWishlist:
-      console.log('action.payload', action.payload);
-      console.log('Current State:', state);
       return {
         ...state,
         wishlist: state.wishlist.filter(item => item.id !== action.payload),
@@ -143,3 +137,24 @@ const authReducer = (state = initialState, action) => {
 };
 
 export default authReducer;
+
+// case ActionTypes.addToCart:
+// ToastAndroid.show(`${action.payload}`, ToastAndroid.SHORT);
+// const dataCart = state.cart || [];
+// console.log('dataCart', dataCart);
+// const existingProductIndex = dataCart.findIndex(
+//   item => item.id === action.payload.id,
+// );
+// if (existingProductIndex !== -1) {
+//   const updatedCart = [...state.cart];
+//   updatedCart[existingProductIndex] = {
+//     ...updatedCart[existingProductIndex],
+//     quantity: updatedCart[existingProductIndex].quantity + 1,
+//   };
+//   return {...state, cart: updatedCart};
+// } else {
+//   return {...state, cart: [action.payload, ...state.cart]};
+// }
+
+// case ActionTypes.addToCart:
+//   return {...state, cart: [action.payload, ...state.cart]};

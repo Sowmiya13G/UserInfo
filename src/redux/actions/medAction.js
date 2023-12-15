@@ -1,14 +1,12 @@
 import * as ActionTypes from '../actionTypes';
 
 export const setSelectedUnitAction = unit => {
-  console.log('Dispatching action with unit:', unit);
   return {
     type: ActionTypes.setSelectedUnit,
     payload: unit,
   };
 };
 export const setMultiChoiceOptionsAction = options => {
-  console.log('Dispatching setMultiChoiceOptionsAction with options:', options);
   return {
     type: ActionTypes.setMultiChoiceOptions,
     payload: options,
@@ -65,4 +63,8 @@ export const setTextInputValueAction = value => ({
 export const setTextInputFrequencyAction = value => ({
   type: ActionTypes.setTextInputFrequency,
   payload: value,
+});
+export const setUserDataAction = userData => ({
+  type: ActionTypes.setUserData,
+  payload: userData,
 });
