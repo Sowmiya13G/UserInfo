@@ -7,12 +7,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
+// Styles
+import {styles} from './styles';
+
+// Components
 import {Background} from '../../../components/Background/Background';
 import {CustomInput} from '../../../components/CustomInput/CustomInput';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import {styles} from './styles';
 
 const FAQScreen = () => {
+  // Local Use State
   const [formData, setFormData] = useState({
     qualityParameter: {
       foreignMatter: '',
@@ -34,6 +39,7 @@ const FAQScreen = () => {
     riskMitigantMeasure: [''],
   });
 
+  // Form validation
   const validateForm = () => {
     const newErrors = {...errors};
 
@@ -70,6 +76,7 @@ const FAQScreen = () => {
     setErrors({...errors, foreignMatter: ''});
   };
 
+  // Functions
   const handleModalConfirm = () => {
     if (!formData.qualityParameter.foreignMatter) {
       setErrors({
@@ -163,6 +170,7 @@ const FAQScreen = () => {
   const handleLog = () => {
     console.log(JSON.stringify(formData));
   };
+
   const handleSubmit = () => {
     if (validateForm()) {
       console.log('Form is valid. Submitting...');
@@ -170,6 +178,8 @@ const FAQScreen = () => {
       console.log('Form is not valid. Please fill in all required fields.');
     }
   };
+
+  // Render UI................
   return (
     <View style={styles.container}>
       <Background />

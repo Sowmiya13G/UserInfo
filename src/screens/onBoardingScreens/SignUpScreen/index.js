@@ -1,42 +1,56 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+
+// Packages
 import {useNavigation} from '@react-navigation/native';
-import {styles} from './styles';
-import {Background} from '../../../components/Background/Background';
-import commonImagePath from '../../../constants/images';
-import {CustomInput} from '../../../components/CustomInput/CustomInput';
-import CustomButton from '../../../components/CustomButton/CustomButton';
-import strings from '../../../constants/strings';
 import {
   getAuth,
   createUserWithEmailAndPassword,
 } from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
 
+// Styles
+import {styles} from './styles';
+
+// Constants
+import commonImagePath from '../../../constants/images';
+import strings from '../../../constants/strings';
+
+// Components
+import {Background} from '../../../components/Background/Background';
+import {CustomInput} from '../../../components/CustomInput/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+
 const SignUpScreen = () => {
+  // Use State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Variables
   const navigation = useNavigation();
 
-  goToLogin = () => {
+  // Regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  // Navigation
+  const goToLogin = () => {
     navigation.navigate('LoginScreen');
   };
 
+  // Functions
   const handleSignup = () => {
     if (!email.trim() || !password.trim()) {
       Alert.alert('Signup Error', 'Please enter both email and password.');
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert('Signup Error', 'Invalid email address.');
       return;
     }
 
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       Alert.alert(
         'Signup Error',
@@ -76,6 +90,7 @@ const SignUpScreen = () => {
       });
   };
 
+  // Render UI.........
   return (
     <View style={styles.container}>
       <Background />

@@ -10,11 +10,13 @@ import crashlytics from '@react-native-firebase/crashlytics';
 
 // Styles
 import {styles} from './styles';
+
+// Constants
 import strings from '../../../constants/strings';
+import commonImagePath from '../../../constants/images';
 
 // Components
 import {Background} from '../../../components/Background/Background';
-import commonImagePath from '../../../constants/images';
 import {CustomInput} from '../../../components/CustomInput/CustomInput';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 
@@ -65,10 +67,6 @@ export default FirebaseLoginScreen = () => {
     }
   };
 
-  const goToAPLogin = () => {
-    navigation.navigate('SignUpScreen');
-  };
-
   const handleFaceIDLogin = async () => {
     try {
       const {success} = await Biometrics.simplePrompt({
@@ -94,7 +92,13 @@ export default FirebaseLoginScreen = () => {
     }
   };
 
-  // Render UI
+  // Navigations
+  const goToAPLogin = () => {
+    navigation.navigate('SignUpScreen');
+  };
+
+  // Render UI .........................
+
   return (
     <View style={styles.container}>
       <Background />

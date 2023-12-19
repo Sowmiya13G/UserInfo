@@ -8,6 +8,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+
+// Packages
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -110,7 +112,9 @@ const AboutUsScreen = () => {
     console.log('Updated selectedUnit:', selectedUnit);
   }, [selectedUnit]);
 
-  //   render UI
+  // Render UI .........................
+
+  // Render Body
   renderBody = () => {
     return (
       <View style={styles.scroll}>
@@ -164,6 +168,8 @@ const AboutUsScreen = () => {
       </View>
     );
   };
+
+  // Render Header
   renderHeader = () => {
     return (
       <View style={styles.header}>
@@ -175,6 +181,7 @@ const AboutUsScreen = () => {
     );
   };
 
+  // Render Footer
   const renderFooter = () => {
     return (
       <View style={styles.button}>

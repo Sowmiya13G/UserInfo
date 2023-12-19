@@ -1,16 +1,25 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+
+// Packages
 import {BarChart, PieChart, LineChart} from 'react-native-chart-kit';
-import theme from '../../../constants/theme';
-import {CustomInput} from '../../../components/CustomInput/CustomInput';
-import {styles} from './styles';
-import {Background} from '../../../components/Background/Background';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 
+// Styles
+import {styles} from './styles';
+
+// Constants
+import theme from '../../../constants/theme';
+
+// Components
+import {Background} from '../../../components/Background/Background';
+import {CustomInput} from '../../../components/CustomInput/CustomInput';
+
 const SupportScreen = () => {
+  // Use State
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
   const [age, setAge] = useState('');

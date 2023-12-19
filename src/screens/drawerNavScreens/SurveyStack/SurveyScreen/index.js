@@ -8,6 +8,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+
+// packages
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -27,26 +29,27 @@ import {styles} from './styles';
 //constants
 import theme from '../../../../constants/theme';
 import strings from '../../../../constants/strings';
+
 //components
 import {Background} from '../../../../components/Background/Background';
 import MultiChoiceField from '../../../../components/MultiChoice';
 import BooleanPicker from '../../../../components/BooleanPicker';
 import RatingPicker from '../../../../components/RatingPicker/RatingPicker';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
+
 //dataJson
 import dataJSON from '../../../../../data.json';
 
 const SurveyScreen = ({navigation: {goBack}}) => {
+  // Variables
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const bloodSugarControl = useSelector(state => state.med.bloodSugarControl);
-  const healthCondition = useSelector(state => state.med.healthCondition);
-  const sinceHowLong = useSelector(state => state.med.sinceHowLong);
-  const medicationDetails = useSelector(state => state.med.medicationDetails);
-  console.log('medicationDetails', medicationDetails);
-  const medicationStatus = useSelector(state => state.med.medicationStatus);
+  const options = dataJSON.questions[6].options;
+  const isHealthConditionSelected = healthCondition.length > 0;
+  const showMedicationDetails = medicationStatus === true;
 
+  // Use State
   const [sinceHowLongValues, setSinceHowLongValues] = useState(
     Array(healthCondition.length).fill(''),
   );
@@ -56,7 +59,15 @@ const SurveyScreen = ({navigation: {goBack}}) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [detailsState, setDetailsState] = useState([]);
 
-  const options = dataJSON.questions[6].options;
+  // Use Selectors
+  const bloodSugarControl = useSelector(state => state.med.bloodSugarControl);
+  const healthCondition = useSelector(state => state.med.healthCondition);
+  const sinceHowLong = useSelector(state => state.med.sinceHowLong);
+  const medicationDetails = useSelector(state => state.med.medicationDetails);
+  console.log('medicationDetails', medicationDetails);
+  const medicationStatus = useSelector(state => state.med.medicationStatus);
+
+  // Functions
 
   const handleOptionPress = selectedOptions => {
     const noneOfTheAbove = ['None of the above'];
@@ -86,9 +97,6 @@ const SurveyScreen = ({navigation: {goBack}}) => {
     dispatch(setBloodSugarControlAction(null));
   };
 
-  const isHealthConditionSelected = healthCondition.length > 0;
-
-  const showMedicationDetails = medicationStatus === true;
   const handleSave = () => {
     navigation.navigate('PreviewScreen');
   };
@@ -106,9 +114,15 @@ const SurveyScreen = ({navigation: {goBack}}) => {
     });
   };
   console.log('detailsState', detailsState);
+
+  // Use Effect
   useEffect(() => {
     dispatch(setMedicationDetailsAction(detailsState));
   }, [detailsState]);
+
+  // Render UI .........................
+
+  // Render Body
   const renderBody = () => {
     return (
       <ScrollView style={styles.scroll}>
@@ -181,6 +195,8 @@ const SurveyScreen = ({navigation: {goBack}}) => {
       </ScrollView>
     );
   };
+
+  // Render Header
   renderHeader = () => {
     return (
       <View style={styles.header}>
@@ -191,6 +207,8 @@ const SurveyScreen = ({navigation: {goBack}}) => {
       </View>
     );
   };
+
+  // Render Footer
   const renderFooter = () => {
     return (
       <View style={styles.button}>

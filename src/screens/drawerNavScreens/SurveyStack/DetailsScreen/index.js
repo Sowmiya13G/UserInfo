@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
+// Packages
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -35,30 +37,34 @@ import {Background} from '../../../../components/Background/Background';
 import BooleanPicker from '../../../../components/BooleanPicker';
 import MultiChoiceField from '../../../../components/MultiChoice';
 import DropdownPicker from '../../../../components/DropDownPicker';
+
 //dataJson
 import dataJSON from '../../../../../data.json';
 
 const DetailsScreen = ({navigation: {goBack}}) => {
+  // Variables
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const dropDown = [...new Set(dataJSON.questions[5].options)];
+  const options = dataJSON.questions[3].options;
+
+  // Use State
   const [frequency, setFrequency] = useState('');
   const [frequencies, setFrequencies] = useState(
     Array(dropDown.length).fill(''),
   );
-
   const [textInputValues, setTextInputValues] = useState(
     Array(dropDown.length).fill(''),
   );
 
+  // Use Selectors
   const smokeOrTobacco = useSelector(state => state.med.smokeOrTobacco);
   const selectedTypes = useSelector(state => state.med.selectType);
   const selectedFrequency = useSelector(state => state.med.frequency);
   // const userDatavalue = useSelector(state => state.med.userData);
 
-  const options = dataJSON.questions[3].options;
-
+  // Functions
   const handleOptionPress = option => {
     const value = dispatch(setSmokeOrTobaccoAction(option));
 
@@ -96,15 +102,20 @@ const DetailsScreen = ({navigation: {goBack}}) => {
   };
 
   const handleContinue = () => {
+    navigation.navigate('SurveyScreen');
+
     // dispatch(setUserDataAction(userData));
     // dispatch(setUserDataAction(userDatavalue));
-
-    navigation.navigate('SurveyScreen');
   };
+
   // useEffect(() => {
   //   // Update local state if necessary
   //   setUserData(userDatavalue);
   // }, [userData]);
+
+  // Render UI .........................
+
+  // render body
   const renderBody = () => {
     return (
       <ScrollView style={styles.scroll}>
@@ -164,6 +175,7 @@ const DetailsScreen = ({navigation: {goBack}}) => {
     );
   };
 
+  // Render header
   renderHeader = () => {
     return (
       <View style={styles.header}>
@@ -175,6 +187,7 @@ const DetailsScreen = ({navigation: {goBack}}) => {
     );
   };
 
+  // Render footer
   const renderFooter = () => {
     return (
       <View style={styles.button}>

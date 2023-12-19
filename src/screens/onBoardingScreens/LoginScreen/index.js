@@ -1,28 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, TouchableOpacity, Alert, Modal} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+
+// Packages
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
-import {styles} from './styles';
-import {Background} from '../../../components/Background/Background';
-import commonImagePath from '../../../constants/images';
-import {CustomInput} from '../../../components/CustomInput/CustomInput';
-import CustomButton from '../../../components/CustomButton/CustomButton';
-import strings from '../../../constants/strings';
-import {useDispatch} from 'react-redux';
-import {signInWithGoogle} from '../../../database/googleServices';
-import {setUserAction} from '../../../redux/actions/authAction';
-import {loginUser} from '../../../apiServices';
 import crashlytics from '@react-native-firebase/crashlytics';
 import TouchID from 'react-native-touch-id';
+
+// Styles
+import {styles} from './styles';
+
+// Constants
+import strings from '../../../constants/strings';
+import commonImagePath from '../../../constants/images';
+
+// Components
+import {Background} from '../../../components/Background/Background';
+import {CustomInput} from '../../../components/CustomInput/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+
+// Redux
+import {useDispatch} from 'react-redux';
+import {setUserAction} from '../../../redux/actions/authAction';
+
+// Services
+import {loginUser} from '../../../apiServices';
+import {signInWithGoogle} from '../../../database/googleServices';
 import {checkFingerprintPermission} from '../../../utils/androidPermissions';
+
 export default LoginScreen = () => {
+  // Use state
   const [authorizedPerson, setAuthorizedPerson] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  // variables
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  // Functions
   const handlePasswordVisibility = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
@@ -54,13 +70,6 @@ export default LoginScreen = () => {
       Alert.alert('Error', 'An error occurred during login. Please try again.');
     }
   };
-
-  goToAuthLogin = () => {
-    navigation.navigate('FirebaseLoginScreen');
-  };
-  goToRegister = () => {
-    navigation.navigate('SignUpScreen');
-  };
   const continueWithGoogle = async () => {
     try {
       const user = await signInWithGoogle();
@@ -84,10 +93,20 @@ export default LoginScreen = () => {
         Alert.alert('Authentication Failed', 'Please try again.');
       });
   };
+  // Navigations
+  const goToAuthLogin = () => {
+    navigation.navigate('FirebaseLoginScreen');
+  };
+  const goToRegister = () => {
+    navigation.navigate('SignUpScreen');
+  };
 
+  // Use Effect
   useEffect(() => {
     checkFingerprintPermission();
   }, []);
+
+  // Render UI .........................
 
   return (
     <View style={styles.container}>

@@ -8,17 +8,32 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+
+// Packages
 import {useNavigation} from '@react-navigation/native';
-import {onboardingData} from '../../../constants/onBoardingData';
+
+// Styles
 import {styles} from './styles';
+
+// Constants
+import {onboardingData} from '../../../constants/onBoardingData';
+
+// Components
 import {Background} from '../../../components/Background/Background';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 
 export default function OnboardingScreen() {
+  // Use state
   const [currentPage, setCurrentPage] = useState(0);
+
+  // variables
   const {width} = Dimensions.get('window');
-  const flatListRef = useRef(null);
   const navigation = useNavigation();
+
+  // useRef
+  const flatListRef = useRef(null);
+
+  // Functions
   const handleNextSlide = () => {
     if (currentPage < onboardingData.length - 1 && flatListRef.current) {
       setCurrentPage(currentPage + 1);
@@ -28,6 +43,7 @@ export default function OnboardingScreen() {
     }
   };
 
+  // Render UI ..................
   return (
     <SafeAreaView style={styles.container}>
       <Background />
