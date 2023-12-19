@@ -5,5 +5,6 @@ const commonImagePath = {
   faceID: require('../assets/images/faceID.png'),
   profile: require('../assets/images/profileIcon.png'),
   logo: require('../assets/images/findost-logo.png'),
+  fingerprintIcon: require('../assets/images/fingerprint.png'),
 };
 export default commonImagePath;

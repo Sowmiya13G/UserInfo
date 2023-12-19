@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Image, TouchableOpacity, Alert, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
@@ -13,7 +13,8 @@ import {signInWithGoogle} from '../../../database/googleServices';
 import {setUserAction} from '../../../redux/actions/authAction';
 import {loginUser} from '../../../apiServices';
 import crashlytics from '@react-native-firebase/crashlytics';
-
+import TouchID from 'react-native-touch-id';
+import {checkFingerprintPermission} from '../../../utils/androidPermissions';
 export default LoginScreen = () => {
   const [authorizedPerson, setAuthorizedPerson] = useState('');
   const [password, setPassword] = useState('');
@@ -71,6 +72,23 @@ export default LoginScreen = () => {
       crashlytics.logException(error.message || 'Unknown error');
     }
   };
+
+  const authenticateWithFingerprint = () => {
+    TouchID.authenticate('Authenticate with your fingerprint')
+      .then(success => {
+        console.log('Fingerprint Authentication Successful');
+        navigation.navigate('HomeScreen');
+      })
+      .catch(error => {
+        console.log('Fingerprint Authentication Failed', error);
+        Alert.alert('Authentication Failed', 'Please try again.');
+      });
+  };
+
+  useEffect(() => {
+    checkFingerprintPermission();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Background />
@@ -107,7 +125,9 @@ export default LoginScreen = () => {
         </TouchableOpacity>
         <Text style={styles.option}>{strings.passwordOption}</Text>
       </View>
-      <Image source={commonImagePath.faceID} style={styles.logo} />
+      <TouchableOpacity onPress={authenticateWithFingerprint}>
+        <Image source={commonImagePath.faceID} style={styles.logo} />
+      </TouchableOpacity>
       <View style={styles.feilds}>
         <CustomButton logInButton label="LOGIN" handlePress={handleLogin} />
         <CustomButton
@@ -126,3 +146,69 @@ export default LoginScreen = () => {
     </View>
   );
 };
+
+{
+  /* <Image
+                source={commonImagePath.fingerprintIcon}
+                style={styles.fingerprintIcon}
+              /> 
+         // const authenticateWithFingerprint = () => {
+  //   TouchID.authenticate('Authenticate with your fingerprint')
+  //     .then(success => {
+  //       console.log('Fingerprint Authentication Successful');
+  //     })
+  //     .catch(error => {
+  //       console.log('Fingerprint Authentication Failed', error);
+  //       Alert.alert('Authentication Failed', 'Please try again.');
+  //     });
+  // // };
+  // const showFingerprintModal = () => {
+  //   setFingerprintModalVisible(true);
+  // };
+
+  // const hideFingerprintModal = () => {
+  //   setFingerprintModalVisible(false);
+  // };   
+    const [isFingerprintModalVisible, setFingerprintModalVisible] =
+    useState(false);
+  
+            
+       {isFingerprintModalVisible && (
+        <Modal
+          transparent={true}
+          isVisible={isFingerprintModalVisible}
+          onBackdropPress={hideFingerprintModal}
+          onBackButtonPress={hideFingerprintModal}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.fingerprintModalContainer}>
+              <Text style={styles.modalText}>
+                Place your fingerprint on the sensor to authenticate
+              </Text>
+              <TouchableOpacity onPress={hideFingerprintModal}>
+                <Text style={styles.cancelButton}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}     
+            
+            */
+}
+
+// const checkFingerprintPermission = async () => {
+//   const result = await check(PERMISSIONS.ANDROID.USE_FINGERPRINT);
+
+//   if (result === RESULTS.DENIED) {
+//     requestFingerprintPermission();
+//   }
+// };
+
+// const requestFingerprintPermission = async () => {
+//   const result = await request(PERMISSIONS.ANDROID.USE_FINGERPRINT);
+
+//   if (result === RESULTS.GRANTED) {
+//     console.log('Fingerprint permission granted');
+//   } else {
+//     console.log('Fingerprint permission denied');
+//   }
+// };

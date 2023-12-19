@@ -42,3 +42,21 @@ const requestExternalStoragePermission = async () => {
 
 // Call the function before capturing the screenshot
 requestExternalStoragePermission();
+
+export const checkFingerprintPermission = async () => {
+  const result = await check(PERMISSIONS.ANDROID.USE_FINGERPRINT);
+
+  if (result === RESULTS.DENIED) {
+    requestFingerprintPermission();
+  }
+};
+
+export const requestFingerprintPermission = async () => {
+  const result = await request(PERMISSIONS.ANDROID.USE_FINGERPRINT);
+
+  if (result === RESULTS.GRANTED) {
+    console.log('Fingerprint permission granted');
+  } else {
+    console.log('Fingerprint permission denied');
+  }
+};
