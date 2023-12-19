@@ -9,7 +9,7 @@ import auth from '@react-native-firebase/auth';
 import {StatusBar, View, Linking} from 'react-native';
 import OnboardingScreen from '../screens/onBoardingScreens/onBoardingScreen';
 import LoginScreen from '../screens/onBoardingScreens/LoginScreen';
-import FirebaseLoginScreen from '../screens/onBoardingScreens/FirebaseLoginScreen/FirebaseLoginScreen';
+import FirebaseLoginScreen from '../screens/onBoardingScreens/FirebaseLoginScreen';
 import SignUpScreen from '../screens/onBoardingScreens/SignUpScreen';
 import DrawerNavigator from './DrawerNav/DrawerNavigator';
 import {authFirebase} from '../database/firebaseConfig';

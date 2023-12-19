@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
   feilds: {
     width: wp('90%'),
     paddingBottom: '2%',
+    paddingTop: '2%',
   },
   text: {
     fontSize: theme.fontSizes.mediumFont,

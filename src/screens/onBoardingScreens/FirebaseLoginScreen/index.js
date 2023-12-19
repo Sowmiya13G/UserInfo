@@ -1,36 +1,51 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+
+// Packages
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import Biometrics from 'react-native-biometrics';
+import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
+
+// Styles
 import {styles} from './styles';
+import strings from '../../../constants/strings';
+
+// Components
 import {Background} from '../../../components/Background/Background';
 import commonImagePath from '../../../constants/images';
 import {CustomInput} from '../../../components/CustomInput/CustomInput';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import strings from '../../../constants/strings';
+
+// Redux
 import {useDispatch} from 'react-redux';
 import {loginRequest} from '../../../redux/actions/authAction';
-import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
-import crashlytics from '@react-native-firebase/crashlytics';
 
 export default FirebaseLoginScreen = () => {
+  // Use state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  // variables
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  // Regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Functions
   const handlePasswordVisibility = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
+
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
       Alert.alert('Login Error', 'Please enter both email and password.');
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert('Login Error', 'Invalid email address.');
       return;
@@ -50,10 +65,36 @@ export default FirebaseLoginScreen = () => {
     }
   };
 
-  goToAPLogin = () => {
+  const goToAPLogin = () => {
     navigation.navigate('SignUpScreen');
   };
 
+  const handleFaceIDLogin = async () => {
+    try {
+      const {success} = await Biometrics.simplePrompt({
+        promptMessage: 'Authenticate with Face ID',
+      });
+
+      if (success) {
+        handleLogin();
+      } else {
+        Alert.alert(
+          'Face ID Authentication Failed',
+          'Please try again or use another authentication method.',
+        );
+      }
+    } catch (error) {
+      console.error('Biometrics Error:', error);
+      Alert.alert(
+        'Biometrics Error',
+        `An error occurred during biometric authentication: ${
+          error.message || error
+        }`,
+      );
+    }
+  };
+
+  // Render UI
   return (
     <View style={styles.container}>
       <Background />
@@ -90,6 +131,11 @@ export default FirebaseLoginScreen = () => {
       </View>
       <View style={styles.feilds}>
         <CustomButton logInButton label="LOGIN" handlePress={handleLogin} />
+        <CustomButton
+          optionButton
+          label="FACE ID"
+          handlePress={handleFaceIDLogin}
+        />
       </View>
       <TouchableOpacity onPress={goToAPLogin}>
         <Text style={styles.register}>{strings.loginWithAPID}</Text>
